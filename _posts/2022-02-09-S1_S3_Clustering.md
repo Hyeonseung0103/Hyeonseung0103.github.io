@@ -12,6 +12,8 @@ Scree Plot은 PCA 분석 후 주성분(PC, 고유벡터) 수를 선정하기 위
 
 예를 들어, 그래프에서 PC3에서 그래프가 급격히 완만해지면(분산이 다음 분산과 별로 차이가 없을 때 = PC3나 PC4나 분산의 변화가 차이가 없을 때) PC2까지 쓰는게 좋다.
 
+더 쉽게 할 거면, 누적분포가 85% 이상인 PC까지 쓰면 된다.
+
 ![image](https://user-images.githubusercontent.com/97672187/153151428-e1d4c5ad-c436-4c16-a564-b94498737ea5.png)
 
 ```python
