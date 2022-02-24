@@ -172,5 +172,7 @@ print(f'테스트 r2는{sorted(test_r2.items(), key=lambda x: -x[1])}')
 
 ### 한줄요약
 OHE: 범주형 데이터를 학습시키기 위해 해당 변수를 범주의 갯수만큼 차원을 증가시켜 0,1을 사용한 희소표현으로 데이터를 인코딩한 기법.
+
 Ridge 회귀를 통한 특성선택(Feature selection): Ridge 회귀에서 몇개의 변수를 사용해야 가장 좋은 성능을 내는지 SelectionKBest 함수를 통해 비교할 수 있다.
+
 정규화(regularization)을 위한 Ridge 회귀모델: Ridge 회귀는 과적합을 해소하고, 일반화 능력을 증가시키기 위해 회귀계수에 패널티를 부과하여 모델이 특정 변수에 지나치게 민감하게 반응하지 않도록 한다.
