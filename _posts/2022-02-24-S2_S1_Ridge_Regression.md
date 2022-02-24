@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Ridge Regression, Select Best Number of K Features"
+title: "Section2 Sprint1 Note 213 Ridge Regression, Select Best Number of K Features"
 category: Section2
 ---
 
