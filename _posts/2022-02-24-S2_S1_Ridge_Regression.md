@@ -44,6 +44,10 @@ X_test = encoder.transform(X_test) #transform은 학습 데이터에서 사용�
 SelectionKBest 함수는 변수 갯수 K에 따라 점수를 매겨서 가장 중요한 변수를 선택할 수 있게 된다. 
 이를 이용하면 K에 따라 모델의 성능을 비교해서 최적의 K는 몇 개 인지 알 수 있게된다. 하지만 이게 무조건 최종모델에서도 성능이 높을 거라는 보장은 없다.
 
+SelectionKBest함수는 단순히 타겟과 독립변수의 상관 계수가 높은 변수를 택하는 것이 아니라 f-stat, p-value도 사용해서 결정한다.
+
+회귀분석에서의 좋은특성은 독립변수들끼리 상관성이 낮고, 종속변소와는 상관성이 높은 특성
+
 ```python
 from sklearn.linear_model import LinearRegression
 
@@ -169,6 +173,15 @@ print(f'테스트 mae는 {sorted(test_mae.items(), key=lambda x: x[1])}')
 print(f'학습 r2는 {sorted(train_r2.items(), key=lambda x: -x[1])}')
 print(f'테스트 r2는{sorted(test_r2.items(), key=lambda x: -x[1])}')
 ```
+
+### Ridge(L2_norm) vs Lasso(L1_norm)
+패널티를 부여하는 방식이 다르다.
+
+Ridge: 연구자가 직접 판단하여 특성을 확인하고 제거한다. 중요하지 않은 독립변수들의 기울기를 0에 가까이 수렴하게 한다.
+
+Lasso: 자동으로 특성을 선별해서 불필요한 특성을 제거한다. 중요하지 않은 변수를 아예 영향을 끼치지 못하도록 0에 수렴시켜 버린다. 
+
+특성이 많은데 그 중 일부분만 중요하다면 Lasso, 중요도가 전체적으로 비슷하면 Ridge를 쓰는게 좋다고 한다.
 
 ### 한줄요약
 OHE: 범주형 데이터를 학습시키기 위해 해당 변수를 범주의 갯수만큼 차원을 증가시켜 0,1을 사용한 희소표현으로 데이터를 인코딩한 기법.
