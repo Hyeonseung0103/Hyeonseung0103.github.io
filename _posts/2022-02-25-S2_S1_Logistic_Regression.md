@@ -39,8 +39,6 @@ Odds가 3이라는 것은 어떤 사건이 일어날 확률이 일어나지 확�
 
 ![image](https://user-images.githubusercontent.com/97672187/155836582-a3b05d4f-2c62-456d-8293-1c3be3774854.png)
 
-![image](https://user-images.githubusercontent.com/97672187/155836585-b810d06d-c0db-4e65-943a-c6d857698103.png)
-
 이미지 출처: https://medium.com/codex/logistic-regression-and-maximum-likelihood-estimation-function-5d8d998245f9
 
 이 비선형형태의 회귀계수를 선형형태로 바꾸기 위해서는 Odds에 로그를 취하면 되고, 이를 로짓변환(Logit transformation)이라고 한다. 
