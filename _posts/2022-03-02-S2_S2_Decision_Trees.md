@@ -243,6 +243,3 @@ print(X_val_imp.isnull().sum().sum())
 
 ```
 
-하지만 언제나 좋은 성능을 내는 imputer는 없기 때문에 데이터에 따라 적절한 imputer를 정해야 할 것 같다.
-
-
