@@ -83,6 +83,10 @@ pd.Series(model_lr.coef_[0], encoded_columns).sort_values().plot.barh();
 
 이미지 출처: https://wooono.tistory.com/104
 
+![image](https://user-images.githubusercontent.com/97672187/156352194-c1d5d3a8-a0c5-435b-998a-53c58742bafe.png)
+
+이미지 출처: https://bigdaheta.tistory.com/26
+
 - 분할에 사용할 특성이나 분할값은 타겟변수를 가장 잘 구별해 주는(불순도의 감소가 최대가 되는 = 정보획득이 가장 큰) 것을 선택한다.
 - 정보획득(Information Gain)은 노드를 분할했을 때 엔트로피의 감소량이다. 엔트로피 감소했다는 것은 불순도가 감소했다는 것이고, 이 감소량이 크다는 것은 데이터를 더 명확하게 분류했다는 것이기
 때문에 정보획득이 크다고 할 수 있다.
