@@ -24,7 +24,7 @@ from sklearn.metrics import plot_confusion_matrix
 from sklearn.metrics import confusion_matrix
 #원래 confusion matrix
 fig, ax = plt.subplots()
-pcm = plot_confusion_matrix(pipe, X_val, y_val,
+pcm = plot_confusion_matrix(pipe, X_val, y_val, #꼭 파이프가 아니라 그냥 분류 모델 넣으도 됨.
                             cmap=plt.cm.Blues,
                             ax=ax);
 plt.title('Confusion matrix, threshold: 0.5')
@@ -43,7 +43,7 @@ confusion_matrix(y_val, y_pred) # threhosld를 0.5에서 0.4로 바꾸니까 TP,
 Accuracy에 한계: 데이터가 불균형하다면(특정 범주에 많은 데이터가 있는 것) 해당 범주로만 모두 찍어도 정확도가 어느 정도 나온다.
 
 ex) 광주사람 90명 , 서울사람 10명이 모여 있는 곳에서 모든 사람을 광주사람이라고 찍어도 90/100 = 90%의 정확도가 나온다.
-하지만 실제로는 서울사람에 대해서 하나도 맞추는 못했고, 만약 이 모델에 서울 사람의 데이터가 들어오면 더 맞추지 못할 것이다.
+하지만 실제로는 서울사람에 대해서 하나도 맞추지 못했고, 만약 이 모델에 서울 사람의 데이터가 들어오면 더 맞추지 못할 것이다.
 
 이를 방지하기 위해 Accuracy 외에도 정밀도와 재현율을 지표로 사용해야 한다. 맞았는지 틀렸는지 보다 진짜 문제를 해결하기 위한 예측이 잘 되었는지 볼 수 있는 지표가 필요하다.
 
