@@ -161,7 +161,7 @@ rank = pd.DataFrame(grid.cv_results_).sort_values(by='rank_test_score')
 
 장점: 주어진 모든 범위를 보진 않기 때문에 Grid Search보다 빠르고, 어느 정도 정확성을 보유한다.
 
-단점: 범위를 넓게 잘을수록 최적의 하이퍼 파라미터 수치를 놓친다. Local minimum에 빠질 수 있다. \\
+단점: 범위를 넓게 잘을수록 최적의 하이퍼 파라미터 수치를 놓친다. Local minimum에 빠질 수 있다.
 
 CV vs Search CV
 
