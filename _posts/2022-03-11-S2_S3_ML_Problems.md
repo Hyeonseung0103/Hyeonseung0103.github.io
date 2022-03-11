@@ -56,6 +56,10 @@ t = TransformedTargetRegressor(regressor = lm,
 ```
 
 ## Note 232
+
+### Data Wrangling
+분석을 하거나 모델을 만들기 전에 데이터를 사용하기 쉽게 변형, 맵핑하는 과정(전처리). 모델이 돌아가기만 한다면 정해진 데이터 형식은 없고, 해당 모델에 최적의 데이터형태를 만드는 것이 중요하다.
+
 ### 최빈값 함수
 
 ```python
