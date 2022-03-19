@@ -109,7 +109,7 @@ PDP처럼 모델에 상관없이 변수의 중요도를 파악하고 타겟과�
 
 ```python
 # force plot
-import sharp
+import shap
 
 explainer = shap.TreeExplainer(model)
 shap_values = explainer.shap_values(X_test.iloc[:300])
