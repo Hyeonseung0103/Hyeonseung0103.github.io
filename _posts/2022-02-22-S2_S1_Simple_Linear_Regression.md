@@ -15,6 +15,7 @@ categories: Section2
 
 데이터를 가장 잘 설명한다는 것은 데이터와 가장 비슷하다는 것을 의미하고, 데이터와 가장 비슷하기 위해서는 오차가 최소화 되어야 한다.
 이 오차를 계산하는 데에는 여러가지 방법이 있겠지만, 주로 최소제곱법이라는 기법을 사용해 오차가 최소화 되는 직선을 찾는다.
+
 TMI: 잔차는 표본에서 실제값과 예측값의 차이를 말하고, 오차는 모집단에서 실제값과 예측값의 차이를 말함. 의미는 비슷하나 표본이냐 모집단이냐의 차이.
 
 선형 회귀를 통해 보간과 외삽을 할 수 있다. 보간은 주어진 데이터 내의 범위에서 새로운 관측치가 생겼을 때 그 관측치의 타겟값을 회귀식을 통해 예측하는 것을 말 하고, 외삽은 주어진 데이터 
@@ -28,13 +29,13 @@ TMI: 잔차는 표본에서 실제값과 예측값의 차이를 말하고, 오�
 위에서 데이터를 가장 잘 설명하는 직선을 찾기 위해 최소제곱법을 사용한다고 했다. 최소제곱법은 오차의 제곱합을 최소로 하는 직선을 찾는 기법이다. 
 오차의 절댓값을 사용할 수도 있는데 오차의 제곱합을 사용하는 이유는 오차가 큰 값에 더 큰 가중치를 부여하기 위함이다(제곱을 하면 값이 커질수록 scale이 더 커지니까).
 
-<center>![image](https://user-images.githubusercontent.com/97672187/155123309-a43624d9-59f4-4107-a203-dea3db77f314.png)</center>
+![image](https://user-images.githubusercontent.com/97672187/155123309-a43624d9-59f4-4107-a203-dea3db77f314.png){: .align-center}
 
-![image](https://user-images.githubusercontent.com/97672187/155123346-3f725dab-818c-4737-bf1b-3b594f91fd9d.png)
+![image](https://user-images.githubusercontent.com/97672187/155123346-3f725dab-818c-4737-bf1b-3b594f91fd9d.png){: .align-center}
 
-![image](https://user-images.githubusercontent.com/97672187/155123365-49020b96-2a98-44ba-87a1-ddea4cea8a4c.png)
+![image](https://user-images.githubusercontent.com/97672187/155123365-49020b96-2a98-44ba-87a1-ddea4cea8a4c.png){: .align-center}
 
-![image](https://user-images.githubusercontent.com/97672187/155123394-cb1c71c4-b0ac-4be2-9b5e-cbeef482a387.png)
+![image](https://user-images.githubusercontent.com/97672187/155123394-cb1c71c4-b0ac-4be2-9b5e-cbeef482a387.png){: .align-center}
 
 이미지 출처: https://terms.naver.com/entry.naver?cid=58944&docId=3569970&categoryId=58970
 
@@ -95,9 +96,7 @@ print(model.intercept_) #회귀식의 y절편
 - 회귀모델에 기준모델을 설정할 수 있다. -> 회귀모델의 기준은 타겟의 평균, 분류는 타겟의 최빈값, 시계열 회귀는, 이전 타임스탬프의 값.
 
 
-### Discussion
-
-### 1. 단순선형회귀모델을 만들기 위해 전제되어야 하는 조건들에 대해 찾아보시고 논해보세요.
+### 1. 단순선형회귀모델을 만들기 위해 전제되어야 하는 조건
 
 조건1. 두 변수는 선형관계에 있어야 한다. = 종속변수와 독립변수는 연관이 있어야 한다.
 
@@ -113,7 +112,7 @@ print(model.intercept_) #회귀식의 y절편
 
 조건 7. 오차들의 분포는 정규 분포를 이뤄야한다.
 
-### 2. OLS에 대해서 검색해 보고 본인의 이해를 녹여내어 본인의 언어로 설명해 보세요.
+### 2. OLS란?
 
 OLS는 Ordinary Least Square, Least Square Method라고 불리며 최소제곱법이라고 한다. 이는 오차의 제곱합이 최소가 되는 회귀식을 찾는 것이다. 왜냐하면 데이터가 랜덤하게 분포해 있으면 이 관측치들을 모두 지나는 직선을 그리기 힘들기 때문에 직선이 실제 데이터들의 분포를 가장 잘 설명할 수 있는, 즉, 오차가 최소가 되는 직선을 찾아야한다. 오차가 최소가 되는 직선을 찾으려면 관측치와 회귀선의 차이의 합이 최소가 되는 직선의 식을 구해야 하므로 우린 결국 오차의 제곱합이 최소가 되는 기울기와 y절편을 찾아야한다.
 
