@@ -28,7 +28,7 @@ TMI: 잔차는 표본에서 실제값과 예측값의 차이를 말하고, 오�
 위에서 데이터를 가장 잘 설명하는 직선을 찾기 위해 최소제곱법을 사용한다고 했다. 최소제곱법은 오차의 제곱합을 최소로 하는 직선을 찾는 기법이다. 
 오차의 절댓값을 사용할 수도 있는데 오차의 제곱합을 사용하는 이유는 오차가 큰 값에 더 큰 가중치를 부여하기 위함이다(제곱을 하면 값이 커질수록 scale이 더 커지니까).
 
-![image](https://user-images.githubusercontent.com/97672187/155123309-a43624d9-59f4-4107-a203-dea3db77f314.png)
+<center>![image](https://user-images.githubusercontent.com/97672187/155123309-a43624d9-59f4-4107-a203-dea3db77f314.png)</center>
 
 ![image](https://user-images.githubusercontent.com/97672187/155123346-3f725dab-818c-4737-bf1b-3b594f91fd9d.png)
 
