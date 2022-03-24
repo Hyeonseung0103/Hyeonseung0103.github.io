@@ -27,7 +27,7 @@ y_train, y_val, y_test = X_train.pop('종속변수'), X_val.pop('종속변수'),
 이미지 출처: http://faculty.cas.usf.edu/mbrannick/regression/Logistic.html
 
 위와 같이 p를 구해서 범주를 분류할 수 있지만, 로지스틱 회귀의 계수는 비선형 함수 내에 있기 때문에 직관적으로 해석하기 어렵다. 따라서 실패확률에 대한 성공확률의 비율인 Odds라는 개념을 사용하고
-분류문제에서 Odds는 타겟이 클래스 1 확률에 대한 클래스 0확률의 비라고 해석할 수 있다. 
+분류문제에서 Odds는 타겟이 클래스 실패확률에 대한 클래스 성공확률의 비라고 해석할 수 있다. 
 
 ![image](https://user-images.githubusercontent.com/97672187/155836444-333f3c6e-f0ca-4ad6-8979-a1650c846a71.png){:. align-center}
 
