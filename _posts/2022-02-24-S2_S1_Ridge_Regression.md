@@ -46,7 +46,7 @@ SelectionKBest 함수는 변수 갯수 K에 따라 점수를 매겨서 가장 �
 
 SelectionKBest함수는 단순히 타겟과 독립변수의 상관 계수가 높은 변수를 택하는 것이 아니라 f-stat, p-value도 사용해서 결정한다.
 
-회귀분석에서의 좋은특성은 독립변수들끼리 상관성이 낮고, 종속변소와는 상관성이 높은 특성
+회귀분석에서의 좋은특성은 독립변수들끼리 상관성이 낮고, 종속변수와는 상관성이 높은 특성
 
 ```python
 from sklearn.linear_model import LinearRegression
