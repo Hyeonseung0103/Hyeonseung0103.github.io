@@ -139,7 +139,9 @@ AUC = 0.5 일 때(두개의 곡선이 완전 겹쳐있다. 구별할 수 있는 
 
 ![image](https://user-images.githubusercontent.com/97672187/160045935-c676e2b5-00e8-4532-847e-2846245151c4.png){: .align-center}
 
-따라서 AUC 값이 클수록 더 좋은 모델이 된다.
+출처: https://bioinformaticsandme.tistory.com/328
+
+따라서 AUC 값이 클수록 더 좋은 모델이 된다. 만약 0.5 미만이면 labeling이나 algorithm이 잘못됐을 가능성이 크다.
 
 ```python
 from sklearn.metrics import roc_auc_score, roc_curve
