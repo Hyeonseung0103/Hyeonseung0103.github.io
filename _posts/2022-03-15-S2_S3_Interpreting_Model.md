@@ -148,11 +148,11 @@ shap.summary_plot(shap_values, X_test.iloc[:300], plot_type="violin")
 
 서로 관련이 있는 모든 특성들에 대한 전역적인(Global) 설명
 
--Feature Importances
+- Feature Importances
 
--Drop-Column Importances
+- Drop-Column Importances
 
--Permutaton Importances
+- Permutaton Importances
 
 타겟과 관련이 있는 개별 특성들에 대한 전역적인 설명
 
