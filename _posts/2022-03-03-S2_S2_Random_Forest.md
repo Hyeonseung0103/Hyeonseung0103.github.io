@@ -18,7 +18,7 @@ Tree를 너무 깊게 학습하여 과적합이 일어날 수 있다. 이를 해
 랜덤 포레스트에서는 배깅(Bagging) 이라는 기법을 사용한다. 배깅은 복원 추출을 의미하는 Bootstrap과, 결과를 합치는 것을 의미하는 aggregating을 합친 뜻으로, 학습 데이터를 랜덤하게 복원 추출하면서
 여러개의 결정트리를 만들고 각 트리에서 나온 결과를 다수결 혹은 평균으로 합쳐서 최종 타겟값을 결정하는 것을 의미한다.
 
-![image](https://user-images.githubusercontent.com/97672187/156551747-70fd4816-ab53-4b65-83ae-a0b9065212d1.png)
+![image](https://user-images.githubusercontent.com/97672187/156551747-70fd4816-ab53-4b65-83ae-a0b9065212d1.png){: .align-center}
 
 이미지 출처: https://psystat.tistory.com/92
 
