@@ -75,15 +75,15 @@ pd.Series(model_lr.coef_[0], encoded_columns).sort_values().plot.barh();
 
 지니 불순도: 데이터가 반반 섞여있을 때가 가장 불순도가 큰 것이니까 범위는 0 ~ 0.5까지이다.
 
-![image](https://user-images.githubusercontent.com/97672187/156348364-c074a760-ddff-425a-b0a1-d77aa59d8332.png)
+![image](https://user-images.githubusercontent.com/97672187/156348364-c074a760-ddff-425a-b0a1-d77aa59d8332.png){: .align-center}
 
 엔트로피 지수: 지니 불순도 보다 연산이 조금 더 복잡하고, 0과 1사이 값을 반환한다.
 
-![image](https://user-images.githubusercontent.com/97672187/156348399-8e1c8464-f954-420c-915a-284830d3d5ac.png)
+![image](https://user-images.githubusercontent.com/97672187/156348399-8e1c8464-f954-420c-915a-284830d3d5ac.png){: .align-center}
 
 이미지 출처: https://wooono.tistory.com/104
 
-![image](https://user-images.githubusercontent.com/97672187/156352194-c1d5d3a8-a0c5-435b-998a-53c58742bafe.png)
+![image](https://user-images.githubusercontent.com/97672187/156352194-c1d5d3a8-a0c5-435b-998a-53c58742bafe.png){: .align-center}
 
 이미지 출처: https://bigdaheta.tistory.com/26
 
