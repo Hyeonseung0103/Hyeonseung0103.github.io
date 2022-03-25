@@ -30,7 +30,7 @@ RandomForestClassifier(class_weight={False:cw[0],True:cw[1]}, random_state=42)
 
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/157814245-d4cb18bd-5b46-4c63-abcf-86ce8a01c4d9.png)
+![image](https://user-images.githubusercontent.com/97672187/157814245-d4cb18bd-5b46-4c63-abcf-86ce8a01c4d9.png){: .align-center}
 
 회귀에서는 이상치를 제거하는 방법도 있지만, 타겟값의 분포가 Positively skewed(right skewed, 오른쪽이 꼬리가 나와있음)한 경우 Log를 씌워 정규분포 형태로 변환 할 수 있다.
 
