@@ -37,7 +37,7 @@ PDP는 모델이 예측한 타겟값을 0 또는 지정한 값으로 잡아놓�
 
 ICE는 랜덤한 관측치에서 예측한 타겟값의 분포고, PDP는 모든 ICE curve를 평균낸 것. 결국 모든 관측치를 사용하게 된다.
 
-![image](https://user-images.githubusercontent.com/97672187/158373189-c31ee196-184a-478e-b887-0f8f91c5f666.png)
+![image](https://user-images.githubusercontent.com/97672187/158373189-c31ee196-184a-478e-b887-0f8f91c5f666.png){: .align-center}
 
 위의 과정을 보면 한 관측치에 대해 랜덤한 값이 들어감으로써 예측되는 타겟값이 바뀌게 될텐데 이 값들을 선으로 연결한 것이 하나의 ICE(Individual Conditional Expectation) curve이다.
 다른 관측치에서는 또 다른 ICE curve가 생길 것이고, PDP는 이 모든 ICE curve를 평균 낸 것이다.
@@ -71,7 +71,7 @@ pdp_plot(isolated, feature_name=feature , plot_pts_dist = True);
 # plot_pts_dist = 젤 밑에 데이터의 분포 표시(이상치나 노이즈를 확인, 데이터 불균형 확인) 이를 통해 이 값을 신뢰할지 말지 결정할 수도 있다.
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/158375996-03277824-7a07-4a4e-b9ea-b40c2f939e91.png)
+![image](https://user-images.githubusercontent.com/97672187/158375996-03277824-7a07-4a4e-b9ea-b40c2f939e91.png){: .align-center}
 
 
 ```python
@@ -92,7 +92,7 @@ plt.xticks([1, 2], ['with Charse River', 'without Charse River',]); # 범주형 
 
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/158376106-5746df0c-0322-47c7-804b-00ff3ccf58d9.png)
+![image](https://user-images.githubusercontent.com/97672187/158376106-5746df0c-0322-47c7-804b-00ff3ccf58d9.png){: .align-center}
 
 히트맵 안에 값이 클수록 타겟에 영향을 더 많이 미치는 것.
 
@@ -117,7 +117,7 @@ shap_values = explainer.shap_values(X_test.iloc[:300])
 shap.initjs()
 shap.force_plot(explainer.expected_value, shap_values, X_test.iloc[:300])
 ```
-![image](https://user-images.githubusercontent.com/97672187/158379972-eae93691-3250-4baa-86a2-dc36416f2450.png)
+![image](https://user-images.githubusercontent.com/97672187/158379972-eae93691-3250-4baa-86a2-dc36416f2450.png){: .align-center}
 
 ```python
 shap.summary_plot(shap_values, X_test.iloc[:300])
@@ -126,21 +126,21 @@ shap.summary_plot(shap_values, X_test.iloc[:300])
 
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/158380101-56805a02-5971-4dd1-87c5-c6cd7efa2885.png)
+![image](https://user-images.githubusercontent.com/97672187/158380101-56805a02-5971-4dd1-87c5-c6cd7efa2885.png){: .align-center}
 
 
 ```python
 shap.summary_plot(shap_values, X_train.iloc[:300], plot_type='bar') #bar는 shap value를 평균내서 기여도를 파악하는 것.
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/158380251-84220490-64ac-4a1d-b45d-726382a135da.png)
+![image](https://user-images.githubusercontent.com/97672187/158380251-84220490-64ac-4a1d-b45d-726382a135da.png){: .align-center}
 
 ```python
 shap.summary_plot(shap_values, X_test.iloc[:300], plot_type="violin")
 
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/158380289-ab955491-fa16-445a-b8ef-060e3deef1bf.png)
+![image](https://user-images.githubusercontent.com/97672187/158380289-ab955491-fa16-445a-b8ef-060e3deef1bf.png){: .align-center}
 
 
 
