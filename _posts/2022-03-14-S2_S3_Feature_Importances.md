@@ -2,13 +2,14 @@
 layout: single
 title: "Section2 Sprint3 Note233 Bagging, Boosting, Feature Importances"
 category: Section2
+toc: true
+toc_sticky: true
 ---
 
 RandomForest 모델은 기본 모델인 Decision Tree 모델을 각각 독립적으로 학습하여 모든 기본모델의 학습 결과를 반영해서 최종 타겟값을 예측하는 Bagging 모델이다. Bagging 외에도 
 다양한 앙상블 기법 중 Boosting과 Stacking이 있는데 이번 시간에는 Boosting에 대해 정리해보자. 또한, Tree Model에서 Feature importnace 함수를 쓰면 변수의 중요도를 파악할 수 있었는데,
 이외에도 다른 방법의 feature importance를 활용해보자.
 
-## Note 233
 ### Feature Importance(Basic)
 트리모델에서 기본적으로 사용되는 feature importance는 지니 불순도, 엔트로피를 가장 많이 감소시킨 변수가 높게 나온다. 간단하고 빠르게 중요도를 파악할 수 있긴 하지만, 범주의 차원이 많으면 별로 중요하지 않은 변수라도 중요하게
 판단할 수 있어서 이 중요도를 무조건 신뢰하긴 어렵다. 왜냐하면, 차원이 큰 범주를 중요하다고 오인하여 학습 시킨다면 과적합의 우려가 있기 때문이다.
