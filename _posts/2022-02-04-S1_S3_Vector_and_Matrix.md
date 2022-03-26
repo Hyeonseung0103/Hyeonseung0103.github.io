@@ -2,6 +2,8 @@
 layout: single
 title: "Section1 Sprint3 Note131 벡터와 행렬"
 categories: Section1
+toc: true
+toc_sticky: true
 ---
 선형대수의 기본인 벡터와 행렬에 대해 공부했다. 선형대수를 구성하는 기본 단위는 스칼라와 벡터이다. 또한, 행렬은 여러 벡터로 이루어져있다.
 
