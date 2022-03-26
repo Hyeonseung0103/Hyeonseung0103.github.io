@@ -2,12 +2,13 @@
 layout: single
 title: "Section2 Sprint3 Note 234 PDP, SHAP, Interpreting ML Model"
 category: Section2
+toc: true
+toc_sticky: true
 ---
 
 선형 회귀에서는 회귀 계수를 통해 변수가 타겟에 영향을 미치는 정도를 파악할 수 있었다. 하지만, 좋은 성능을 내기 위해 단순한 선형 회귀가 아닌 복잡한 모델을 사용하면 모델을 해석하기가 어려워진다.
 즉, 어떤 변수가 타겟에 얼만큼 영향을 미치는지 설명하기가 어려워진다는 뜻이다. 이 문제는 PDP, SHAP 개념을 통해 해소할 수 있다.
 
-## Note 234
 ### Model Dependence vs Model Agnostic
 트리 모델에서 제공하는 feature_importances는 트리 모델에서만 사용할 수 있다. 또한, 선형 회귀의 회귀계수는 선형 회귀의 경우에만 해석이 가능하다.
 이처럼 모델을 해석할 때 특정 모델에만 국한되어서 사용할 수 있는 해석 방법을 Model Dependence 하다고 한다.
