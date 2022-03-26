@@ -2,11 +2,12 @@
 layout: single
 title: "Section2 Sprint3 Note231,232 ML Problems and Data Wrangling"
 category: Section2
+toc: true
+toc_sticky: true
 ---
 
 지난 이틀동안 ML에서 일어날 수 있는 문제들과, Data Wrangling에 대해 배웠다. 또한, 불균형한 데이터를 처리하는 방법에 대해서도 알 수 있었다.
 
-## Note231
 ### 불균형 데이터 처리
 회귀에서든 분류에서든 타겟의 분포를 확인하는 것이 중요하다. 타겟이 정규분포를 따른다면 큰 문제가 없지만, 값이 한 쪽으로 치우쳐져 있으면 이상치의 영향을 많이 받는다는 뜻이므로
 성능이 저하될 수 있다.
