@@ -15,7 +15,7 @@ Scree Plot은 PCA 분석 후 주성분(PC, 고유벡터) 수를 선정하기 위
 
 더 쉽게 할 거면, 누적분포가 85% 이상인 PC까지 쓰면 된다.
 
-![image](https://user-images.githubusercontent.com/97672187/153151428-e1d4c5ad-c436-4c16-a564-b94498737ea5.png)
+![image](https://user-images.githubusercontent.com/97672187/153151428-e1d4c5ad-c436-4c16-a564-b94498737ea5.png){: .align-center}
 
 ```python
 import matplotlib.pyplot as plt
@@ -133,7 +133,7 @@ Point Assignment Clustering
 군집화를 할 때 데이터가 해당 군집 즉, 해당 데이터들의 특성과 얼마나 유사하냐를 판단하는 기준이다. Euclidean, Cosine, Jaccard 등 여러가지가 있으나 보통
 Eucledian 거리를 많이 활용한다.
 
-![image](https://user-images.githubusercontent.com/97672187/153155122-0b6a2238-c2da-46c0-bdc7-627c5c6b637c.png)
+![image](https://user-images.githubusercontent.com/97672187/153155122-0b6a2238-c2da-46c0-bdc7-627c5c6b637c.png){: .align-center}
 
 이미지 출처: https://en.wikipedia.org/wiki/Euclidean_distance
 
@@ -210,7 +210,7 @@ Elbow 외에도 다음과 같은 방법들을 활용할 수 있음.
 
 https://steadiness-193.tistory.com/285
 
-### Discussion
+### 생각해볼것
 1. ML에서 Supervised , Unsupervised Learning의 차이는?
 
 답변:
