@@ -9,8 +9,6 @@ toc_sticky: true
 
 Note123 에서는 ANOVA, 신뢰 구간, 큰 수의 법칙, 중심 극한 정리 등의 개념을 배웠다.
 
-# Note 123
-
 ## ANOVA
 
 지난 posting 에서는 모집단이 정규 분포를 따른다는 가정하에 표본의 평균을 이용하여 가설을 검정할 수 있는 T-test, 
