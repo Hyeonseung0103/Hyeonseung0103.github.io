@@ -2,11 +2,12 @@
 layout: single
 title: "Section2 Sprint1 Note 213 Ridge Regression, Select Best Number of K Features"
 category: Section2
+toc: true
+toc_sticky: true
 ---
 
 다중 선형회귀에서 과적합이 발생하는 경우 회귀계수에 패널티를 부과해서 과적합을 해소하는 Ridge Regression에 대해 배웠다. 또한, 가장 적절한 변수의 갯수를 선택하는 방법도 알게 되었다.
 
-## Note213
 ### OHE(One Hot Encoding)
 범주형 데이터는 대소관계가 있는 순서형과, 대소관계가 없는 명목형으로 나눌 수 있다. 머신러닝에서 변수가 텍스트 형식으로 되어있으면 컴퓨터가 인식할 수 없기 때문에 모델을 학습 할 수 없다.
 따라서, 이를 숫자로 인코딩 해줘야지만 컴퓨터가 인식하고 학습할 수 있는데 여러가지 인코딩 방법 중 원핫인코딩은 범주형 변수를 범주의 수만큼 차원을 생성하여 해당하는 범주의 변수에는 1 
