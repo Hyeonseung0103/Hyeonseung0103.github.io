@@ -2,11 +2,12 @@
 layout: single
 title: "Section2 Sprint1 Note 212 Multiple Linear Regression"
 category: Section2
+toc: true
+toc_sticky: true
 ---
 
 다중 선형 회귀, 편향, 분산, 다중 공선성, 여러가지 회귀지표 등에 대해 학습했다.
 
-## Note 212
 ### 다중 선형 회귀(Multiple Linear Regression)
 2개 이상의 독립변수의 변화에 따른 종속변수의 변화를 정량적으로 파악한 것. 
 
