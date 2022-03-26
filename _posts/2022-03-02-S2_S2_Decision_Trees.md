@@ -2,11 +2,12 @@
 layout: single
 title: "Section2 Sprint2 Note221 Decision Trees, Imputers"
 category: Section2
+toc: true
+toc_sticky: true
 ---
 
 데이터들의 분포가 비선형일 때도, 분류와 회귀 문제에서 모두 사용할 수 있는 모델 중 하나인 Decision Trees에 대해 배웠다. 또한, 결측치를 처리하는 다양한 imputer에 대해서도 알 수 있었다.
 
-## Note221
 ### Pipelines
 파이프라인은 코드를 단순화하여 반복되는 작업을 간단하게 처리할 수 있다. 또한, 똑같은 코드를 잘못사용해서 발생할 수 있는 데이터 누수도 방지할 수 있다는 장점이 있다.(ex) fit_transform, transform 등)
 
