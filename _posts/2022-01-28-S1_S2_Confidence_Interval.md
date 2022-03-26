@@ -3,6 +3,8 @@ layout: single
 title: "Section1 Sprint2 Note 123 Confidence Interval"
 categories:
   - Section1
+toc: true
+toc_sticky: true
 ---
 
 Note123 에서는 ANOVA, 신뢰 구간, 큰 수의 법칙, 중심 극한 정리 등의 개념을 배웠다.
