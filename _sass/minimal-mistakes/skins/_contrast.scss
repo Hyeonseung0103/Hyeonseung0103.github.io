@@ -15,6 +15,10 @@ $masthead-link-color: $text-color !default;
 $masthead-link-color-hover: $text-color !default;
 $navicon-link-color-hover: mix(#fff, $text-color, 80%) !default;
 
+.page__title{ // 내가 새로 추가
+  color: $link-color;
+}
+
 /* contrast syntax highlighting (base16) */
 $base00: #000000 !default;
 $base01: #242422 !default;
