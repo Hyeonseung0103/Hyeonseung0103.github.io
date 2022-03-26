@@ -2,13 +2,14 @@
 layout: single
 title: "Section2 Sprint2 Note224 Cross Validation 과 Hyper Parameter Tuning"
 category: Section2
+toc: true
+toc_sticky: true
 ---
 
 데이터셋이 충분히 크다면 hold-out 교차 검증을 할 수 있다. 하지만, hold-out 교차 검증을 하면 검증 데이터에서 한 번씩 밖에 학습된 모델의 성능을 측정할 수 있기 때문에 이 일반화 능력을 100퍼센트
 신뢰하기 어렵다. 검증 데이터를 여러번 쓸 수 있다면 일반화 능력을 측정하기 더 쉬울 것이다. 이를 위해 K Fold CV를 사용할 수 있다. 또한, 사용자가 수치의 범위를 지정하고 성능이 가장 좋은 조합을
 찾아내는 하이퍼 파라미터 튜닝에 대해서도 배웠다.
 
-## Note 224
 ### 교차검증(Cross Validation)
 모든 문제에 적합한 모델과 하이퍼 파라미터는 없다. 하지만, 교차 검증을 사용함으로써 어떤 모델이, 어떤 하이퍼 파라미터가 가장 좋은 성능을 내는지 알 수 있다.
 
