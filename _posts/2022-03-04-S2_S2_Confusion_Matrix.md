@@ -2,11 +2,12 @@
 layout: single
 title: "Section2 Sprint2 Note 223 Confusion Matrix, ROC curve, AUC"
 category: Section2
+toc: true
+toc_sticky: true
 ---
 
 분류 모델의 성능을 평가하는 데에는 accuracy외에도 여러가지 지표가 있다. 이번 포스팅에서는 다양한 지표들과 데이터에 따라 더 중요한 지표에 대해 알아보자.
 
-## Note 224
 ### Confusion Matrix(혼동 행렬)
 TP, TN, FP, FN으로 이루어진 매트릭스로 각 요소는 분류 모델의 성능을 평가하는 지표로 활용될 수 있다. 행렬의 요소는 예측값이 실제값과 일치하는 지의 여부를 나타내고 일치하고, 맞고 틀린 갯수가 나타나 있다.
 상황에 따라 더 중요한 지표가 다르고, 파이썬 패키지에 따라 행과 열의 위치가 조금씩 다를 수 있다.
