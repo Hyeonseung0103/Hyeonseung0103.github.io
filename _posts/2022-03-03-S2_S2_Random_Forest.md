@@ -2,6 +2,8 @@
 layout: single
 title: "Section2 Sprint2 Note222 Random Forest, Various Encoder"
 category: Section2
+toc: true
+toc_sticky: true
 ---
 
 Decision Tree는 비단조 데이터, 특성상호작용과 관계 없이 좋은 성능을 낸다는 장점이 있다. 한 개의 트리만을 사용하기 때문에 한 노드에서 생긴 에러가 하부 노드에 계속 영향을 줄 수 있고,
@@ -9,7 +11,6 @@ Tree를 너무 깊게 학습하여 과적합이 일어날 수 있다. 이를 해
 
 이러한 문제는 Random Forest라는 앙상블 모델을 활용하여 더 쉽게 해소할 수 있다.
 
-## Note 222
 ### Random Forest
 앙상블은 한 종류의 데이터로 여러 학습모델을 만들어 그 모델들의 예측 결과를 분류 문제에선 다수결, 회귀 문제에선 평균을 내어 예측하는 방법을 말한다.
 
