@@ -2,11 +2,12 @@
 layout: single
 title: "Section2 Sprint1 Note 211 Simple Linear Regression"
 categories: Section2
+toc: true
+toc_sticky: true
 ---
 
 이번 포스팅에서는 단순 선형 회귀에 대해 배웠다. 기존에 알고 있던 개념이지만, 나의 언어로 다시 적어보자.
 
-## Note 211
 ### 단순 선형 회귀(Simple Linear Regression)
 회귀란, 독립변수에 따른 종속변수의 변화를 정량적으로 파악하는 것을 말한다. 독립변수와 종속변수가 서로 어떠한 관계를 나타내는 가를 회귀식을 통해 도출해 낼 수 있는데 단순 선형 회귀는
 종속변수(반응 변수, target, label, 정답, 예측하고자 하는 값)가 1개, 독립변수(예측변수, 특성, 설명) 가 1개인 회귀를 말한다. 다중 선형 회귀는 종속변수가 1개, 독립변수가 2개 이상인 회귀를 말한다.
