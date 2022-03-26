@@ -2,11 +2,12 @@
 layout: single
 title: "Section1 Sprint3 Note134 Clustering"
 categories: Section1
+toc: true
+toc_sticky: true
 ---
 
 비지도 학습의 예시 중 하나인 Clustering에 대해 배웠다. 그리고 많은 Clustering 방식이 있지만, 이번 Posting에서는 K-means와 Hierarchical clustering 알고리즘에 대해 정리해보자.
 
-## Note 134
 ### Scree Plots
 Scree Plot은 PCA 분석 후 주성분(PC, 고유벡터) 수를 선정하기 위해 주성분의 분산 변화를 보는 그래프다. 고유값 변화율이 급격히 완만해지는 부분 전까지가 필요한 주성분의 수이다.
 
