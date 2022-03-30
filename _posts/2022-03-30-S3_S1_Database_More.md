@@ -221,4 +221,6 @@ BCNF(Boyce and Codd Normal Form)는 3차 정규화를 조금 더 강화한 것�
 
 ![image](https://user-images.githubusercontent.com/97672187/160827889-ff8c6023-1832-46b5-a175-11fe3b0a34e8.png){: .align-center}
 
-![image](https://user-images.githubusercontent.com/97672187/160827956-60759a50-7844-4119-8825-f6b3388b3c35.png){: .align-center}
+![image](https://user-images.githubusercontent.com/97672187/160829525-4a46b79a-d340-41f9-82ab-9b281482fffb.png){: .align-center}
+
+이미지 출처: https://mangkyu.tistory.com/110
