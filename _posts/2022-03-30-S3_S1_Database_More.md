@@ -206,7 +206,7 @@ SELECT * FROM (SELECT playerId FROM players WHERE goals > 15)
 
 ![image](https://user-images.githubusercontent.com/97672187/160824490-db70b5ae-f44a-4c25-86e6-ac4d3f069f99.png){: .align-center}
 
-![image](https://user-images.githubusercontent.com/97672187/160824541-251c2e68-9050-447b-8c4b-6577e6274d5d.png){: .align-center}
+![image](https://user-images.githubusercontent.com/97672187/160828954-aed6fe2e-0dfa-4627-932f-404370164b75.png){: .align-center}
 
 - BCNF
 
