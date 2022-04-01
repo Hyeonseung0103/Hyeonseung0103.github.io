@@ -62,8 +62,8 @@
         <span class="nav__sub-title">공모전</span>
             <ul>
                 {% for category in site.categories %}
-                    {% if category[0] == "LH주관 대전광역시 교통사고 핫스팟 분석" %}
-                        <li><a href="/categories/lh" class="">LH({{category[1].size}})</a></li>
+                    {% if category[0] == "LH" %}
+                        <li><a href="/categories/lh" class="">LH 주관 대전광역시 교통사고 핫스팟 분석({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
