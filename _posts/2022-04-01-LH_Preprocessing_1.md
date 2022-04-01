@@ -7,5 +7,4 @@ category: LH
 ---
 
 ### 테스트
-
-<iframe src="/_pages/html_s/LH_Preprocessing_1_folium.html" height="500" width="500"></iframe>
+포기
