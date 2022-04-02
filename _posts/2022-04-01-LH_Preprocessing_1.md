@@ -43,7 +43,7 @@ import warnings
 warnings.filterwarnings(action = 'ignore')
 ```
 
-#### 1) 도로가 지나가는 격자만 추출
+### 1) 도로가 지나가는 격자만 추출
 
 대전시의 격자는 약 54,000개가 있다. 하지만 이중에는 도로가 지나가지 않는 산지 등의 격자도 있기 때문에 실제로 교통사고가 일어날 확률이 높은
 **도로가 지나다니는 격자만 추출**하도록 한다.
@@ -101,7 +101,7 @@ mks
 
 ![image](https://user-images.githubusercontent.com/97672187/161378413-a9e6810b-bc20-478a-bed7-e50eb931cde3.png){: .align-center}
 
-#### 2) 격자별 사고 건수, 사상자 수 계산 후, 위에서 추려진 accident_gid 데이터와 병합
+### 2) 격자별 사고 건수, 사상자 수 계산 후, 위에서 추려진 accident_gid 데이터와 병합
 
 교통사고 내역 데이터를 불러온 후 격자별로 사고건수, 사상자 수 등을 계산했다. 사고건수는 격자별로 빈도수를 사용했고, 사상자 수는 사망자, 중상자, 경상자수를 합쳐서 만들었다.
 
@@ -169,7 +169,7 @@ plt.show()
 
 ![image](https://user-images.githubusercontent.com/97672187/161378819-83255c8e-f526-440a-907e-70bd984eaa82.png){: .align-center}
 
-#### 3) 교통사고격자 데이터에 위도와 경도 추가
+### 3) 교통사고격자 데이터에 위도와 경도 추가
 
 ```python
 accident_grid['x'] = [accident_grid.loc[c,'geometry'].centroid.x for c in list(accident_grid.index)]
