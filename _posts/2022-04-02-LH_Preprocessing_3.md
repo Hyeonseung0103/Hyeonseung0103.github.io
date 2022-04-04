@@ -51,6 +51,12 @@ day_time_confuse = pd.read_csv('21.대전광역시_평일_일별_혼잡빈도강
 day_time_times = pd.read_csv('22.대전광역시_평일_일별_혼잡시간강도(2018).csv')
 ```
 
+<br>
+
+
+</br>
+
+
 ### 5. accident_count_filter 데이터 불러오기(유의미한 격자만 추려낸 데이터)
 
 도로가 지나다니는 격자인 accident_gid 데이터와 모란지수를 활용해서 유의미한 격자만 추려낸 accident_count_filter 데이터를 불러온다.
@@ -64,6 +70,12 @@ accident_gid.head(3)
 ![image](https://user-images.githubusercontent.com/97672187/161382072-f32d10bc-0dce-49f3-b3a4-9099934902b0.png){: .align-center}
 
 
+<br>
+
+
+</br>
+
+
 ```python
 accident_count_filter = pd.read_csv('accident_count_filter.csv')
 accident_count_filter['geometry'] = [wkt.loads(line) for line in list(accident_count_filter['geometry'])]
@@ -72,6 +84,12 @@ accident_count_filter.head(3)
 ```
 
 ![image](https://user-images.githubusercontent.com/97672187/161382097-b3c495eb-48ef-465f-a4f0-aa47a24f08b5.png){: .align-center}
+
+
+<br>
+
+
+</br>
 
 
 ### 6. 교통안전시설물 - 보행자 신호등의 geometry에 따라 그에 일치하는 gid(격자) Labeling 및 병합
@@ -92,6 +110,12 @@ def get_gid(criteria, df) : # within 함수 사용
     return gids
 ```
 
+<br>
+
+
+</br>
+
+
 
 get_gid 함수를 통해 **criteria**와 **df**의 **geometry** 값에 대하여 두 데이터가 **서로 교차(within)** 하는지 확인하여 그에 맞는 **gid**를 **Labeling**한다.
 또한, 이 함수를 통해 도출된 gid와 유의미한 격자 데이터만 추려낸 gid를 사용하여 데이터를 병합했다.
@@ -106,6 +130,12 @@ final_signal_walk.head()
 ```
 
 ![image](https://user-images.githubusercontent.com/97672187/161382422-432190c4-9719-430f-b29d-69c86ef0e20a.png){: .align-center}
+
+<br>
+
+
+</br>
+
 
 
 신호등이 없어서 NA로 표시된 격자는 신호등 수를 0으로 대체.
@@ -122,6 +152,12 @@ accident_count_filter.head(3)
 ```
 
 ![image](https://user-images.githubusercontent.com/97672187/161382512-9aa2a225-b0bd-4732-975a-d8e3b69fa8f5.png){: .align-center}
+
+
+<br>
+
+
+</br>
 
 
 
@@ -141,6 +177,12 @@ final_signal_car.head()
 ![image](https://user-images.githubusercontent.com/97672187/161382575-ce8d92b0-940b-4bfc-a4a4-c5778a1b2f5f.png){: .align-center}
 
 
+<br>
+
+
+</br>
+
+
 ```python
 signal_car_count = final_signal_car.groupby('gid').count()[['geometry']]
 signal_car_count.reset_index(inplace=True)
@@ -155,6 +197,12 @@ accident_count_filter.head(3)
 ![image](https://user-images.githubusercontent.com/97672187/161382591-51ae8cc8-0fce-465a-a23a-e4c8f449d794.png){: .align-center}
 
 
+<br>
+
+
+</br>
+
+
 ### 8. 교통안전시설물 - CCTV의 geometry에 따라 그에 일치하는 gid(격자) Labeling 및 병합
 
 ```python
@@ -167,6 +215,12 @@ final_cctv.head()
 ```
 
 ![image](https://user-images.githubusercontent.com/97672187/161382618-d8061bb8-581d-4a46-bce6-961198245cae.png){: .align-center}
+
+
+<br>
+
+
+</br>
 
 
 
@@ -184,11 +238,23 @@ accident_count_filter.head(3)
 
 ![image](https://user-images.githubusercontent.com/97672187/161382633-d02db5bb-b27b-4d54-992a-3ffe6fea6175.png){: .align-center}
 
+<br>
+
+
+</br>
+
+
 
 
 ```python
 accident_count_filter.to_csv('accident_count_filter_1.csv') # 신호등(보행등), 신호등(차량등), cctv수까지 merge한 상태.
 ```
+
+
+<br>
+
+
+</br>
 
 
 ### 9. 교통혼잡빈도 데이터의 geometry에 따라 그에 일치하는 gid(격자) Labeling 및 병합
@@ -203,6 +269,12 @@ accident_count_filter_1.head(3)
 
 ![image](https://user-images.githubusercontent.com/97672187/161382703-e4af4248-ca24-416c-91cf-f2b327e528d1.png){: .align-center}
 
+<br>
+
+
+</br>
+
+
 
 상세도로망 데이터에 geometry 정보가 있기 때문에 혼잡빈도 데이터와 상세도로망 데이터를 LinkID를 기준으로 합친다면 get_gid2 함수를 통해 격자별로 혼잡빈도강도를 적용할 수 있게 된다.
 
@@ -215,6 +287,12 @@ day_time_confused.head(2)
 ```
 
 ![image](https://user-images.githubusercontent.com/97672187/161382953-c7f6cf14-1e2c-4bd6-8525-375b7dbe6858.png){: .align-center}
+
+
+<br>
+
+
+</br>
 
 
 
@@ -250,6 +328,12 @@ accident_count_filter_2.head(3)
 ![image](https://user-images.githubusercontent.com/97672187/161383010-0e27f390-21bc-4fb0-8856-16d52cc5e4f7.png){: .align-center}
 
 
+<br>
+
+
+</br>
+
+
 
 
 격자별로 또, 일별로 혼잡빈도강도가 다를 것이기 때문에 한 격자라도 여러 일에 걸쳐서 혼잡빈도강도를 가지고 있을 것이다. 따라서 격자별로 이 혼잡빈도강도를 평균내서 새로운 변수를
@@ -269,6 +353,12 @@ accident_count_filter_1.head(3)
 ![image](https://user-images.githubusercontent.com/97672187/161383272-d5b91cd3-a487-4035-8e14-047f55c0630c.png){: .align-center}
 
 
+<br>
+
+
+</br>
+
+
 ### 10. 교통혼잡시간 데이터의 geometry에 따라 그에 일치하는 gid(격자) Labeling 및 병합
 위에서 다뤘던 교통 혼잡빈도강도 데이터와 똑같은 방식으로 교통 혼잡시간강도 데이터를 처리했다. 
 
@@ -282,6 +372,12 @@ day_time_times.head(2)
 
 ![image](https://user-images.githubusercontent.com/97672187/161383414-c7ced44a-922c-4cc6-8f13-1f4c5084d706.png)
 
+
+
+<br>
+
+
+</br>
 
 
 
@@ -301,6 +397,12 @@ accident_count_filter_4.head(3)
 
 
 
+<br>
+
+
+</br>
+
+
 
 
 ```python
@@ -315,6 +417,12 @@ accident_count_filter_5.head(3)
 
 
 ![image](https://user-images.githubusercontent.com/97672187/161383520-a31dc692-9d65-45b8-b648-aae420acd7dd.png){: .align-center}
+
+
+<br>
+
+
+</br>
 
 
 
@@ -347,6 +455,12 @@ accident_count_filter_5.head(5)
 ```
 
 ![image](https://user-images.githubusercontent.com/97672187/161384298-83055900-129e-4e76-93e6-42a8e5402af4.png){: .align-center}
+
+
+<br>
+
+
+</br>
 
 
 
