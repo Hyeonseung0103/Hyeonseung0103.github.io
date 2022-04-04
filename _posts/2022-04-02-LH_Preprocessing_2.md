@@ -42,7 +42,7 @@ accident_count %>% head(2)
 <br>
 
 
-</br>
+<br>
 
 
 
@@ -59,7 +59,8 @@ accident_grid %>% head(2)
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -92,7 +93,8 @@ S.dist
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -114,7 +116,8 @@ title("Plot: Local Moran's I")
 <br>
 
 
-</br>
+
+<br>
 
 
 위의 그래프를 보면 빨간색 선을 통해 1,2,3,4분면을 알 수 있다.
@@ -145,13 +148,15 @@ table(accident_count_filter$`사고건수`) # 총 5556개
 <br>
 
 
-</br>
+
+<br>
 
 
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -168,7 +173,8 @@ lines(accident_count_filter$x, accident_count_filter$y, col = "red", type="p", p
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -191,7 +197,9 @@ table(accident_count_filter_2$`사고건수`)
 <br>
 
 
-</br>
+
+
+<br>
 
 
 3사분면의 데이터는 이웃 지역과 특성 및 속성이 유사하지 않으면서 사고가 평균보다 적게 발생하는 지역이었다. 데이터 불균형을 처리하려는 목적이 사고건수가 0인 지역을
@@ -220,7 +228,9 @@ table(except_3quadrant_df$acci_cnt == 0) # 3사분면을 제외한 데이터에�
 <br>
 
 
-</br>
+
+
+<br>
 
 
 
@@ -239,7 +249,9 @@ accident_count_filter %>% head(2)
 <br>
 
 
-</br>
+
+
+<br>
 
 
 
@@ -270,7 +282,9 @@ grid.arrange(road_filter_map, moran_filter_map,nrow = 1, ncol = 2)
 <br>
 
 
-</br>
+
+
+<br>
 
 
 
