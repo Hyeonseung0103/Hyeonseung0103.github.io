@@ -53,7 +53,7 @@ c를 누르면 다음 breakpoint로 이동한다.
 
 return 함수 직전까지 오면, 모든 for문을 다 돌아서 sum은 10이 나온다.
 
-![image](https://user-images.githubusercontent.com/97672187/161499189-f8770c96-cafb-446e-89be-da800d0293c2.png){: align-center}
+![image](https://user-images.githubusercontent.com/97672187/161499189-f8770c96-cafb-446e-89be-da800d0293c2.png){: .align-center}
 
 <br>
 
