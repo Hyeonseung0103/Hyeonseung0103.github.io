@@ -39,6 +39,12 @@ accident_count %>% head(2)
 ![image](https://user-images.githubusercontent.com/97672187/161379431-26588b79-3319-4ed4-ad04-35e3f06d5b33.png){: .align-center}
 
 
+<br>
+
+
+</br>
+
+
 
 
 ```R
@@ -48,6 +54,12 @@ accident_grid %>% head(2)
 ```
 
 ![image](https://user-images.githubusercontent.com/97672187/161379523-691b1206-6ce8-4a82-9f46-eb4c08c45f8b.png){: .align-center}
+
+
+<br>
+
+
+</br>
 
 
 
@@ -77,6 +89,12 @@ S.dist
 
 
 
+<br>
+
+
+</br>
+
+
 
 ```R
 spdep::set.ZeroPolicyOption(TRUE)
@@ -91,6 +109,12 @@ title("Plot: Local Moran's I")
 
 ![image](https://user-images.githubusercontent.com/97672187/161379699-5e8cf1ed-5c09-4320-8335-9b9029d03fda.png){: .align-center}
 
+
+
+<br>
+
+
+</br>
 
 
 위의 그래프를 보면 빨간색 선을 통해 1,2,3,4분면을 알 수 있다.
@@ -118,9 +142,16 @@ table(accident_count_filter$`사고건수`) # 총 5556개
 ![image](https://user-images.githubusercontent.com/97672187/161380376-6d62feaa-5ff0-47cc-a467-2acf35b60145.png){: .align-center}
 
 
+<br>
 
 
+</br>
 
+
+<br>
+
+
+</br>
 
 
 
@@ -132,6 +163,12 @@ plot(accident_grid$x, accident_grid$y, col="green", pch=19, xlab="long", ylab="l
 lines(accident_count$x, accident_count$y, col="yellow", type="p", pch=19) # 사고 격자 데이터
 lines(accident_count_filter$x, accident_count_filter$y, col = "red", type="p", pch=19) # 중요하지 않은 지역을 제거한 데이터
 ```
+
+
+<br>
+
+
+</br>
 
 
 
@@ -150,6 +187,12 @@ table(accident_count_filter_2$`사고건수`)
 ```
 
 ![image](https://user-images.githubusercontent.com/97672187/161380492-d012a48a-ab94-470e-a605-7e295fbce819.png){: .align-center}
+
+<br>
+
+
+</br>
+
 
 3사분면의 데이터는 이웃 지역과 특성 및 속성이 유사하지 않으면서 사고가 평균보다 적게 발생하는 지역이었다. 데이터 불균형을 처리하려는 목적이 사고건수가 0인 지역을
 많이 제거하는 것이었는데 3사분면의 데이터를 제거했기 때문에 사고가 적은 지역과의 유사성이 약한 지역들이 제거가 되어서 여전히 불균형 문제가 존재하는 것으로 보인다.
@@ -174,6 +217,12 @@ table(except_3quadrant_df$acci_cnt == 0) # 3사분면을 제외한 데이터에�
 ![image](https://user-images.githubusercontent.com/97672187/161380843-5e810509-73e1-4221-87c4-3849ef0b9e4c.png){: .align-center}
 
 
+<br>
+
+
+</br>
+
+
 
 
 위의 과정들을 통해 **기존의 54,912개의 격자를 최종적으로 5,556개의 고유한 격자 데이터**로 필터링했다.
@@ -185,6 +234,12 @@ accident_count_filter %>% head(2)
 ```
 
 ![image](https://user-images.githubusercontent.com/97672187/161380953-239af15f-1d98-4753-93df-2af1fed79789.png)
+
+
+<br>
+
+
+</br>
 
 
 
@@ -212,6 +267,12 @@ grid.arrange(road_filter_map, moran_filter_map,nrow = 1, ncol = 2)
 
 
 
+<br>
+
+
+</br>
+
+
 
 
 ```R
@@ -228,5 +289,6 @@ moran_filter_map2 <-
 
 grid.arrange(road_filter_map2, moran_filter_map2, nrow = 1, ncol = 2)
 ```
+
 ![image](https://user-images.githubusercontent.com/97672187/161381028-61034f5d-01d8-4d41-992d-f3a8f0a7cd5a.png){: .align-center}
 
