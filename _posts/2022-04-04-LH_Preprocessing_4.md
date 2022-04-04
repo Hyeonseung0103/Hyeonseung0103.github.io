@@ -123,7 +123,7 @@ weather_2017_arrange %>% head()
 
 
 
-</br>
+<br>
 
 2) 2018년도 마찬가지
 
@@ -208,7 +208,7 @@ weather_2018_arrange %>% head()
 
 
 
-</br>
+<br>
 
 3) 2019년 weather 데이터처리
 
@@ -293,7 +293,7 @@ weather_2019_arrange %>% head()
 
 
 
-</br>
+<br>
 
 4) 2017 ~ 2019 날씨 데이터 합치기
 
