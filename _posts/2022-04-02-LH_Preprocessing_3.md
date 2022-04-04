@@ -54,7 +54,8 @@ day_time_times = pd.read_csv('22.대전광역시_평일_일별_혼잡시간강�
 <br>
 
 
-</br>
+
+<br>
 
 
 ### 5. accident_count_filter 데이터 불러오기(유의미한 격자만 추려낸 데이터)
@@ -89,7 +90,8 @@ accident_count_filter.head(3)
 <br>
 
 
-</br>
+
+<br>
 
 
 ### 6. 교통안전시설물 - 보행자 신호등의 geometry에 따라 그에 일치하는 gid(격자) Labeling 및 병합
@@ -113,7 +115,8 @@ def get_gid(criteria, df) : # within 함수 사용
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -157,7 +160,8 @@ accident_count_filter.head(3)
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -180,7 +184,8 @@ final_signal_car.head()
 <br>
 
 
-</br>
+
+<br>
 
 
 ```python
@@ -200,7 +205,8 @@ accident_count_filter.head(3)
 <br>
 
 
-</br>
+
+<br>
 
 
 ### 8. 교통안전시설물 - CCTV의 geometry에 따라 그에 일치하는 gid(격자) Labeling 및 병합
@@ -220,7 +226,8 @@ final_cctv.head()
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -241,7 +248,8 @@ accident_count_filter.head(3)
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -254,7 +262,8 @@ accident_count_filter.to_csv('accident_count_filter_1.csv') # 신호등(보행�
 <br>
 
 
-</br>
+
+<br>
 
 
 ### 9. 교통혼잡빈도 데이터의 geometry에 따라 그에 일치하는 gid(격자) Labeling 및 병합
@@ -272,7 +281,8 @@ accident_count_filter_1.head(3)
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -292,7 +302,8 @@ day_time_confused.head(2)
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -331,7 +342,8 @@ accident_count_filter_2.head(3)
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -377,7 +389,8 @@ day_time_times.head(2)
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -400,7 +413,8 @@ accident_count_filter_4.head(3)
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -422,7 +436,8 @@ accident_count_filter_5.head(3)
 <br>
 
 
-</br>
+
+<br>
 
 
 
@@ -460,7 +475,8 @@ accident_count_filter_5.head(5)
 <br>
 
 
-</br>
+
+<br>
 
 
 
