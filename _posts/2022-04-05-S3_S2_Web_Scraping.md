@@ -62,7 +62,7 @@ CSS는 HTML이 표현한 문서가 어떻게 표현 되는지 알려주는 언�
 
 class는 CSS에서 '.' 표현한다.
 
-```CSS
+```css
 .Messi {
   color: "yellow";
 }
@@ -76,7 +76,7 @@ class는 CSS에서 '.' 표현한다.
 <p id = 'Leo'>He is the best player</p>
 ```
 
-```CSS
+```css
 #Leo {
   color: "red";
 }
