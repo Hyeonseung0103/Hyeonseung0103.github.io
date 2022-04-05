@@ -96,7 +96,7 @@ class는 CSS에서 '.' 표현한다.
 
 DOM을 사용할 수 있는 쉬운 방법은 웹 브라우저 -> 개발자 도구 -> 콘솔 창을 활용하는 것이다. 많이 쓰는 함수들을 정리해보자.
 
-```JavaScript
+```javascript
 document // 화면에 보이는 정보를 객체화 시켜서 HTML 문서로 보여준다.
 document.querySelector('p') // p태그들 중 젤 위에 태그 조회
 document.querySelectorAll('p') // p태그 모두 조회
