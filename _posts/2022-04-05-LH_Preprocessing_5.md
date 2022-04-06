@@ -89,6 +89,10 @@ accident_count_filter_6.to_csv('accident_count_filter_6.csv')
 
 ![image](https://user-images.githubusercontent.com/97672187/161972345-5b2e8e29-1fba-4420-8ee8-03ed31551f29.png){: .align-center}
 
+<br>
+
+
+<br>
 
 기존에 전처리를 진행할 때 POLYGON 타입의 좌표 정보가 주어지면 within함수를 사용해서 좌표가 격자 내에 있는지 확인한 후 좌표가 격자 내에 있으면 해당 격자를 리턴해주었다. 
 여기서도 역시 get_gid 함수를 사용해서 교통 시설물 좌표가 주어지면 좌표가 어느 격자 내에 있는지 파악한다.
@@ -158,7 +162,7 @@ accident_count_filter_8.to_csv('accident_count_filter_8.csv')
 # 신호등(보행등), 신호등(차량등), cctv수, 혼잡빈도, 혼잡시간, 교통추정량, 날씨, 안전지대수 데이터까지 merge한 상태.
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/161975278-905c5b96-8024-4f31-93c0-131fa12a82b8.png){: .align-center}
+![image](https://user-images.githubusercontent.com/97672187/161987425-c6b29caa-443d-45b3-8be0-c43bb790cb8f.png){: .align-center}
 
 <br>
 
