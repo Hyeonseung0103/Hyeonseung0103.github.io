@@ -1,5 +1,5 @@
 ---
-layout: true
+layout: single
 title: "전처리 Part.6"
 toc: true
 toc_sticky: true
