@@ -46,34 +46,34 @@ weather_2017 <- read.csv('weather_2017.csv')
 
 ```R
 temp_average <- c() # 평균온도
-qt <- quantile(weather_2017[, 3], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-temp_average <- ifelse(weather_2017[, 3] < qt[2] | weather_2017[, 3] > qt[3], 1, 0)
+qt <- quantile(weather_2017[, names(weather_2017)[3]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+temp_average <- ifelse(weather_2017[, names(weather_2017)[3]] < qt[2] | weather_2017[, names(weather_2017)[3]] > qt[3], 1, 0)
 # 10퍼센타일 미만이거나 90퍼센타일 이상이면 1 아니면 0
 
 #나머지도 동일하게 적용
 temp_min <- c() #최저온도
-qt <- quantile(weather_2017[, 4], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-temp_min <- ifelse(weather_2017[, 4] < qt[2] | weather_2017[, 4] > qt[3], 1, 0)
+qt <- quantile(weather_2017[, names(weather_2017)[4]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+temp_min <- ifelse(weather_2017[, names(weather_2017)[4]] < qt[2] | weather_2017[, names(weather_2017)[4]] > qt[3], 1, 0)
 
 temp_max <- c() #최고온도
-qt <- quantile(weather_2017[, 5], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-temp_max <- ifelse(weather_2017[, 5] < qt[2] | weather_2017[, 5] > qt[3], 1, 0)
+qt <- quantile(weather_2017[, names(weather_2017)[5]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+temp_max <- ifelse(weather_2017[, names(weather_2017)[5]] < qt[2] | weather_2017[, names(weather_2017)[5]] > qt[3], 1, 0)
 
 wind_max <- c() #최대풍속
-qt <- quantile(weather_2017[, 7], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-wind_max <- ifelse(weather_2017[, 7] < qt[2] | weather_2017[, 7] > qt[3], 1, 0)
+qt <- quantile(weather_2017[, names(weather_2017)[7]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+wind_max <- ifelse(weather_2017[, names(weather_2017)[7]] < qt[2] | weather_2017[, names(weather_2017)[7]] > qt[3], 1, 0)
 
 wind_average <- c() #평균풍속
-qt <- quantile(weather_2017[, 9], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-wind_average <- ifelse(weather_2017[, 9] < qt[2] | weather_2017[, 9] > qt[3], 1, 0)
+qt <- quantile(weather_2017[, names(weather_2017)[9]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+wind_average <- ifelse(weather_2017[, names(weather_2017)[9]] < qt[2] | weather_2017[, names(weather_2017)[9]] > qt[3], 1, 0)
 
 humidity_average <- c() #평균습도
-qt <- quantile(weather_2017[, 10], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-humidity_average <- ifelse(weather_2017[, 10] < qt[2] | weather_2017[, 10] > qt[3], 1, 0)
+qt <- quantile(weather_2017[, names(weather_2017)[10]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+humidity_average <- ifelse(weather_2017[, names(weather_2017)[10]] < qt[2] | weather_2017[, names(weather_2017)[10]] > qt[3], 1, 0)
 
 road_average <- c() #평균지면온도
-qt <- quantile(weather_2017[, 12], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-road_average <- ifelse(weather_2017[, 12] < qt[2] | weather_2017[, 12] > qt[3], 1, 0)
+qt <- quantile(weather_2017[, names(weather_2017)[12]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+road_average <- ifelse(weather_2017[, names(weather_2017)[12]] < qt[2] | weather_2017[, names(weather_2017)[12]] > qt[3], 1, 0)
 ```
 
 
@@ -88,26 +88,25 @@ weather_2017$평균지면온도 <- road_average
 ```
 
 ```R
-# NA 값은 비나 눈이 오지 않은 날이므로 0으로 처리
-weather_2017[, 6] <- ifelse(is.na(weather_2017[, 6]), 0, weather_2017[, 6])
-weather_2017[, 11] <- ifelse(is.na(weather_2017[, 11]), 0, weather_2017[, 11])
+# NA 값은 이상치가 없는 경우이므로 0으로 처리
+weather_2017[, names(weather_2017)[6]] <- ifelse(is.na(weather_2017[, names(weather_2017)[6]]), 0, weather_2017[, 6])
+weather_2017[, names(weather_2017)[11]] <- ifelse(is.na(weather_2017[, names(weather_2017)[11]]), 0, weather_2017[, names(weather_2017)[11]])
 ```
 
 ```R
-# NA값 처리 후 quantile 적용
 day_rain <- c()
-qt <- quantile(weather_2017[, 6], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+qt <- quantile(weather_2017[, names(weather_2017)[6]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
 day_rain <- ifelse(weather_2017[, names(weather_2017)[6]] > qt[3], 1, 0)
 
 day_snow <- c()
-qt <- quantile(weather_2017[, 11], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-day_snow <- ifelse(weather_2017[, 11] > qt[3], 1, 0)
+qt <- quantile(weather_2017[, names(weather_2017)[11]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+day_snow <- ifelse(weather_2017[, names(weather_2017)[11]] > qt[3], 1, 0)
 ```
 
 ```R
 weather_2017$강수량 <- day_rain
 weather_2017$적설량 <- day_snow
-weather_2017$안개시간 <- ifelse( is.na(weather_2017[, 13]), 0, 1)
+weather_2017$안개시간 <- ifelse( is.na(weather_2017[, names(weather_2017)[13]]), 0, 1)
 ```
 
 ```R
@@ -132,33 +131,33 @@ weather_2018 <- read.csv('weather_2018.csv')
 ```
 
 ```R
-temp_average <- c() # 평균온도
-qt <- quantile(weather_2018[, 3], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-temp_average <- ifelse(weather_2018[, 3] < qt[2] | weather_2018[, 3] > qt[3], 1, 0)
+temp_average <- c()
+qt <- quantile(weather_2018[, names(weather_2018)[3]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+temp_average <- ifelse(weather_2018[, names(weather_2018)[3]] < qt[2] | weather_2018[, names(weather_2018)[3]] > qt[3], 1, 0)
 
-temp_min <- c() #최저온도
-qt <- quantile(weather_2018[, 4], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-temp_min <- ifelse(weather_2018[, 4] < qt[2] | weather_2018[, 4] > qt[3], 1, 0)
+temp_min <- c()
+qt <- quantile(weather_2018[, names(weather_2018)[4]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+temp_min <- ifelse(weather_2018[, names(weather_2018)[4]] < qt[2] | weather_2018[, names(weather_2018)[4]] > qt[3], 1, 0)
 
-temp_max <- c() #최고온도
-qt <- quantile(weather_2018[, 5], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-temp_max <- ifelse(weather_2018[, 5] < qt[2] | weather_2018[, 5] > qt[3], 1, 0)
+temp_max <- c()
+qt <- quantile(weather_2018[, names(weather_2018)[5]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+temp_max <- ifelse(weather_2018[, names(weather_2018)[5]] < qt[2] | weather_2018[, names(weather_2018)[5]] > qt[3], 1, 0)
 
-wind_max <- c() #최대풍속
-qt <- quantile(weather_2018[, 7], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-wind_max <- ifelse(weather_2018[, 7] < qt[2] | weather_2018[, 7] > qt[3], 1, 0)
+wind_max <- c()
+qt <- quantile(weather_2018[, names(weather_2018)[7]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+wind_max <- ifelse(weather_2018[, names(weather_2018)[7]] < qt[2] | weather_2018[, names(weather_2018)[7]] > qt[3], 1, 0)
 
-wind_average <- c() #평균풍속
-qt <- quantile(weather_2018[, 9], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-wind_average <- ifelse(weather_2018[, 9] < qt[2] | weather_2018[, 9] > qt[3], 1, 0)
+wind_average <- c()
+qt <- quantile(weather_2018[, names(weather_2018)[9]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+wind_average <- ifelse(weather_2018[, names(weather_2018)[9]] < qt[2] | weather_2018[, names(weather_2018)[9]] > qt[3], 1, 0)
 
-humidity_average <- c() #평균습도
-qt <- quantile(weather_2018[, 10], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-humidity_average <- ifelse(weather_2018[, 10] < qt[2] | weather_2018[, 10] > qt[3], 1, 0)
+humidity_average <- c()
+qt <- quantile(weather_2018[, names(weather_2018)[10]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+humidity_average <- ifelse(weather_2018[, names(weather_2018)[10]] < qt[2] | weather_2018[, names(weather_2018)[10]] > qt[3], 1, 0)
 
-road_average <- c() #평균지면온도
-qt <- quantile(weather_2018[, 12], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-road_average <- ifelse(weather_2018[, 12] < qt[2] | weather_2018[, 12] > qt[3], 1, 0)
+road_average <- c()
+qt <- quantile(weather_2018[, names(weather_2018)[12]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+road_average <- ifelse(weather_2018[, names(weather_2018)[12]] < qt[2] | weather_2018[, names(weather_2018)[12]] > qt[3], 1, 0)
 ```
 
 
@@ -175,25 +174,25 @@ weather_2018$평균지면온도 <- road_average
 
 ```R
 #NA 값 0으로 처리
-weather_2018[, 6] <- ifelse(is.na(weather_2018[, 6]), 0, weather_2018[, 6])
-weather_2018[, 11] <- ifelse(is.na(weather_2018[, 11]), 0, weather_2018[, 11])
+weather_2018[, names(weather_2018)[6]] <- ifelse(is.na(weather_2018[, names(weather_2018)[6]]), 0, weather_2018[, names(weather_2018)[6]])
+weather_2018[, names(weather_2018)[11]] <- ifelse(is.na(weather_2018[, names(weather_2018)[11]]), 0, weather_2018[, names(weather_2018)[11]])
 ```
 
 ```R
 day_rain <- c()
-qt <- quantile(weather_2018[, 6], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-day_rain <- ifelse(weather_2018[, 6] > qt[3], 1, 0)
+qt <- quantile(weather_2018[, names(weather_2018)[6]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+day_rain <- ifelse(weather_2018[, names(weather_2018)[6]] > qt[3], 1, 0)
 
 day_snow <- c()
-qt <- quantile(weather_2018[, 11], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-day_snow <- ifelse(weather_2018[, 11] > qt[3], 1, 0)
+qt <- quantile(weather_2018[, names(weather_2018)[11]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+day_snow <- ifelse(weather_2018[, names(weather_2018)[11]] > qt[3], 1, 0)
 ```
 
 
 ```R
 weather_2018$강수량 <- day_rain
 weather_2018$적설량 <- day_snow
-weather_2018$안개시간 <- ifelse( is.na(weather_2018[, 13]), 0, 1)
+weather_2018$안개시간 <- ifelse( is.na(weather_2018[, names(weather_2018)[13]]), 0, 1)
 ```
 
 ```R
@@ -217,33 +216,32 @@ weather_2019 <- read.csv('weather_2019.csv')
 ```
 
 ```R
-temp_average <- c() # 평균온도
-qt <- quantile(weather_2019[, 3], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-temp_average <- ifelse(weather_2019[, 3] < qt[2] | weather_2019[, 3] > qt[3], 1, 0)
+qt <- quantile(weather_2019[, names(weather_2019)[3]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+temp_average <- ifelse(weather_2019[, names(weather_2019)[3]] < qt[2] | weather_2019[, names(weather_2019)[3]] > qt[3], 1, 0)
 
-temp_min <- c() #최저온도
-qt <- quantile(weather_2019[, 4], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-temp_min <- ifelse(weather_2019[, 4] < qt[2] | weather_2019[, 4] > qt[3], 1, 0)
+temp_min <- c()
+qt <- quantile(weather_2019[, names(weather_2019)[4]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+temp_min <- ifelse(weather_2019[, names(weather_2019)[4]] < qt[2] | weather_2019[, names(weather_2019)[4]] > qt[3], 1, 0)
 
-temp_max <- c() #최고온도
-qt <- quantile(weather_2019[, 5], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-temp_max <- ifelse(weather_2019[, 5] < qt[2] | weather_2019[, 5] > qt[3], 1, 0)
+temp_max <- c()
+qt <- quantile(weather_2019[, names(weather_2019)[5]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+temp_max <- ifelse(weather_2019[, names(weather_2019)[5]] < qt[2] | weather_2019[, names(weather_2019)[5]] > qt[3], 1, 0)
 
-wind_max <- c() #최대풍속
-qt <- quantile(weather_2019[, 7], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-wind_max <- ifelse(weather_2019[, 7] < qt[2] | weather_2019[, 7] > qt[3], 1, 0)
+wind_max <- c()
+qt <- quantile(weather_2019[, names(weather_2019)[7]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+wind_max <- ifelse(weather_2019[, names(weather_2019)[7]] < qt[2] | weather_2019[, names(weather_2019)[7]] > qt[3], 1, 0)
 
-wind_average <- c() #평균풍속
-qt <- quantile(weather_2019[, 9], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-wind_average <- ifelse(weather_2019[, 9] < qt[2] | weather_2019[, 9] > qt[3], 1, 0)
+wind_average <- c()
+qt <- quantile(weather_2019[, names(weather_2019)[9]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+wind_average <- ifelse(weather_2019[, names(weather_2019)[9]] < qt[2] | weather_2019[, names(weather_2019)[9]] > qt[3], 1, 0)
 
-humidity_average <- c() #평균습도
-qt <- quantile(weather_2019[, 10], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-humidity_average <- ifelse(weather_2019[, 10] < qt[2] | weather_2019[, 10] > qt[3], 1, 0)
+humidity_average <- c()
+qt <- quantile(weather_2019[, names(weather_2019)[10]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+humidity_average <- ifelse(weather_2019[, names(weather_2019)[10]] < qt[2] | weather_2019[, names(weather_2019)[10]] > qt[3], 1, 0)
 
-road_average <- c() #평균지면온도
-qt <- quantile(weather_2018[, 12], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-road_average <- ifelse(weather_2019[, 12] < qt[2] | weather_2019[, 12] > qt[3], 1, 0)
+road_average <- c()
+qt <- quantile(weather_2019[, names(weather_2019)[12]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+road_average <- ifelse(weather_2019[, names(weather_2019)[12]] < qt[2] | weather_2019[, names(weather_2019)[12]] > qt[3], 1, 0)
 ```
 
 
@@ -260,25 +258,25 @@ weather_2019$평균지면온도 <- road_average
 
 ```R
 #NA 값 0으로 처리
-weather_2019[, 6] <- ifelse(is.na(weather_2019[, 6]), 0, weather_2019[, 6])
-weather_2019[, 11] <- ifelse(is.na(weather_2019[, 11]), 0, weather_2019[, 11])
+weather_2019[, names(weather_2019)[6]] <- ifelse(is.na(weather_2019[, names(weather_2019)[6]]), 0, weather_2019[, names(weather_2019)[6]])
+weather_2019[, names(weather_2019)[11]] <- ifelse(is.na(weather_2019[, names(weather_2019)[11]]), 0, weather_2019[, names(weather_2019)[11]])
 ```
 
 ```R
 day_rain <- c()
-qt <- quantile(weather_2019[, 6], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-day_rain <- ifelse(weather_2019[, 6] > qt[3], 1, 0)
+qt <- quantile(weather_2019[, names(weather_2019)[6]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+day_rain <- ifelse(weather_2019[, names(weather_2019)[6]] > qt[3], 1, 0)
 
 day_snow <- c()
-qt <- quantile(weather_2019[, 11], probs=c(0, 0.1, 0.9, 1), na.rm=T)
-day_snow <- ifelse(weather_2019[, 11] > qt[3], 1, 0)
+qt <- quantile(weather_2019[, names(weather_2019)[11]], probs=c(0, 0.1, 0.9, 1), na.rm=T)
+day_snow <- ifelse(weather_2019[, names(weather_2019)[11]] > qt[3], 1, 0)
 ```
 
 
 ```R
 weather_2019$강수량 <- day_rain
 weather_2019$적설량 <- day_snow
-weather_2019$안개시간 <- ifelse( is.na(weather_2019[, 13]), 0, 1)
+weather_2019$안개시간 <- ifelse( is.na(weather_2019[, names(weather_2019)[13]]), 0, 1)
 ```
 
 ```R
