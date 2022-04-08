@@ -304,7 +304,9 @@ class Car:
         return "beep"
 
 class Truck(Car): # Car class로부터 상속 받음.
-    # super.__init__()을 하면 부모의 init 그대로 가져옴.
+    # super().__init__(가져올 변수)을 하면 부모의 init 그대로 가져옴.
+    # 위에서 가져올 변수를 미리 정의해놓고 super().__init__(가져올변수) 하면 됨.
+    # 그 후에 더 추가해도 됨. self._다른변수 = ???
     def honk(self):
         return "beep beep"
         #return super().honk() + ", BEEP!" # beep, BEEP!. 이렇게 하면 부모 클래스의 메소드를 불러온 후 거기에서 새로운 값을 추가하게 된다.
