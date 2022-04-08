@@ -16,7 +16,7 @@ HTML은 웹 페이지에서 보여지는 것들이 어떻게, 어떤 방식으�
 웹과 관련된 공식문서인 MDN에 의하면 프로그래밍 언어는 아니다.
 
 HTNL에는 다양한 요소(element)들이 존재(ex) head, body, div, li 등)한다. 각 요소는 <head> </head> 과 같이 태그 형식으로 표현이 된다. '/'가 포함된 태그가 요소를 닫는 태그인데
-모든 태그가 다 닫는 태그를 가지고 있는 것이 아니다. 예를 들어 줄 바꿈을 나타내는 <br>은 닫는 태그가 없다.
+모든 태그가 다 닫는 태그를 가지고 있는 것이 아니다. 예를 들어 줄 바꿈을 나타내는 '<br>' 은 닫는 태그가 없다.
 
 만약 요소 안에 다른 요소가 있다면, 안에 있는 요소를 자식 요소, 밖에 있는 요소를 부모 요소라고 한다.
 
@@ -33,7 +33,7 @@ HTNL에는 다양한 요소(element)들이 존재(ex) head, body, div, li 등)�
 <br>
 
 ### CSS(Cascading Style Sheets)
-CSS는 HTML이 표현한 문서가 어떻게 표현 되는지 알려주는 언어이다. HTML이 어떻게 구성되는지 틀을 짜고, CSS는 어떻게 표현이 되는지 살을 붙인다. 또, Java Script는 붙여진 살이
+CSS는 HTML이 표현한 문서가 어떻게 표현 되는지 알려주는 언어이다. HTML은 웹이 어떻게 구성되는지 틀을 짜고, CSS는 어떻게 표현이 되는지 살을 붙인다. 또, Java Script는 붙여진 살이
 동작하도록 기능을 추가한다. HTML에서도 스타일을 적용할 수 있지만, 코드가 길어지면 가독성이 좋지 않기 때문에 보통 HTML과 CSS는 분리해서 사용한다.
 
 - CSS Selector
@@ -91,7 +91,7 @@ class는 CSS에서 '.' 표현한다.
 
 
 ### DOM(Document Object Model)
-문서 객체 모델인 DOM은 HTML, XML 등 문서의 프로그래밍 인터페이스다. 프로그래밍 언어를 통해서 HTML 문서 등에 접근할 수 있도록 한다. 자바스크립트에서 사용하는 객체 라는 개념을 사용해 문서를 객체화하여 표현하고,
+문서 객체 모델인 DOM은 HTML, XML 등, 문서의 프로그래밍 인터페이스다. 프로그래밍 언어를 통해서 HTML 문서 등에 접근할 수 있도록 한다. 자바스크립트에서 사용하는 객체 라는 개념을 이용해 문서를 객체화하여 표현하고,
 문서를 하나의 구조화된 형식으로 표현을 하기 때문에 이 구조를 사용해 원하는 동작을 할 수 있다.
 
 DOM을 사용할 수 있는 쉬운 방법은 웹 브라우저 -> 개발자 도구 -> 콘솔 창을 활용하는 것이다. 많이 쓰는 함수들을 정리해보자.
@@ -181,8 +181,7 @@ for e in soup.find_all(class_ = 'ronaldo'):
 
 #string을 활용
 e5 = soup.find_all(string =lambda text: 'raining' in text.lower()) # 대소문자 실수가 있어도 정보를 잘 가져올 수 있게끔 소문자화
-e5 = soup.find_all('h3', string =lambda text: 'raining' in text.lower()) #이렇게 하면 요소가 아닌 string이 리턴되니까 요소로 리턴을 받으려면 
-#태그를 추가해줘야한다.
+e5 = soup.find_all('h3', string =lambda text: 'raining' in text.lower()) #위에처럼 하면 요소가 아닌 string이 리턴된다. 따라서 요소로 리턴을 받으려면 태그를 추가해줘야한다.
 
 # 공백 제거
 soup.find('p', class_ = 'messi').text.strip()
