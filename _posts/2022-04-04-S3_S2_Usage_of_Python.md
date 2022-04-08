@@ -109,7 +109,7 @@ player_goal('Ronaldo') #기본인수 20을 사용
 ```
 
 ### Object Oriented Porgramming(객체 지향 언어)
-파이썬 언어는 객체지향언어를 기반으로 설계되어 있다. 모든 객체지향언어가 그런 것은 아니지만, 파이썬에서는 모든 것이 객치이다.
+파이썬 언어는 객체지향언어를 기반으로 설계되어 있다. 모든 객체지향언어가 그런 것은 아니지만, 파이썬에서는 모든 것이 객체이다.
 객체지향언어는 대규모 프로그램의 설계를 위해 만들어진 방법론이다. 프로그래밍 언어 관점에서는 설계 중심의 사고로 똑같은 혹은 비슷한 코드를 반복적으로 작성하지 않기 위해
 개발 되었다.
 
@@ -237,11 +237,13 @@ print(team.player, team.goals) # Messi와 30골에서 Ronaldo와 20으로 바뀐
 밑줄은 보통 클래스 내부 변수에 접근하지 못하게하려는 이유로 사용한다. 굳이 그 변수를 바꿨을 때 사용자가 전혀 이익이 되지 않고, 오히려 난독성이 증가한다면
 안 건드는 것이 최선이 될 것이다. single underscore인 _ 는 변수를 숨기는 것을 희망하는 것이고, double인 __ 은 변수를 숨기는 것을 강제한다. 따라서 한줄만 쓰면,
 사용자가 희망만 하는 것이니까 클래스 밖에서도 조회가 가능하고, 두 줄을 쓰면 클래스 밖에서 일반적인 방법으로는 조회할 수 없다. 하지만, 
-'**인스턴스 _ <클래스 이름> __ <변수 혹은 함수 이름>**' 이런 방법으로 접근하면 결국 접근은 가능하기 때문에 완벽히 접근을 하지 못하는 것은 아니다.
+**인스턴스 _ <클래스 이름> __ <변수 혹은 함수 이름>** 이런 방법으로 접근하면 결국 접근은 가능하기 때문에 완벽히 접근을 하지 못하는 것은 아니다.
 
 ### Python Decorator
 데코레이터는 어색하고 반복적인 함수의 표현을 줄이기 위해 제안되었고, 함수 뿐만아니라 클래스, 제너레이터 등의 타입에서도 사용되고 있다.
 데코레이터를 사용하면 깔끔하고 간결한 코드를 만들면서 코드의 재사용을 줄일 수 있기 때문에 많이 사용된다.
+
+ex) 함수는 다른데 각 함수 내에 공통된 내용이 들어있을 때.
 
 밑의 함수를 보면 선수정보라는 공통되는 텍스트가 있는데도 각각 다른 함수에서 중복되어 사용되고 있다.
 지금은 print를 이용한 간단한 경우이지만, 만약 로직이 더 복잡해진다면 중복으로 인해 계산시간이 늘어날 수 있다.
@@ -265,8 +267,8 @@ def goals(num):
 ```python
 def player_info(func):
     def info(*args, **kargs): # *args는 바로 값을 찾는것이 아니라 메모리 주소를 찾아서 값을 읽어준다는 의미. # 그냥 'hi'와 같은 string을 입력하면 메모리 주소를 찾아서 읽음.
-                              # **kargs는 dictionary 형태로 값을 읽는다. key = value 형식으로 넣어야한다. ex) 그냥 값이 아니라 
-                              # width = 100, 이렇게 넣으면 **kargs 형식인 것. width가 key, 100이 value
+                              # **kargs는 dictionary 형태로 값을 읽는다. key = value 형식으로 넣어야한다. 
+                              # ex) 그냥 값이 아니라 width = 100, 이렇게 넣으면 **kargs 형식인 것. width가 key, 100이 value                             
         print("선수정보")
         func(*args, **kargs)
     return info
@@ -293,12 +295,18 @@ player_info(goals('30')) # 선수정보 \n 30
 
 ```python
 class Car:
-    def __init__(self, name):
+    def __init__(self, name, price):
         self._name = name
+        self._price = price
 
     @ property
     def name(self):
         return self._name
+    
+    @ property
+    def price(self):
+        return self._price
+
 
     def honk(self):
         return "beep"
@@ -307,6 +315,14 @@ class Truck(Car): # Car class로부터 상속 받음.
     # super().__init__(가져올 변수)을 하면 부모의 init 그대로 가져옴.
     # 위에서 가져올 변수를 미리 정의해놓고 super().__init__(가져올변수) 하면 됨.
     # 그 후에 더 추가해도 됨. self._다른변수 = ???
+    def __init__(self, name, price, color = 'black'):
+        super().__init__(name, price)
+        self._color = color # 이처럼 변수를 추가하는건 되는데, 부모에 있는 변수 중 일부만 가져오는 것은 안됨.
+        # 예를들어, name만 가져온다던지. 그럼 상속의 의미가 없음.
+    
+    @ property
+    def color(self):
+        return self._color
     def honk(self):
         return "beep beep"
         #return super().honk() + ", BEEP!" # beep, BEEP!. 이렇게 하면 부모 클래스의 메소드를 불러온 후 거기에서 새로운 값을 추가하게 된다.
@@ -315,12 +331,14 @@ class Truck(Car): # Car class로부터 상속 받음.
     def drive(self):
         return "vroom"
 
-car = Car("Genesis")
+car = Car("Genesis", 3000)
 print(car.honk()) # beep
-truck = Truck("Bongo")
-print(truck.name) # truck에는 name 메소드가 없어도, 상속을 받아서 실행시킬 수 없음.
+truck = Truck("Bongo",2000)
+print(truck.name) # truck에는 name 메소드가 없어도, 상속을 받아서 실행시킬 수 있음.
+print(truck.price)
+print(truck.color) # 따로 정의해주지 않아서 기본값인 balck출력.
 print(truck.honk()) # beep beep. 상속받아도 메소드를 새로 정의하면 자신의 메소드가 실행됨.
 print(truck.drive()) # vroom
-print(car.drive()) # error. 자식 클래스에 메소드가 있어도, 내가 없으면 실행못함.
+#print(car.drive()) # error. 자식 클래스에 메소드가 있어도, 내가 없으면 실행못함.
 ```
  
