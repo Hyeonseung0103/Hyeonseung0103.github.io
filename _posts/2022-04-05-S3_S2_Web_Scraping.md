@@ -183,6 +183,12 @@ for e in soup.find_all(class_ = 'ronaldo'):
 e5 = soup.find_all(string =lambda text: 'raining' in text.lower()) # 대소문자 실수가 있어도 정보를 잘 가져올 수 있게끔 소문자화
 e5 = soup.find_all('h3', string =lambda text: 'raining' in text.lower()) #위에처럼 하면 요소가 아닌 string이 리턴된다. 따라서 요소로 리턴을 받으려면 태그를 추가해줘야한다.
 
+#근데 불러오는 텍스트가 딱히 정확하지 않아서 그냥 전체 불러오고 걸러내는게 나을 것 같다.
+e5 = soup.find_all()
+for data in e5:
+  if 'raining' in data.get_text().lower():
+    print(data.get_text())
+
 # 공백 제거
 soup.find('p', class_ = 'messi').text.strip()
 ```
@@ -201,5 +207,9 @@ son = soup.find_all(class_ = 'fifa4 comment')
 for i in range(10):
     print(f'{i}번째 리뷰', end = ': ')
     print(son[i].get_text())
-```
 
+# 'ㅋ'을 포함한 댓글만
+for i in son:
+    if 'ㅋ' in i.get_text().lower():
+        print(i.get_text())
+```
