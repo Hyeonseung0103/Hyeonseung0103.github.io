@@ -33,7 +33,7 @@ HTNL에는 다양한 요소(element)들이 존재(ex) head, body, div, li 등)�
 <br>
 
 ### CSS(Cascading Style Sheets)
-CSS는 HTML이 표현한 문서가 어떻게 표현 되는지 알려주는 언어이다. HTML은 웹이 어떻게 구성되는지 틀을 짜고, CSS는 어떻게 표현이 되는지 살을 붙인다. 또, Java Script는 붙여진 살이
+CSS는 HTML이 구성한 문서가 어떻게 표현 되는지 알려주는 언어이다. HTML은 웹이 어떻게 구성되는지 틀을 짜고, CSS는 어떻게 표현이 되는지 살을 붙인다. 또, Java Script는 붙여진 살이
 동작하도록 기능을 추가한다. HTML에서도 스타일을 적용할 수 있지만, 코드가 길어지면 가독성이 좋지 않기 때문에 보통 HTML과 CSS는 분리해서 사용한다.
 
 - CSS Selector
