@@ -334,7 +334,8 @@ summary(acci_num_glm)
 accident_list$pred <- acci_num_glm$fitted.values
 unique(acci_num_glm$fitted.values) # 12개의 영향도
 ```
-![image](https://user-images.githubusercontent.com/97672187/162563171-56f4fd4e-0688-4cc5-948e-790e2247842b.png){: .align-center}
+
+![image](https://user-images.githubusercontent.com/97672187/162564231-57057853-95b6-4be5-b306-880b19e049cc.png){: .align-center}
 
 <br>
 
@@ -353,7 +354,7 @@ accident_list$pred_jungsang <- serious_acci_num_glm$fitted.values
 unique(serious_acci_num_glm$fitted.values)
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/162563476-06969bbf-1f9d-4125-bf5d-3b832b42ffe6.png){: .align-center}
+![image](https://user-images.githubusercontent.com/97672187/162564250-17fc21cd-e4a0-4009-8f65-4590f9112b59.png){: .align-center}
 
 
 <br>
@@ -373,7 +374,7 @@ dim(accident_list)
 accident_list %>% head(3)
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/162563580-cd872bc3-0a7d-4ed7-ad95-80700a7e0634.png){: .align-center}
+![image](https://user-images.githubusercontent.com/97672187/162564272-4e10ecf0-3ff0-48fc-ba4f-dad90553e191.png){: .align-center}
 
 <br>
 
