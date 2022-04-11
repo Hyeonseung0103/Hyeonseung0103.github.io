@@ -27,7 +27,7 @@ dim(acci_count_filter25)
 acci_count_filter25 %>% head(1)
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/162734937-d39a35b7-ab38-4835-b125-b6e2aba8da45.png){: .align-center}{: width="100%" height="100%"}
+![image](https://user-images.githubusercontent.com/97672187/162734937-d39a35b7-ab38-4835-b125-b6e2aba8da45.png){: .align-center}
 
 ```R
 names(acci_count_filter25)
@@ -842,3 +842,6 @@ paste("AIC:",round(AIC(mod1),2))
 
 
 <br>
+
+OLS와 GLM의 포아송 회귀는 비교적 간단한 모델이라 더 복잡한 모델을 사용하면 두 모델에 비해 더 좋은 성능을 낼 수 있을 것이다. 따라서, 다음 포스팅에서는
+지리적 가중 회귀(GWR) 모델과 지리적 가중 포아송 회귀(GWPR) 모델을 사용해서 특정 공간(프로젝트에서 격자를 의미)을 위한 모델링에 더 적합한 모델을 사용해보자.
