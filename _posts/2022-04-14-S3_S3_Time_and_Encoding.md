@@ -74,7 +74,7 @@ APScheduler는 다른 어플리케이션과 연동되지 않고 독자적으로 
 주기능일 것이기 때문이다. 이런 경우에는 BlockingScheduler를 사용할 수 있다.
 
 만약 스케줄러가 다른 어플리케이션과 연동이 되어 사용된다면 다른 어플리케이션을 실행시키기 위한 부가적인 기능이 된다. 스케줄링이 포함된 프로그램 내에서
-어떠한 주기능을 수행하는 것이 아니라 다른 어플리케이션을 실행시키기 위한 스케줄러가 되는 것이다. 럴 때 사용하는 것이 BackgroundScheduler, GeventScheduler, AtScheduler 등등 이 있다.
+어떠한 주기능을 수행하는 것이 아니라 다른 어플리케이션을 실행시키기 위한 스케줄러가 되는 것이다. 이럴 때 사용하는 것이 BackgroundScheduler, GeventScheduler, AtScheduler 등등 이 있다.
 
 이처럼 다양한 스케줄러가 있지만 이번에는 BlockingScheduler로 간단하게 예시를 들어보자.
 
