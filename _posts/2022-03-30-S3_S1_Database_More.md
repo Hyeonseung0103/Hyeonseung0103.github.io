@@ -13,9 +13,11 @@ toc_sticky: true
 보통 데이터베이스의 상태를 변화시키는 INSERT, DELETE, UPDATE 중 한 개 이상과 같이 사용된다.
 
 - Commit
+
 트랜잭션을 실행한 뒤 모든 트랜잭션이 성공적으로 완료됐다는 확정 신호를 보내지 않는다면 데이터베이스의 상태는 변하지 않는다. 이 확정신호를 Commit이라고 한다.
 
 - Rollback
+
 트랜잭션을 실행한 뒤 Commit을 하기 전에 앞으로 변경될 작업에 대한 내용을 취소할 수 있다. 이것을 Rollback이라고 하고, Rollback을 쓰면 Rollback 전에 수행된 모든 Transaction이
 취소된다.
 
@@ -97,7 +99,7 @@ SELECT문이 젤 위에 있다고 먼저 실행되는 것이 아니다. 쿼리�
 
 5) GROUP BY
 
-6) CUBE | ROLLUP
+6) CUBE , ROLLUP
 
 7) HAVING
 
