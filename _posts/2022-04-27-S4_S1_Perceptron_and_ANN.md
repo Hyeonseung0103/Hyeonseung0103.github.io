@@ -1,5 +1,5 @@
 ---
-layout:single
+layout: single
 title: "Note 411 퍼셉트론(Perceptron)과 인공신경망(ANN)"
 toc: true
 toc_sticky: true
