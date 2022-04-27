@@ -58,7 +58,7 @@ ReLU 함수는 양의 값이 입력되면 그 값을 그대로 출력하고, 음
 
 이미지출처: https://www.v7labs.com/blog/neural-networks-activation-functions
 
-</br>
+<br>
 
 ![image](https://user-images.githubusercontent.com/97672187/165422533-31d70af8-550d-4661-ba1b-1ed8352276b4.png){: .align-center}
 
@@ -89,17 +89,26 @@ XOR GATE는 AND, NAND, OR 게이트를 서로 조합해서 표현할 수 있다.
 
 ![image](https://user-images.githubusercontent.com/97672187/165428282-2fc75566-7153-42d4-aec8-fe217c556df0.png){: .align-center}
 
-</br>
+<br>
+
+
+<br>
 
 ![image](https://user-images.githubusercontent.com/97672187/165428351-89391e12-a400-48e9-a558-4725e9d80f5e.png){: .align-center}
 
-</br>
+<br>
+
+
+<br>
 
 ![image](https://user-images.githubusercontent.com/97672187/165428397-3082e4c0-1135-4209-9206-e48fb92b2ed1.png){: .align-center}
 
-</br>
+<br>
 
-![image](https://user-images.githubusercontent.com/97672187/165428420-9748346f-0907-4395-b097-bb5287613bbd.png)
+
+<br>
+
+![image](https://user-images.githubusercontent.com/97672187/165428420-9748346f-0907-4395-b097-bb5287613bbd.png){: .align-center}
 
 이미지출처: https://velog.io/@citizenyves/Perceptron-%EB%8B%A4%EC%B8%B5-%ED%8D%BC%EC%85%89%ED%8A%B8%EB%A1%A0-XOR-%EA%B2%8C%EC%9D%B4%ED%8A%B8python-%EA%B5%AC%ED%98%84
 
