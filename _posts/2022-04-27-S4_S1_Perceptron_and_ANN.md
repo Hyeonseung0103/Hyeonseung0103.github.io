@@ -3,7 +3,7 @@ layout: single
 title: "Note 411 퍼셉트론(Perceptron)과 인공신경망(ANN)"
 toc: true
 toc_sticky: true
-category: Section4"
+category: Section4
 ---
 
 이번 섹션에서는 해석하긴 어렵지만 머신러닝보다 더 좋은 성능을 낼 수 있는 딥러닝에 대해 배울 것이다. 특히 이번 포스팅에서는 딥러닝을 배우기 위한 기본개념인 퍼센트론, 인공신경망, 활성화
