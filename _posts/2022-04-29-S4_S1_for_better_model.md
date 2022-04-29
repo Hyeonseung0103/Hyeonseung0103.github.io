@@ -71,6 +71,11 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=lr_decayed_fn)
 
 ![image](https://user-images.githubusercontent.com/97672187/165870133-9a140cc3-e35b-4220-a3c8-b642cec3bd69.png){: .align-center}
 
+표준편차가 0.01이라면 밑에 그래프처럼 0.5 정도에 활성화 값이 몰려있다. 표준편차가 1이든 0.01이든 활성화 값이 고르지 않다는 것을 알 수 있다. 이를 표현력의 문제라고 한다.
+
+![image](https://user-images.githubusercontent.com/97672187/165903300-dec253f7-da92-4575-bd82-026503c25242.png){: .align-center}
+
+
 2) Xavier 초기화를 사용했을 때
 
 사비에르 초기화를 사용하면 가중치를 초기화할 때 표준편차가 일정해서 발생하는 문제점을 해소할 수 있다. Xavier 초기화는 이전 층의 노드가 n개 일 때, 현재 층의 가중치를 표준편차가
