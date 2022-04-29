@@ -36,8 +36,9 @@ model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001, beta_1 = 0.89),
 이미지출처: https://hwk0702.github.io/ml/dl/deep%20learning/2020/08/28/learning_rate_scheduling/
 
 ```python
-initial_learning_rate = 0.01 #매 주기의 최초 학습률
-first_decay_steps = 1000 # 학습률 감소의 주기. 1000 step마다 학습률 갑소
+#주기는 에포크, step은 iteration
+initial_learning_rate = 0.01 #에포크 1일 때의 최초 학습률
+first_decay_steps = 1000 # 최초 학습률 감소의 주기. 최초 주기에서, 1000 step에서 학습률 감소시작?
 t_mul = 2.0 #주기 T를 늘려갈 비율 (첫 주기가 100step 이면 다음은 200step, 400step...)
 m_mul = 1.0 # 최초 학습률로 설정한 값에 매 주기마다 곱해줄 값
 #(0.9라고 학면 매 주기 시작마다 initial_learning_rate에 0.9 * 주기 순서 를 곱한 값을 주기 시작 학습률로 사용.
