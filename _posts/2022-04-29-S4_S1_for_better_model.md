@@ -36,13 +36,15 @@ model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001, beta_1 = 0.89),
 이미지출처: https://hwk0702.github.io/ml/dl/deep%20learning/2020/08/28/learning_rate_scheduling/
 
 ```python
-#주기는 에포크, step은 iteration
-initial_learning_rate = 0.01 #에포크 1일 때의 최초 학습률
-first_decay_steps = 1000 # 최초 학습률 감소의 주기. 최초 주기에서, 1000 step에서 학습률 감소시작?
-t_mul = 2.0 #주기 T를 늘려갈 비율 (첫 주기가 100step 이면 다음은 200step, 400step...)
+#한 주기는 학습률이 감소되는 지점. 학습률이 계속 감소되고 있으면 아직 주기가 끝나지 않은 것. 
+#만약 학습률이 감소되었다가 다시 올라가기 시작할 때가 새로운 주기 시작
+#step은 에포크
+initial_learning_rate = 0.01 #에포크 1에서의 최초 학습률
+first_decay_steps = 10 # 학습률 감소의 주기. 10 에포크마다 학습률 감소
+t_mul = 2.0 #주기 T를 늘려갈 비율 (첫 주기가 100step 이면 다음은 200step, 400step...) 이 비율마다 학습률 감소
 m_mul = 1.0 # 최초 학습률로 설정한 값에 매 주기마다 곱해줄 값
 #(0.9라고 학면 매 주기 시작마다 initial_learning_rate에 0.9 * 주기 순서 를 곱한 값을 주기 시작 학습률로 사용.
-alpha = 0.0 # 학습률의 하한을 설정. 학습률의 감소 하한은 initial_learning_rate * alpha. 최대 이만큼 까지 감소할 것이다?
+alpha = 0.0 # 학습률의 하한을 설정. 학습률의 감소 하한은 initial_learning_rate * alpha. 최대 이만큼 까지만 감소한다.
 
 lr_decayed_fn = (
   tf.keras.experimental.CosineDecayRestarts(
@@ -55,6 +57,10 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=lr_decayed_fn)
              , loss='sparse_categorical_crossentropy'
              , metrics=['accuracy'])
 ```
+
+![image](https://user-images.githubusercontent.com/97672187/165909985-96dcfebc-2131-4ae8-8b0c-bc60a093d141.png){: .align-center}
+
+이미지출처: https://lcyking.tistory.com/87
 
 ### 가중치 초기화(Weight Initialization)
 초기에 가중치를 어떻게 설정하느냐에 따라 신경망의 성능이 크게 달라질 수 있다. 가중치 초기화는 경사하강법에서 어디서부터 출발할지 시작점을 결정하는 것.
