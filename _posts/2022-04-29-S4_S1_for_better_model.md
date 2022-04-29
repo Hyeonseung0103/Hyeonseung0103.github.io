@@ -132,11 +132,15 @@ Xavier 초기화는 시그모이드 함수를 사용한 신경망에서는 잘 �
 보통 특성이 많은데 그 중 일부분만 중요하면 라쏘, 전체적으로 중요도가 비슷하면 릿지를 사용한다.
 
 ```python
-# 순서 상관없고 kernel에 l1, activity에 l2 써도됨
 Dense(64,
       kernel_regularizer=regularizers.l2(0.02),
       activity_regularizer=regularizers.l1(0.01))
 ```
+
+kernel_regularzier는 레이어의 가중치에 패널티를 적용 -> 가중치에 패널티를 적용하는 것이니까 제곱을 사용하여 큰 가중치에 더 큰 패널티를 주고, 작은 가중치에 적은 패널티를 주는
+즉, 가중치마다 패널티를 달리 주는 L2를 주로 사용한다.
+
+activity_regularizer는 레이어의 출력에 패널티를 적용 -> 출력된 값에 패널티를 적용하는 것이니까 절대값으로 가중치를 모두 동일하게 낮춰주는 L1을 주로 사용한다.
 
 2) Dropout(드롭아웃)
 
@@ -191,5 +195,58 @@ model.fit(X_train, y_train, batch_size=32, epochs=30, verbose=1,
 
 메모리에 위치해있지 않다면(즉, 프로그램을 종료했다가 다시 새로 시작한 상태) load_model 함수를 사용해 best 모델을 불러온 후 성능을 테스트 한다.
 
+### 신경망 모델 만들기
+베이스 모델에 은닉층을 2개 추가하고, 출력층에서는 100개의 클래스를 분류하기 위해서 활성화 함수로는 softmax를 사용한다. cifar100 데이터를 사용한다.
+타겟이 정수 라벨링이 되어있어서 손실함수는 sparse_categorical_entropy를 사용하고 성능은 정확도로 평가한다.
+
+```python
+import keras
+import tensorflow as tf
+import numpy as np
+from tensorflow.keras.datasets import cifar100
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Flatten, Dropout
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras import regularizers
+
+# 신경망을 여러번 돌려도 같은 결과가 나오도록 seed 고정
+random.seed(1)
+np.random.seed(1)
+tf.random.set_seed(1)
+
+# 데이터 불러오기
+(X_train, y_train), (X_test, y_test) = cifar100.load_data()
+
+# 픽셀이 0~255까지 표현된 픽셀값을 0과 1 사이로 정규화
+# 정규화를 시켜야 더 빠르고, 손실을 최소화 하여 학습할 수 있다.
+X_train, X_test = X_train / 255, X_test / 255 # 255로 나눠주어서 0과 1 사이로 전처리
+
+# 변수 설정을 따로 하는 방법을 적용하기 위한 코드입니다. 
+batch_size = 100
+epochs_max = 20
+
+# model
+model = Sequential()
+model.add(Flatten(input_shape= (32,32,3))) # 고차원 데이터를 1차원으로 변형. 입력층
+model.add(Dense(128, activation='relu', 
+                kernel_regularizer=regularizers.l2(0.00001),   
+                activity_regularizer=regularizers.l1(0.00001))) # 은닉층1. 과적합 방지위해 L1, L2 정규화 적용               
+model.add(Dense(128, activation='relu')) # 은닉층2
+Dropout(0.1) # 128개의 노드 중 10%를 버리고 학습. 과적합 방지.
+model.add(Dense(100, activation='softmax')) # 출력층
+
+# 컴파일 단계, 옵티마이저와 손실함수, 측정지표를 연결해서 계산 그래프를 구성함
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+early_stop = keras.callbacks.EarlyStopping(monitor = 'val_loss', patience = 5, verbose = 1) # 5회이상 검증데이터의 성능개선없으면 조기 종료
+
+# Validation Set을 기준으로 가장 최적의 모델을 찾기
+save_best = keras.callbacks.ModelCheckpoint(filepath = checkpoint_filepath,monitor = 'val_loss', verbose = 1, 
+                                            save_best_only = True, save_weights_only=True, mode ='auto', save_freq = 'epoch', options = None)
+
+results = model.fit(X_train, y_train, batch_size = batch_size, epochs = epochs_max, validation_data=(X_test,y_test), 
+                    callbacks=[early_stop, save_best], verbose = 1)
+                    
+```
 
 
