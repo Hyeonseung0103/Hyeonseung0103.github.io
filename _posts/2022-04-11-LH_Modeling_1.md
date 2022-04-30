@@ -843,5 +843,36 @@ paste("AIC:",round(AIC(mod1),2))
 
 <br>
 
-OLS와 GLM의 포아송 회귀는 비교적 간단한 모델이라 더 복잡한 모델을 사용하면 두 모델에 비해 더 좋은 성능을 낼 수 있을 것이다. 따라서, 다음 포스팅에서는
+### OLS와 포아송 회귀 성능 비교(AIC)
+
+1) 사고유형별 연령대별 OLS 결과 AIC
+
+![image](https://user-images.githubusercontent.com/97672187/166101059-afffb36d-79b4-4abf-bd1b-a8e4b6c7d4c0.png){: .align-center}
+
+![image](https://user-images.githubusercontent.com/97672187/166101155-870889b3-a74c-41c2-bc49-3349793f824f.png){: .align-center}
+
+<br>
+
+<br>
+
+2) 사고유형별 연령대별 포아송 회귀 결과 AIC
+
+![image](https://user-images.githubusercontent.com/97672187/166101194-79ac232c-6e62-4ab6-b811-51d1855466fc.png){: .align-center}
+
+<br>
+
+<br>
+
+3) OLS와 포아송 회귀 성능 비교 그래프
+
+![image](https://user-images.githubusercontent.com/97672187/166101019-f2e5131b-2455-44f3-905c-749b290a204b.png){: .align-center}
+
+
+<br>
+
+<br>
+
+포아송 회귀의 AIC가 OLS의 AIC보다 전반적으로 모두 낮기 때문에 두 모델 중 포아송 회귀가 더 적합한 모델이라고 할 수 있다.
+
+하지만, OLS와 GLM의 포아송 회귀는 비교적 간단한 모델이라 더 복잡한 모델을 사용하면 두 모델에 비해 더 좋은 성능을 낼 수 있을 것이다. 따라서, 다음 포스팅에서는
 지리적 가중 회귀(GWR) 모델과 지리적 가중 포아송 회귀(GWPR) 모델을 사용해서 특정 공간(프로젝트에서 격자를 의미)을 위한 모델링에 더 적합한 모델을 사용해보자.
