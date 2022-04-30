@@ -36,14 +36,15 @@ model.compile(optimizer=tf.keras.optimizers.Adam(lr=0.001, beta_1 = 0.89),
 이미지출처: https://hwk0702.github.io/ml/dl/deep%20learning/2020/08/28/learning_rate_scheduling/
 
 ```python
-#한 주기는 학습률이 감소되는 지점. 학습률이 계속 감소되고 있으면 아직 주기가 끝나지 않은 것. 
+#한 주기는 웜업으로 학습률이 올라갔다가 최저까지 감소되는 지점의 길이. 학습률이 계속 감소되고 있으면 아직 주기가 끝나지 않은 것. 
 #만약 학습률이 감소되었다가 다시 올라가기 시작할 때가 새로운 주기 시작
 #step은 에포크
-initial_learning_rate = 0.01 #에포크 1에서의 최초 학습률
-first_decay_steps = 10 # 학습률 감소의 주기. 10 에포크마다 학습률 감소
-t_mul = 2.0 #주기 T를 늘려갈 비율 (첫 주기가 100step 이면 다음은 200step, 400step...) 이 비율마다 학습률 감소
+initial_learning_rate = 0.1 #에포크 1에서의 최초 학습률
+first_decay_steps = 10 # 최초 decay step 수. ex) 최초에는 웜업한후 10 epochs까지 학습률 감소 시킨다.
+#그 이후로 다시 웜업 -> 학습률 감소 -> 주기 끝 -> 웜업 -> 감소 -> 주기끝을 반복
+t_mul = 2.0 #주기 T를 늘려갈 비율 (첫 주기가 10step 이면 다음은 20step, 40step...) 이 비율마다 학습률 감소
 m_mul = 1.0 # 최초 학습률로 설정한 값에 매 주기마다 곱해줄 값
-#(0.9라고 학면 매 주기 시작마다 initial_learning_rate에 0.9 * 주기 순서 를 곱한 값을 주기 시작 학습률로 사용.
+#(0.9라고 학면 매 주기 시작마다 initial_learning_rate에 0.9 ^주기 순서 를 곱한 값을 주기 시작 학습률로 사용.
 alpha = 0.0 # 학습률의 하한을 설정. 학습률의 감소 하한은 initial_learning_rate * alpha. 최대 이만큼 까지만 감소한다.
 
 lr_decayed_fn = (
@@ -57,6 +58,9 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=lr_decayed_fn)
              , loss='sparse_categorical_crossentropy'
              , metrics=['accuracy'])
 ```
+
+밑의 그래프를 보면 first_decay_step이 10이여서 초기에 10 epochs 까지 학습률을 감소시키고 , t_mul이 2여서 step이 20, 40, 80 으로 늘어난 것을 확인할 수 있다.
+주기는 학습률이 올라갔다가 최저까지 감소되는 지점의 길이인데 학습률 최저점들 사이의 길이라고도 표현할 수 있다.
 
 ![image](https://user-images.githubusercontent.com/97672187/165909985-96dcfebc-2131-4ae8-8b0c-bc60a093d141.png){: .align-center}
 
@@ -72,9 +76,9 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=lr_decayed_fn)
 
 1) 표준편차가 1인 정규분포로 가중치를 초기화 할 때
 
-밑의 그래프는 **노드의 수와 상관없이** 표준편차가 1인 일정한 정규분포로 가중치를 초기화 해주고, 활성화 함수는 시그모이드를 사용한 활성화 값을 나타낸 그래프입니다.
+밑의 그래프는 **노드의 수와 상관없이** 표준편차가 1로 일정한 정규분포로 가중치를 초기화 해주고, 활성화 함수는 시그모이드를 사용한 활성화 값을 나타낸 그래프이다.
 대부분의 출력값이 0과 1에 몰려있는 것을 볼 수 있는데 시그모이드 함수에서 활성화 값이 0과 1 이라는 것은 미분값이 0에 가깝다고 할 수 있기 때문에
-기울기 소실(Gradient Vanishing) 문제가 발생할 수 있습니다. 또한, 활성화 값이 고르지 않을때 학습이 제대로 이루어지지 않기 때문에 간단하지만 잘 사용되지 않는다.
+기울기 소실(Gradient Vanishing) 문제가 발생할 수 있다. 활성화 값이 고르지 않을때 학습이 제대로 이루어지지 않기 때문에 간단하지만 잘 사용되지 않는다.
 
 ![image](https://user-images.githubusercontent.com/97672187/165870133-9a140cc3-e35b-4220-a3c8-b642cec3bd69.png){: .align-center}
 
@@ -121,7 +125,7 @@ Xavier 초기화는 시그모이드 함수를 사용한 신경망에서는 잘 �
 1) Weight Decay(가중치 감소)
 
 가중치 값이 크면 과적합이 발생할 수 있다. 가중치 감소는 가중치가 너무 커지지 않도록 규제를 주는 것이다. Ridge 회귀(Note231)을 보면 알 수 있듯이 이 규제는 오차항과 관련이 있다.
-즉, 손실 함수에 가중치와 관련된 항을 추가하는 것이다. 조건을 어떻게 적용할 지에 따라 L1(Lasso), L2(Ridge) Regulization 으로 나뉜다. 이 둘의 목적은 손실 함수가 최소화 되는
+즉, 손실 함수에 가중치와 관련된 항을 추가하는 것이다. 조건을 어떻게 적용할 지에 따라 L1(Lasso), L2(Ridge) Regularization 으로 나뉜다. 이 둘의 목적은 손실 함수가 최소화 되는
 가중치와 편향을 찾는 동시에 가중치에 관한 항(L1 or L2)의 합이 최소화 시키는 것이다. 즉, 가중치의 모든 원소가 0이 되거나 0에 가깝게 되는 것.
 
 ![image](https://user-images.githubusercontent.com/97672187/165872391-c40bbadb-c0c2-40a6-b005-5851d66a8a4d.png){: .align-center}
