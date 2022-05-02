@@ -48,7 +48,7 @@ person_over60 <- read.csv("person_over60.csv", row.names = 1)
 ## Modeling Part.2(by using R)
 
 ### 3. GWR(Geographically Weighted Regression, 지리적 가중회귀) 모델링
-#### 1) 차 대 사람 사고에 대힌 지리적 가중회귀 모델링
+#### 1) 차 대 사람 사고에 대한 지리적 가중회귀 모델링
 
 차대사람_60대 group에 대한 지리적 가중 회귀 모델 결과(종속변수가 정규 분포를 따르는 모델)
 
@@ -254,7 +254,7 @@ model2
 
 <br>
 
-#### 2) 차 대 차 사고에 대힌 지리적 가중회귀 모델링
+#### 2) 차 대 차 사고에 대한 지리적 가중회귀 모델링
 
 차대차_60대 group에 대한 지리적 가중 회귀 모델 결과(종속변수가 정규분포 따르는 모델)
 
