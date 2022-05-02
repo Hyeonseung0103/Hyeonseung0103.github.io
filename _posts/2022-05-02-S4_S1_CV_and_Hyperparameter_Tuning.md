@@ -30,7 +30,7 @@ def create_model():
   model.add(Dense(100, input_dim = 8, activation = 'relu'))
   model.add(Dense(1, activation = 'sigmoid'))
   
-  model.compile(loss='binary_crossentropy', optimizer = 'adam', metrics=['acc']
+  model.compile(loss='binary_crossentropy', optimizer = 'adam', metrics=['acc'])
   return model
 ```
 
@@ -136,6 +136,6 @@ model.summary()
 ```
 
 ```python
-model.fit(X_train,y_train, epochs = 10, validation_data = (X_val, y_val)
+model.fit(X_train,y_train, epochs = 10, validation_data = (X_val, y_val))
 ```
 
