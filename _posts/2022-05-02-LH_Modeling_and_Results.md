@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Modeling Part.4"
+title: "Modeling의 결과인 잔차분석을 통한 최종 위험지역 100개소 도출"
 toc: true
 toc_sticky: true
 category: LH
