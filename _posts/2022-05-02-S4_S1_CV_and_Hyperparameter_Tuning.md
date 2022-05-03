@@ -139,3 +139,85 @@ model.summary()
 model.fit(X_train,y_train, epochs = 10, validation_data = (X_val, y_val))
 ```
 
+### Randomized Search CV
+Randomized Search CV는 주어진 조합 내에서 랜덤으로 조합을 찾아서 하이퍼 파라미터를 튜닝시키는 방법이다. 모든 조합을 보지 않기 때문에 Grid Search CV보다는 빠르면서,
+어느 정도의 성능을 내는 튜닝을 할 수 있다는 장점이 있다. 따라서, Grid Search CV비해 넓은 범위의 탐색도 적은 시간으로 가능하다.
+
+1) 모델 만들기(기본값 정의)
+
+```python
+def make_model_rscv(units = 64, batch_size = 64, activation = 'relu', dropout_rate = '0.3', C = 0.01, optimizer = 'adam'):
+  model = Sequential()
+  model.add(Dense(units, activation = activation))
+  model.add(Dense(256, activation = 'relu'))
+  model.add(Dropout(dropout_rate))
+  model.add(Dense(512, activation = 'relu',
+            kernel_regularizer = regularizers.l2(C),
+            activity_regularizer = regularizers.l1(C)))
+  model.add(Dense(1, activation = 'sigmoid'))
+
+  model.compile(optimizer = optimizer, loss = 'binary_crossentropy', metrics = ['acc'])
+  return model
+```
+
+2) 하이퍼파라미터 범위 지정
+
+```python
+from sklearn.model_selection import RandomizedSearchCV
+
+tf.random.set_seed(42)
+units = np.arange(32,512,32)
+batch_size = [32,64,128,256,512]
+epochs = [5,10,20,30,50]
+activation = ['relu', 'sigmoid']
+optimizer = ['adam', 'adagrad', 'rmsprop']
+dropout_rate = [0.2,0.3,0.4,0.5]
+C = [0.01,0.1,1]
+
+param_grid = dict(batch_size = batch_size, units = units, activation = activation, optimizer = optimizer, dropout_rate = dropout_rate, C = C, epochs = epochs)
+
+model_rscv = KerasClassifier(build_fn=make_model_rscv, verbose=0)
+```
+
+3) Randomized Search CV
+
+```python
+rscv = RandomizedSearchCV(
+    estimator=model_rscv,
+    param_distributions=param_grid,
+    n_iter=20,
+    cv=3,
+    scoring='accuracy',
+    verbose=3,
+    n_jobs=1,
+    random_state=12)
+
+rscv_result = rscv.fit(X_train_scaled, y_train)
+```
+
+4) 결과출력
+
+```python
+rs = pd.DataFrame(rscv_result.cv_results_).sort_values(by='rank_test_score').head()
+rs.T
+```
+
+5) best 파라미터로 재학습
+
+```python
+print(f"Best: {rscv_result.best_score_} using {rscv_result.best_params_}")
+
+units = rscv_result.best_params_.get('units')
+optimizer = rscv_result.best_params_.get('optimizer')
+dropout_rate = rscv_result.best_params_.get('dropout_rate')
+batch_size = rscv_result.best_params_.get('batch_size')
+activation = rscv_result.best_params_.get('activation')
+C = rscv_result.best_params_.get('C')
+epochs = rscv_result.best_params_.get('epochs')
+best_model = make_model_rscv(units = units, batch_size = batch_size, activation = activation, dropout_rate = dropout_rate, C = C, optimizer = optimizer)
+
+tf.random.set_seed(42)
+best_model.fit(X_train_scaled, y_train, epochs = epochs)
+```
+
+보통 Randomized Search CV로 어느 정도 하이퍼 파라미터의 범위를 잡고, Grid Search CV로 세부적으로 튜닝하는 방법을 사용한다.
