@@ -268,6 +268,8 @@ tokenizer.fit_on_texts(sentences)
 ```
 
 ```python
+#tokenizer의 word_index는 0번부터 index를 메겨서
+#이를 1번부터의 단어가 매핑되어야 하니까 +1 해줌.
 vocab_size = len(tokenizer.word_index) + 1
 print(vocab_size) # 19999
 ```
@@ -337,6 +339,10 @@ for word, i in tokenizer.word_index.items():
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Embedding, Flatten
 ```
+
+이미 존재하는 임베딩 벡터가 있을 경우 Embedding에서 weigths 하이퍼파라미터를 사용.
+
+만약 기본으로 제공되는 임베딩을 사용하려면 그냥 embedding 차원을 입력하면 됨. weights 필요X
 
 ```python
 model = Sequential()
