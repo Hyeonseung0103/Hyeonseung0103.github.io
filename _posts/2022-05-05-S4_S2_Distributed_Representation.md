@@ -23,7 +23,7 @@ Embedding을 사용하면 이 문제를 해결할 수 있다. 임베딩은 단�
 1로만 표현되어 유사도를 계산할 수 없고, 차원이 단어의 갯수만큼 늘어나는 문제를 해결한다. Word2Vec은 가장 널리 사용되는 임베딩 방법 중 하나이다.
 
 ### Word2Vec
-Word2Vec은 단어를 벡터로(Word to Vector) 나타내는 방법이다. 특정 단어 양 옆에 이는 단어(window size)의 관계를 활용해서 분포가설이 잘 반영되어 있다.
+Word2Vec은 단어를 벡터로(Word to Vector) 나타내는 방법이다. 특정 단어 양 옆에 있는 단어(window size)의 관계를 활용해서 분포가설이 잘 반영되어 있다.
 Word2Vec에는 CBoW와 Skip-gram이라는 2가지 방법이 있다.
 
 #### 1) CBow vs Skip-gram
@@ -119,9 +119,9 @@ wv = api.load('word2vec-google-news-300')
 #wv = KeyedVectors.load("word2vec-google-news-300.bin")
 
 #구글 드라이브에서 불러오기
-from google.colab import drive
-drive.mount('/content/drive')
-wv = KeyedVectors.load('/content/drive/MyDrive/AI_camp_data/Section4/Sprint2/word2vec-google-news-300.bin')
+#from google.colab import drive
+#drive.mount('/content/drive')
+#wv = KeyedVectors.load('/content/drive/MyDrive/AI_camp_data/Section4/Sprint2/word2vec-google-news-300.bin')
 ```
 
 ```python
@@ -274,7 +274,7 @@ print(vocab_size) # 19999
 - Padding
 
 padding은 모든 벡터의 차원을 동일하게 맞춰주는 것으로, 모든 문장의 길이가 같아져서 컴퓨터가 이를 하나의 행렬로 보고 병렬 처리를 할 수 있다. 3단어로 이루어진 문장이 있다고 했을때
-만약 해당 문서에서 가장 긴 문장이 100단어로 이루어진 문장이라면 두 문장의 길이가 다르기 때문에 3단어의 문장에 97개의 일정한 수로 인코딩 함으로써(주로 0, zero padding) 길이를
+만약 해당 문서에서 가장 긴 문장이 100단어로 이루어진 문장이라면 두 문장의 길이가 다르기 때문에 3단어의 문장에 97개의 일정한 수를 안코딩함으로써(주로 0, zero padding) 길이를
 맞춰준다. 꼭 긴 문장의 길이만큼 패딩을 할 필요는 없지만, 만약 100개의 단어 길이에 50개로만 padding을 한다고 하면 50개 이후의 단어가 사라지기 때문에 적절한 패딩의 크기를 정해야한다. 주로 가장 긴 단어의 길이를 사용하거나 평균 단어 길이보다 조금 더 큰 값을 크기로 사용한다. 컴퓨터가 병렬처리를 할 때 패딩으로 표현한 수는 연산없이 바로 넘기기 때문에 차원이
 커졌다고 해서 계산량이 엄청 증가하는 것은 아니다.
 
@@ -374,10 +374,10 @@ model.evaluate(X_test, y_test)
 Word2Vec에서는 임베딩 벡터에 존재하지 않은 단어의 벡터를 찾으려고 하면 에러가 발생한다. 위의 예시에서는 'cameroon'과 같은 단어다.
 아무리 모든 단어를 다 수집하려고 노력해도 세상에 존재하는 모든 단어가 들어있는 말뭉치를 구하는 것은 불가능하다. 
 
-이렇게 말뭉치에 등장하지 않는 단어가 등장하는 **문제를 OOV(Out of Vocabulary)** 문제 라고 한다. 또한, Word2Vec은 적게 등장하는 단어에 대해서 학습이 적게 일어나기 때문에
+이렇게 말뭉치에 등장하지 않는 단어가 등장하는 문제를 **OOV(Out of Vocabulary)** 문제 라고 한다. 또한, Word2Vec은 적게 등장하는 단어에 대해서 학습이 적게 일어나기 때문에
 적절한 임베딩 벡터를 생성해내지 못한다는 단점이 존재한다.
 
-이 문제를 해결하기 위해 등장한 것이 철자 단위 임베딩Character level Embedding)이다. fastText는 철자 단위의 임베딩을 보조 정보로 사용해서 OOV의 문제를 해결했다. 즉,
+이 문제를 해결하기 위해 등장한 것이 철자 단위 임베딩(Character level Embedding)이다. fastText는 철자 단위의 임베딩을 보조 정보로 사용해서 OOV의 문제를 해결했다. 즉,
 철자 단위로 쪼개고, 단어의 의미를 파악해서 처음 보는단어도 임베딩 벡터로 표현할 수 있게 된다.
 
 - fastText가 철자 단위 임베딩을 적용하는 법: Chracter n-gram
@@ -397,7 +397,7 @@ fastText는 3 ~ 6개의 철자로 묶은 3~6 grams의 단위를 사용한다. �
 다른 단어가 있다면 다른 단어에 대해서도 다음과 같이 n-gram을 수행하고, fastText에서는 이렇게 얻어진 n-gram들의 임베딩 벡터를 모두 구하게 된다.
 경우의 수가 많지만, 알고리즘이 매우 효율적으로 구현되어 있어서 시간상으로 Word2Vec과 엄청난 차이가 나진 않는다.
 
-만약 playing이라는 단어가 기존의 말뭉치에 있었다면 skip-gram으로 학습한 임베딩 벡터에 위에서 얻은 22개의 n-gram들의 벡터를 더해 준다. 반대로, 존재하지 않은 단어라면
+만약 playing이라는 단어가 기존의 말뭉치에 있었다면 skip-gram으로 학습한 임베딩 벡터에 위에서 얻은 22개의 n-gram들의 벡터를 더해 준다. 반대로, 존재하지 않는 단어라면
 해당 단어는 이 22개의 n-gram들의 벡터로만 구성된다.
 
 ### gensim 패키지로 fastText 실습
@@ -462,11 +462,6 @@ print(ft['electronicsoccer'])
 print(ft.similarity("soccer", "electronicsoccer"))
 ```
 
-```python
-#비슷한 단어 3개
-print(ft.most_similar("electronicsoccer")[:3])
-```
-
 ![image](https://user-images.githubusercontent.com/97672187/166908378-bfee8255-db0f-4ae0-9fd3-54ac20a90a10.png){: .align-center}
 
 
@@ -491,14 +486,14 @@ print(ft.doesnt_match("soccer baseball player worker".split()))
 
 ### Negative Sampling
 Word2Vec에서는 역전파 과정에서 기준 단어나 문맥 단어와 전혀 상관 없는 단어의 임베딩 벡터값도 업데이트 된다. window size가 2라고 한다면, 중심 단어로부터 3단어가 떨어진 단어는
-주변 단어가 아니기 때문에 굳이 멀리있는 단어까지 꼭 임베딩 벡터값을 조정하지 않아도 되는데 만약 사전의 크기가 매우 크면 모든 단어의 임베딩 벡터를 조정하는 것은무거운 작업이 될 것이다. 이를 해결하기 위해 Negative Sampling은 임베딩 조절시에 전체 단어 집합이 아닌, 일부 단어집합만 조정한다. 기준 단어 주변에 등장한 문맥단어를 positive sample, 기준 단어 주변에
+주변 단어가 아니기 때문에 굳이 멀리있는 단어까지 꼭 임베딩 벡터값을 조정하지 않아도 되는데 만약 사전의 크기가 매우 크면 모든 단어의 임베딩 벡터를 조정하는 것은 무거운 작업이 될 것이다. 이를 해결하기 위해 Negative Sampling은 임베딩 조절시에 전체 단어 집합이 아닌, 일부 단어 집합만 조정한다. 기준 단어 주변에 등장한 문맥단어를 positive sample, 기준 단어 주변에
 등장하지 않은 단어를 negative sample로 나눌 수 있다. 
-Negative sampling은 기준단어와 관련이 없는 negative sample들은 굳이 다 업데이트 하는 것이 아니라 문맥 단어수의 + 20개를 빈도수가 높은 단어 순으로 뽑는다.
+Negative sampling은 기준단어와 관련이 없는 negative sample들을 굳이 다 업데이트 하는 것이 아니라 문맥 단어수의 + 20개를 빈도수가 높은 단어 순으로 뽑는다.
 
 예를 들면, "I like play soccer with my friends" 라는 문장이 있으면
 
 window size가 2이고, soccer 이라는 단어를 학습할 때 주변단어는 like, play, with, my이다. 이 4단어가 positive sample에 해당하고 negative sample은 이 friends, I와 같은 
-주변 단어가 아닌 단어들 중 문서에서 빈도수가 높은 단어를 20개를 추가한다고 한다. negative sample 중 20개의 단어만 벡터값을 업데이트 하기 때문에 역전파 과정에서 모든 단어의 임베딩 벡터를 업데이트 시켜서 발생할 수 있는 연산량을 훨씬 줄일 수 있다.
+주변 단어가 아닌 단어들 중 문서에서 빈도수가 높은 단어를 20개를 추가한다고 한다. negative sample 중 20개의 단어만 벡터값을 업데이트 하기 때문에 역전파 과정에서 모든 단어의 임베딩 벡터를 업데이트 시킴으로 발생할 수 있는 연산량을 훨씬 줄일 수 있다.
 
 
 
