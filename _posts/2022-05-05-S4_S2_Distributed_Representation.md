@@ -119,6 +119,7 @@ wv = api.load('word2vec-google-news-300')
 #wv = KeyedVectors.load("word2vec-google-news-300.bin")
 
 #구글 드라이브에서 불러오기
+#from gensim.models import KeyedVectors
 #from google.colab import drive
 #drive.mount('/content/drive')
 #wv = KeyedVectors.load('/content/drive/MyDrive/AI_camp_data/Section4/Sprint2/word2vec-google-news-300.bin')
