@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "분산 표현, Word2Vec, FastText"
+title: "note 422 분산 표현, Word2Vec, FastText"
 toc: true
 toc_sticky: true
 category: Section4
