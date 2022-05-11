@@ -5,7 +5,7 @@ toc: true
 toc_sticky: true
 ---
 
-RNN에서는 단어가 순서대로 들어오기 때문에 시퀸스가 길면 연산 시간이 길어진다는 단점이 있다. 단어를 time-step별로 처리하기 때문에 병렬처리를 하지 못하기 때문인데 트랜스포머(Transformer)는
+RNN에서는 단어가 순서대로 들어오기 때문에 시퀸스가 길면 연산 시간이 길어진다는 단점이 있다. 단어를 time-step별로 처리해서 병렬처리를 하지 못하기 때문인데 트랜스포머(Transformer)는
 모든 토큰을 동시에 입력받아 병렬 연산을 함으로써 이 문제를 해결한다. 트랜스포머는 NLP에서 나온 모델이지만, CV(Computer Vision)에서도 잘 사용되기도 하는 Mutlti modal model이다.
 
 ![image](https://user-images.githubusercontent.com/97672187/167523948-5f1751a7-7008-4f2b-808a-94f200cf790c.png){: .align-center}
@@ -31,8 +31,7 @@ Self-Attention은 위의 구조에서 Multi-Head Attetion부분에 해당한다.
 
 지난 포스팅에서(Note 423) Attention에는 질문을 하는 Query, 답을 하는 Key, 답들의 의미가 담겨져 있는 Value가 존재한다고 했다. Self-Attention에서도 역시 q,k,v가 존재하는데
 기존 Attention과의 차이는 이 q,k,v가 모두 가중치 벡터라는 점이다. q는 분석하고자 하는 단어에 대한 가중치 벡터, k는 각 단어가 쿼리에 해당하는 단어와 얼마나 연관있는지 비교하기
-위한 가중치 벡터, v는 각 단어의 의미를 나타내는 가중치 벡터이다. 기존의 Attention에는 Query가 디코더로부터 등장했지만, Transformer의 인코더에서의 q,k,v가 모두 인코더에서 등장한다.
-기존 Attention의 Query, Key, Vector와는 별개로 생각하자.
+위한 가중치 벡터, v는 각 단어의 의미를 나타내는 가중치 벡터이다. 기존의 Attention에는 Query가 디코더로부터 등장했지만, Transformer의 인코더에서는 q,k,v가 모두 인코더에서 등장한다. 기존 Attention의 Query, Key, Vector와는 별개로 생각하자.
 
 ![image](https://user-images.githubusercontent.com/97672187/167525285-ab215251-ca38-44be-8085-253fd0d19501.png){: .align-center}
 
@@ -42,14 +41,14 @@ Self-Attention의 과정을 위의 그림을 보며 설명해보자.
 
 1) 각 단어의 해당하는 input vector를 가중치 행렬인 $ W_{Q} $, $ W_{K} $, $ W_{V} $ 와 곱해서 3개의 q,k,v 벡터를 만든다.
 
-2) q와 v를 내적해서 특정 위치의 단어가 다른 단어와 얼마나 연관되어 있는지 점수를 계산한다.
+2) q와 k를 내적해서 특정 위치의 단어가 다른 단어와 얼마나 연관되어 있는지 점수를 계산한다.
 
 위에서는 질문인 q1가 주어졌을 때, 이 q1에 대해서 다른 단어들이 (k1,k2) 얼마나 연관되어 있는지 내적하여 계산한다.
 
 3) 계산된 점수를 key벡터의 차원 수에 루트를 씌워서 나눈 뒤 Softmax 함수를 취한다.
 
 차원 수에 루트를 씌워서 나눠준 이유는 scale을 차원이 클수록 socre값이 자체가 매우 커지고(내적은 곱하고 모든 원소를 합해서) 여기에 softmax를 취하면, 
-total sum이 크기 때문에 softmax를 지난 후의 확률값이 매우 작아져서 기울기 소실이 발생할 수 있기 때문이다. 따라서 q,v의 내적결과를 차원수의 제곱근으로 나눠줌으로써 scale을 조정한다.
+total sum이 크기 때문에 softmax를 지난 후의 확률값이 매우 작아져서 기울기 소실이 발생할 수 있기 때문이다. 따라서 q,k의 내적결과를 차원수의 제곱근으로 나눠줌으로써 scale을 조정한다.
 
 4) Key vector의 의미를 나타내는 Value vector에 softmax score를 곱해서 해당 단어에 대한 Self-Attention 출력값을 얻는다. 
 
@@ -65,7 +64,7 @@ total sum이 크기 때문에 softmax를 지난 후의 확률값이 매우 작�
 
 ### Layer Normalization & Skip Connection
 Add & Norm이라고 표현된 sub layer에서 출력된 벡터는 Layer Normalization과 Skip connection을 거치게 된다. Layer Normalization은 Batch normalization처럼 학습이 빠르고,
-잘 되로고 하기 위함이고 Skip connection(Residual connection)은 역전파 과정에서 정보가 소실되지 않도록 한다.
+잘 되도록 하기 위함이고 Skip connection(Residual connection)은 역전파 과정에서 정보가 소실되지 않도록 한다.
 
 ### Feed Forward Neural Network(FFNN)
 첫번째 sub-layer를 거친 벡터는 FFNN으로 들어가서 은닉층의 차원을 늘렸다가 다시 원래 차원으로 줄어들게 만드는 2층 신경망이다. 활성화 함수로는 ReLU를 사용하고, 차원을 늘리고
@@ -83,12 +82,12 @@ Add & Norm이라고 표현된 sub layer에서 출력된 벡터는 Layer Normaliz
 Masked Self-Attention은 디코더 블록에서 사용되는 Self-Attention이다. 즉, 입력된 문장의 관계를 파악하는 attention이다. 디코더는 왼쪽의 단어를 보고 오른쪽의 단어를 예측하게 되는데 타겟이 되는 왼쪽 단어 이후의 단어는
 모르는 상태로 예측해야한다. 따라서 이 타겟 단어 뒤에 위치한 단어는 Self-Attention(RNN 대신 사용되어 단어간의 관계를 파악하기 위한 attention)에 영향을 주지 않도록 마스킹(Masking)해야한다.
 
-![image](https://user-images.githubusercontent.com/97672187/167539993-37272701-7e43-4f0c-9717-02d3a1d1b5c8.png){: .align-center}
+![image](https://user-images.githubusercontent.com/97672187/167809303-8c04510c-630d-4299-bd6e-ea17fd484558.png){: .align-center}
 
 이미지출처: https://aimb.tistory.com/182
 
 위의 그림처럼 인코더에서의 Self-Attention은 문장의 주어진 단어들을 모두 활용하여 단어간의 연관정도를 파악하지만, Masked Self-Attention에서는 타겟 단어 뒤에 오는 단어는
-모른다고 가정하게 된다. Attention이기 때문에 디코더에도 여전히 Query, key, value가 존재하게 되는데 Masked Self-Attention 에서는 디코더의 self-attention 이기 때문에 q,k,v가
+모른다고 가정하게 된다. Attention이기 때문에 디코더에도 여전히 Query, key, value가 존재하게 되고, Masked Self-Attention 에서는 디코더의 self-attention 이라서 q,k,v가
 모두 디코더에서 등장한다. 타겟 단어를 중심으로 이루어지는 연관성 계산(q,k,v 사용)은 다음과 같다.
 
 1) 인코더의 Self-Attention처럼 q와 k를 내적해서 연관정도를 계산한다.
@@ -97,8 +96,7 @@ Masked Self-Attention은 디코더 블록에서 사용되는 Self-Attention이�
 
 2) 타겟 단어를 제외하고는 모두 scores를 -Inf 로 Masked한다.
 
-위의 예시처럼 "robot must obey orders" 라는 문장이 있다고 하면, 해당 문장의 q,k의 내적 행렬은 중심 단어가 He(1행), He is(2행), He is a(3행), He is a doctor(4행)가 된다.
-중심단어 외의 단어는 고려되지 않아야하기 때문에 중심 단어 외의 단어는 softmax를 지난 확률값이 0이 되어야 하고, 이를 위해 scores의 값을 -Inf로 Masked 해준다.
+위의 예시처럼 "robot must obey orders" 라는 문장이 있다고 하면, 해당 문장의 q,k의 내적 행렬은 중심 단어가 robot(1행), robot must(2행), robot must obey(3행), robot must obey orders(4행)가 된다. 중심단어 외의 단어는 고려되지 않아야하기 때문에 중심 단어 외의 단어는 softmax를 지난 확률값이 0이 되어야 하고, 이를 위해 scores의 값을 -Inf로 Masked 해준다.
 
 ![image](https://user-images.githubusercontent.com/97672187/167541256-2101e843-5f6a-4ee3-b737-acdcc8ce937e.png){: .align-center}
 
