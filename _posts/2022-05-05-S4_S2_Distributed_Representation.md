@@ -347,7 +347,7 @@ from tensorflow.keras.layers import Dense, Embedding, Flatten
 ```python
 model = Sequential()
 
-#trainable = False는 사전에 훈련된 임베딩 벡터가 아니니까 모델링하면서 업데이트 시키라는 뜻
+#trainable = False는 사전에 훈련된 임베딩 벡터니까 모델링하면서 업데이트 시키지 말라는 뜻
 model.add(Embedding(vocab_size, 300, weights=[embedding_matrix], input_length=400, trainable=False))
 model.add(GlobalAveragePooling1D()) # 입력되는 단어 벡터의 평균을 구하는 함수
 model.add(Dense(1, activation='sigmoid'))
@@ -495,12 +495,17 @@ print(ft.doesnt_match("soccer baseball player worker".split()))
 Word2Vec에서는 역전파 과정에서 기준 단어나 문맥 단어와 전혀 상관 없는 단어의 임베딩 벡터값도 업데이트 된다. window size가 2라고 한다면, 중심 단어로부터 3단어가 떨어진 단어는
 주변 단어가 아니기 때문에 굳이 멀리있는 단어까지 꼭 임베딩 벡터값을 조정하지 않아도 되는데 만약 사전의 크기가 매우 크면 모든 단어의 임베딩 벡터를 조정하는 것은 무거운 작업이 될 것이다. 이를 해결하기 위해 Negative Sampling은 임베딩 조절시에 전체 단어 집합이 아닌, 일부 단어 집합만 조정한다. 기준 단어 주변에 등장한 문맥단어를 positive sample, 기준 단어 주변에
 등장하지 않은 단어를 negative sample로 나눌 수 있다. 
-Negative sampling은 기준단어와 관련이 없는 negative sample들을 굳이 다 업데이트 하는 것이 아니라 문맥 단어수의 + 20개를 빈도수가 높은 단어 순으로 뽑는다.
+Negative sampling은 기준단어와 관련이 없는 negative sample들을 굳이 다 업데이트 하는 것이 아니라 전체 단어에서 문맥 단어가 아닌 단어를 랜덤하게 뽑아서 이 단어들의 임베딩 벡터값만
+업데이트 시킨다.
 
 예를 들면, "I like play soccer with my friends" 라는 문장이 있으면
 
 window size가 2이고, soccer 이라는 단어를 학습할 때 주변단어는 like, play, with, my이다. 이 4단어가 positive sample에 해당하고 negative sample은 이 friends, I와 같은 
-주변 단어가 아닌 단어들 중 문서에서 빈도수가 높은 단어를 20개를 추가한다고 한다. negative sample 중 20개의 단어만 벡터값을 업데이트 하기 때문에 역전파 과정에서 모든 단어의 임베딩 벡터를 업데이트 시킴으로 발생할 수 있는 연산량을 훨씬 줄일 수 있다.
+주변 단어가 아닌 단어들 중 랜덤하게 단어를 추출해서 임베딩 벡터를 업데이트한다. negative sample 중 일부만 벡터값을 업데이트 하기 때문에 역전파 과정에서 모든 단어의 임베딩 벡터를 업데이트 시킴으로 발생할 수 있는 연산량을 훨씬 줄일 수 있다.
+
+Skip gram을 예시로 들어서 Negative sampling을 적용한 skip gram과 기존 skip gram의 차이는, 기존 skip gram은 입력에 중심단어만 사용되었는데 Negative sampling을 적용하면 중심단어와 주변단어가 모두 입력된다. 이렇게 입력된 주변단어가 중심 단어의 실제 윈도우 크기 내에 존재하면 1, 아니면 0으로 labeling하고(0인 단어가 무작위로 추출된 negative sampling) 중심단어와 주변 단어의 벡터 내적값을 모델의 예측값(내적 후 나온 실수값, softmax로 인한 확률값 필요X)으로 하고, 실제 label(1,0)과의 손실을 계산하여 중심 단어와 주변 단어의 임베딩 벡터값을 업데이트 한다.
+
+
 
 
 
