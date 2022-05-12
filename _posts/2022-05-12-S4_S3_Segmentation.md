@@ -104,9 +104,9 @@ U-net도 이미지 분할에 자주 사용되는 모델 중 하나이다. U 형�
 객체 탐지/인식은 전체 이미지에서 label과 일치하는 객체를 찾아내는 작업이다. Segmentation과 함께 자율주행을 위한 주요 인공지능 기술이다. 객체의 경계에 Bounding Box라고 하는
 사각형 박스를 만들고, 박스 내의 객체가 어떤 class에 속하는지 분류하는 작업이다.
 
-![image](https://user-images.githubusercontent.com/97672187/168059524-3a1f4ed0-4b8a-437a-97b4-ce7406e889c2.png){: .align-center}
+![image](https://user-images.githubusercontent.com/97672187/168065675-54551a7d-846b-4fe7-99cf-dfdf51f77491.png){: .align-center}
 
-이미지출처: https://ko.wikipedia.org/wiki/%EA%B0%9D%EC%B2%B4_%ED%83%90%EC%A7%80
+이미지출처: https://diy-project.tistory.com/124
 
 - IoU(Intersection over Union)
 
