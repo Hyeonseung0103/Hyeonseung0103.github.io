@@ -13,7 +13,7 @@ MLP나 CNN을 이용하면 이미지에 맞는 class를 예측하는 이미지 �
 ### 분할(Segmentation)
 Segmentation은 아래의 그림과 같이 하나의 이미지에서 같은 의미를 가지고 있는 부분을 구분해내는 작업이다. 자율주행이나 위성 및 항공 사진 등의 분야에서 많이 사용된다. CNN을 사용한
 기존의 이미지 분류는 이미지 단위로 데이터를 처리해서 해당 이미지 전체가 어떤 class에 속하는지 예측했다. Segmentation은 이미지 단위가 아니라 이미지를 이루고 있는 픽셀 단위에서
-처리해서 더 세부적인 분류가 가능해진다. 동일한 의미를 가지고 있는 픽셀들마다 labeling이 되어있고(사람, 자동차, 건물 등) 이 픽셀의 label이 무엇인지 예측하는 것이다.
+데이터를 처리해서 더 세부적인 분류가 가능해진다. 동일한 의미를 가지고 있는 픽셀들마다 labeling이 되어있고(사람, 자동차, 건물 등) 이 픽셀의 label이 무엇인지 예측하는 것이다.
 
 ![image](https://user-images.githubusercontent.com/97672187/168040455-decec031-ff5b-44c5-aa05-b4962cd0db6b.png){: .align-center}
 
@@ -36,11 +36,11 @@ Semantic Segmentation은 위의 그림처럼 동일한 의미를 갖는 객체�
 - Upsampling
 
 Downsampling은 CNN에서 사용되는 것처럼 Convolution과 Pooling을 사용하여 이미지의 특징을 추출하는 과정이다. 이미지 분할의 최종 목표는 픽셀 단위로 labeling을 하는 것이기 때문에
-Downsampling을 통해 줄어든 이미지의 크기를 원래의 이미지와 비슷한 크기로 다시 키우는 것을 Upsampling이라고 한다.
+Downsampling을 통해 줄어든 이미지의 크기를 원래의 이미지와 비슷한 크기로 다시 키워야하고 이 과정을  Upsampling이라고 한다.
 
 Upsampling에서는 기존의 Convolution과는 다른 Transpose Convolution이 적용되는데 Transpose Convolution을 했다고 해서 원래 이미지의 값을 똑같이 복원하는 것은 아니다.
-단순히, 이미지의 차원만 동일하게 맞추는 것이 목적이다. Transpose Convolution이 이미지의 차원을 증가시키는 것 역시 커널을 사용하고, padding과 stride도 사용되어 이미지의
-차원을 증가시킨다. Transpose Convolution으로 이미지의 차원이 증가되는 과정은 다음과 같다.
+단순히, 이미지의 차원만 동일하게 맞추는 것이 목적이다. Transpose Convolution에서 이미지의 차원을 증가시키는 것 역시 커널을 사용하고, padding과 stride도 사용되어 이미지의
+차원을 증가시킨다. Transpose Convolution에서 이미지의 차원이 증가되는 과정은 다음과 같다.
 
 ![image](https://user-images.githubusercontent.com/97672187/168050868-2af33996-c24d-46e6-93cd-15108131bb2c.png){: .align-center}
 
@@ -54,11 +54,11 @@ $$ z = s - 1, p' = k - p - 1, s' = 1 $$
 
 4) 변형된 input에 주어진 strides 만큼 커널과 합성곱을 수행한다.
 
-위의 그림을 예시로 들면 downsampling 후 output은 4 x 4 행렬이고, upsampling에서 이를 input으로 사용할 것이다. z는 위 예제에서 downsampling 단계에서 stride를 4로 했다고 가정해서
-z가 3이되어서 원래 input 사이에 3개의 0이 들어가게 되고, p' = 3-1-1 이라써 테두리 바깥쪽으로 1칸씩만 0을 삽입한다. 또한 s'은 1로 고정시켜주었기 때문에 커널을 1칸씩 이동하면서
+위의 그림을 예시로 들면 downsampling 후 output은 4 x 4 행렬이고, upsampling에서 이를 input으로 사용할 것이다. z는 위 예제에서 downsampling 단계에서 stride를 4로 했다고 가정했기때문에
+z가 3이되어서 원래 input 사이에 3개의 0이 들어가게 되고, p' = 3-1-1 이라서 테두리 바깥쪽으로 1칸씩만 0을 삽입한다. 또한 s'은 1로 고정시켜주었기 때문에 커널을 1칸씩 이동하면서
 합성곱을 수행하고 upsampling의 최종 출력벡터를 만들어낸다. Upsampling은 downsampling처럼 여러번 수행되어 output 행렬을 변환시킬 수 있다.
 
-다양한 stride와 padding의 예시이다.
+다음은 다양한 stride와 padding의 예시이다.
 
 - Stride: 1, Padding: 0
 
@@ -84,7 +84,7 @@ z가 3이되어서 원래 input 사이에 3개의 0이 들어가게 되고, p' =
 먼저 FCN은 CNN의 완전 연결 신경망에서 공간정보가 무시되는 단점을 보완하여 완전 연결 신경망 층까지 합성곱 층으로 대체한 모델이다. 이미지를 픽셀 단위로 labeling 하기 위해서는
 어떤 층에 있더라도 위치 정보가 보존되어야하기 때문에 완전 연결 신경망을 합성곱 층으로 대체한 방법을 사용한다. 
 
-![image](https://user-images.githubusercontent.com/97672187/168044794-7a32c824-aa6f-412e-916f-b2ada2a86a66.png){: .align-center}
+![image](https://user-images.githubusercontent.com/97672187/168185170-a97ab49e-13da-4105-9d29-ec1c24272421.png){: .align-center}
 
 이미지출처: https://gaussian37.github.io/vision-segmentation-fcn/
 
@@ -148,18 +148,12 @@ ex) R-CNN, Fast R-CNN, Faster R-CNN 등
 
 - One Stage Detector
 
-One stage detector는 특정 지역을 추천받지 않고 입력된 이비지를 Grid와 같은 작은 공간으로 나누고 해당 공간을 탐색하며 분류를 수행한다. 대표적인 모델로는 SSD(Single Shot multibox Detector),
-YOLO(You Only Look Once) 등이 있고, 한가지 단계만을 거치지 때문에 2-stage detector에 비해 부정확하지만 빠르다는 장점이 있다.
+One stage detector는 특정 지역을 추천받지 않고 입력된 이미지를 Grid와 같은 작은 공간으로 나누고 해당 공간을 탐색하며 분류를 수행한다. 대표적인 모델로는 SSD(Single Shot multibox Detector),
+YOLO(You Only Look Once) 등이 있고, 한가지 단계만을 거치기 때문에 2-stage detector에 비해 부정확하지만 빠르다는 장점이 있다.
 
 ![image](https://user-images.githubusercontent.com/97672187/168064586-1eb17bbf-10fb-4636-b630-3fb743b616f2.png){: .align-center}
 
 이미지출처: https://hoya012.github.io/blog/Tutorials-of-Object-Detection-Using-Deep-Learning-first-object-detection-using-deep-learning/
-
-
-
-
-
-
 
 
 
