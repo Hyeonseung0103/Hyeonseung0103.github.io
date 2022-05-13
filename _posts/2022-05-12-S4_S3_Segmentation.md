@@ -95,6 +95,7 @@ z가 3이되어서 원래 input 사이에 3개의 0이 들어가게 되고, p' =
 U-net도 이미지 분할에 자주 사용되는 모델 중 하나이다. U 형태로 되어있는 그림에서 왼쪽은 downsampling, 오른쪽은 upsampling의 과정을 나타낸다. FCN에서는 downsampling 지점에서 
 가장 마지막으로 사용된 위치 정보를 upsampling의 처음 입력으로 사용하는데 이렇게 되면 여러 합성곱과 풀링층을 거치면서 모든 위치 정보를 보존하고 있긴 어렵다. 따라서 U-net은
 합성곱 연산 후 각 층에서 도출된 특성 맵의 일부를 적절히 잘라내어 각각의 upsampling 수행시에 입력되는 데이터와 병합해서 사용하므로 위치 정보를 최대한 보존하려고 한다. 
+추가로 왼쪽처럼 downsampling을 수행하는 지점을 인코더, 오른쪽처럼 upsampling을 수행하는 지점을 디코더라고 부르기도 한다.
 
 ![image](https://user-images.githubusercontent.com/97672187/168054785-a3babd8f-080f-48cb-8e5f-034a6b826895.png){: .align-center}
 
@@ -102,7 +103,7 @@ U-net도 이미지 분할에 자주 사용되는 모델 중 하나이다. U 형�
 
 ### 객체 탐지/인식(Object Detection/Recognition)
 객체 탐지/인식은 전체 이미지에서 label과 일치하는 객체를 찾아내는 작업이다. Segmentation과 함께 자율주행을 위한 주요 인공지능 기술이다. 객체의 경계에 Bounding Box라고 하는
-사각형 박스를 만들고, 박스 내의 객체가 어떤 class에 속하는지 분류하는 작업이다.
+사각형 박스를 만들고, 박스 내의 객체가 어떤 class에 속하는지 분류하는 작업이다. 또한, 박스 내의 이미지는 하나의 객체라고 판단하기 때문에 굳이 픽셀 단위로 분류하지 않고 이미지 단위로 분류한다는 특징이 있다.
 
 ![image](https://user-images.githubusercontent.com/97672187/168065675-54551a7d-846b-4fe7-99cf-dfdf51f77491.png){: .align-center}
 
@@ -148,7 +149,7 @@ ex) R-CNN, Fast R-CNN, Faster R-CNN 등
 
 - One Stage Detector
 
-One stage detector는 특정 지역을 추천받지 않고 입력된 이미지를 Grid와 같은 작은 공간으로 나누고 해당 공간을 탐색하며 분류를 수행한다. 대표적인 모델로는 SSD(Single Shot multibox Detector),
+One stage detector는 특정 지역을 추천받는 단계가 따로 존재하지 않고, 입력된 이미지를 Grid와 같은 작은 공간으로 나누고 해당 공간을 탐색하며 분류를 수행하는 과정이 한 단계에서 이루어진다. 대표적인 모델로는 SSD(Single Shot multibox Detector),
 YOLO(You Only Look Once) 등이 있고, 한가지 단계만을 거치기 때문에 2-stage detector에 비해 부정확하지만 빠르다는 장점이 있다.
 
 ![image](https://user-images.githubusercontent.com/97672187/168064586-1eb17bbf-10fb-4636-b630-3fb743b616f2.png){: .align-center}
