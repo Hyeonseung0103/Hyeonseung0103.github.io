@@ -90,16 +90,21 @@ z가 3이되어서 원래 input 사이에 3개의 0이 들어가게 되고, p' =
 
 위의 그림과 같이 FCN은 이미지 데이터를 입력 받아서 CNN의 합성곱층 처럼 downsampling을 수행한 뒤 이 결과에 upsampling을 수행해 다시 이미지의 크기를 키운다.
 
+!작동원리는 추후에 추가하자
+
 - U-net
 
-U-net도 이미지 분할에 자주 사용되는 모델 중 하나이다. U 형태로 되어있는 그림에서 왼쪽은 downsampling, 오른쪽은 upsampling의 과정을 나타낸다. FCN에서는 downsampling 지점에서 
-가장 마지막으로 사용된 위치 정보를 upsampling의 처음 입력으로 사용하는데 이렇게 되면 여러 합성곱과 풀링층을 거치면서 모든 위치 정보를 보존하고 있긴 어렵다. 따라서 U-net은
+U-net도 이미지 분할에 자주 사용되는 모델 중 하나이다. U 형태로 되어있는 그림에서 왼쪽은 downsampling, 오른쪽은 upsampling의 과정을 나타낸다. U-net은
 합성곱 연산 후 각 층에서 도출된 특성 맵의 일부를 적절히 잘라내어 각각의 upsampling 수행시에 입력되는 데이터와 병합해서 사용하므로 위치 정보를 최대한 보존하려고 한다. 
 추가로 왼쪽처럼 downsampling을 수행하는 지점을 인코더, 오른쪽처럼 upsampling을 수행하는 지점을 디코더라고 부르기도 한다.
 
 ![image](https://user-images.githubusercontent.com/97672187/168054785-a3babd8f-080f-48cb-8e5f-034a6b826895.png){: .align-center}
 
 이미지출처: Source:- https://arxiv.org/abs/1505.04597
+
+그림에서 마지막에 있는 2는 클래스의 수이다. 그 전의 수는 채널 수와 사이즈로 이루어져있다.
+
+!작동원리는 추후에 추가하자
 
 ### 객체 탐지/인식(Object Detection/Recognition)
 객체 탐지/인식은 전체 이미지에서 label과 일치하는 객체를 찾아내는 작업이다. Segmentation과 함께 자율주행을 위한 주요 인공지능 기술이다. 객체의 경계에 Bounding Box라고 하는
