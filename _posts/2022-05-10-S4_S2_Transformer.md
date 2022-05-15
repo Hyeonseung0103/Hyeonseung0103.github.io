@@ -22,7 +22,7 @@ RNN에서는 단어가 순서대로 들어오기 때문에 시퀸스가 길면 �
 이미지출처: https://timodenk.com/blog/linear-relationships-in-the-transformers-positional-encoding/
 
 트랜스포머는 병렬화를 위해 임베딩된 모든 단어 벡터를 동시에 입력받는데 컴퓨터는 동시에 들어온 단어들의 원래 위치를 알 수 없다. 따라서, 컴퓨터가 이해할 수 있도록 단어의 위치 정보를
-제공하는 벡터를 따로 제공해줘야하고, 단어의 상대적인 위치 정보를 제공하는 벡터를 만드는 과정을 Positional Encoding이라고 한다. 의미 정보를 임베딩 결과에 더해주는 것.
+제공하는 벡터를 따로 제공해줘야하고, 단어의 상대적인 위치 정보를 제공하는 벡터를 만드는 과정을 Positional Encoding이라고 한다. 위치 정보를 임베딩 결과에 더해주는 것.
 
 ### Self-Attention(셀프-어텐션)
 Self-Attention은 위의 구조에서 Multi-Head Attetion부분에 해당한다. 번역을 정확하게 하기 위해서는 문장 내에서 'it'과 같은 지시 대명사가 어떠한 단어를 가리키는지 알아야한다. 이처럼
@@ -47,7 +47,7 @@ Self-Attention의 과정을 위의 그림을 보며 설명해보자.
 
 3) 계산된 점수를 key벡터의 차원 수에 루트를 씌워서 나눈 뒤 Softmax 함수를 취한다.
 
-차원 수에 루트를 씌워서 나눠준 이유는 scale을 차원이 클수록 socre값이 자체가 매우 커지고(내적은 곱하고 모든 원소를 합해서) 여기에 softmax를 취하면, 
+차원 수에 루트를 씌워서 나눠준 이유는 차원이 클수록 score값 자체가 매우 커지고(내적은 곱하고 모든 원소를 합해서 차원이 클수록 더하는 원소들이 많아져서 값이 커지게 됨) 여기에 softmax를 취하면, 
 total sum이 크기 때문에 softmax를 지난 후의 확률값이 매우 작아져서 기울기 소실이 발생할 수 있기 때문이다. 따라서 q,k의 내적결과를 차원수의 제곱근으로 나눠줌으로써 scale을 조정한다.
 
 4) Key vector의 의미를 나타내는 Value vector에 softmax score를 곱해서 해당 단어에 대한 Self-Attention 출력값을 얻는다. 
@@ -67,13 +67,13 @@ Add & Norm이라고 표현된 sub layer에서 출력된 벡터는 Layer Normaliz
 잘 되도록 하기 위함이고 Skip connection(Residual connection)은 역전파 과정에서 정보가 소실되지 않도록 한다.
 
 ### Feed Forward Neural Network(FFNN)
-첫번째 sub-layer를 거친 벡터는 FFNN으로 들어가서 은닉층의 차원을 늘렸다가 다시 원래 차원으로 줄어들게 만드는 2층 신경망이다. 활성화 함수로는 ReLU를 사용하고, 차원을 늘리고
+sub-layer를 거친 벡터는 FFNN으로 들어가서 은닉층의 차원을 늘렸다가 다시 원래 차원으로 줄어들게 만들고 이 FFNN은 2층 신경망으로 이루어져있다. 활성화 함수로는 ReLU를 사용하고, 차원을 늘리고
 다시 줄임으로써 학습이 더 잘 되도록 한다. 출력된 벡터는 다시 sub-layer로 들어가서 layer normalization과 skip connection을 수행한다. 
 
-여기까지 input vector -> positioning encoding -> Multi head attention(8개의 Self attention) -> FFNN 의 인코더 학습이 이루어진다.
+여기까지 input vector -> positioning encoding -> Multi head attention(8개의 Self attention) -> FFNN 순으로 이루어지는 인코더 학습이 대해 알아보았다.
 
 ### Masked Multi-Head Attention
-인코더도 RNN을 대체하는 Attention이 있듯이, 디코더도 RNN을 대체할 Attention이 필요하다
+인코더도 RNN을 대체하는 Attention이 있듯이, 디코더도 RNN을 대체할 Attention이 필요하다.
 
 1. 입력된 문장의 관계 파악 attention
  
@@ -108,7 +108,7 @@ Masked Self-Attention은 디코더 블록에서 사용되는 Self-Attention이�
 
 이미지출처: https://jalammar.github.io/illustrated-gpt2/
 
-결국, Masked Self-Attetion도 인코더에서의 Self-Attetion과 같은 메커니즘이지만, 중심단어 이후의 단어를 Masked한다는 차이가 존재한다.
+결국, Masked Self-Attetion은 인코더에서의 Self-Attetion과 같은 메커니즘이지만, 중심단어 이후의 단어를 Masked한다는 차이가 존재한다.
 
 ### Encoder-Decoder Attetion
 Masked Multi-Head Attention이 입력된 문장 내의 단어 관계를 파악하기 위한 self-attention이라면, Encoder-Decoder Attention은 인코더와 디코더를 연결시켜주는 인코더이다.
@@ -123,7 +123,7 @@ Attention이라고 불리는 Encoder-Decoder Attention은 인코더와 디코더
 문장 내의 단어관계도 중요하지만, 번역할 문장과 번역된 문장과의 관계도 중요하다. 이 층에서는 Masked Self-Attention에서 출력된 벡터를 Q 벡터로 사용하고, K, V 벡터는 인코더의
 최상위 블록인 6번째 블록의 K,V 벡터를 가져와서 사용한다. 계산과정은 Self-Attention처럼 Q와 K 벡터 내적 -> scores를 softmax -> V vector 곱하기 -> 최종 벡터 출력으로 이루어진다.
 
-디코더에서의 Query는 디코더에서, Key와 Value는 인코더의 벡터를 참조한다.
+Encoder-Decoder Attetion에서 Query는 디코더에서, Key와 Value는 인코더의 벡터를 참조한다.
 
 ### Linear & Softmax Layer
 디코더의 Encoder-Decoder Attetion -> Layer normalization & Skip connection 층을 지난 최종 벡터는 Linear층을 지나고 Softmax 활성화 함수를 지나 예측할 단어의 확률을 구하게 된다.
