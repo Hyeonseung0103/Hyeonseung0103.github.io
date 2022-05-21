@@ -146,7 +146,7 @@ Randomized Search CV는 주어진 조합 내에서 랜덤으로 조합을 찾아
 1) 모델 만들기(기본값 정의)
 
 ```python
-def make_model_rscv(units = 64, batch_size = 64, activation = 'relu', dropout_rate = 0.3, C = 0.01, optimizer = 'adam'):
+def make_model_rscv(units = 64, activation = 'relu', dropout_rate = 0.3, C = 0.01, optimizer = 'adam'):
   model = Sequential()
   model.add(Dense(units, activation = activation))
   model.add(Dense(256, activation = 'relu'))
@@ -207,6 +207,9 @@ rs.T
 ```python
 print(f"Best: {rscv_result.best_score_} using {rscv_result.best_params_}")
 
+np.random.seed(42)
+tf.random.set_seed(42)
+
 units = rscv_result.best_params_.get('units')
 optimizer = rscv_result.best_params_.get('optimizer')
 dropout_rate = rscv_result.best_params_.get('dropout_rate')
@@ -214,10 +217,8 @@ batch_size = rscv_result.best_params_.get('batch_size')
 activation = rscv_result.best_params_.get('activation')
 C = rscv_result.best_params_.get('C')
 epochs = rscv_result.best_params_.get('epochs')
-best_model = make_model_rscv(units = units, batch_size = batch_size, activation = activation, dropout_rate = dropout_rate, C = C, optimizer = optimizer)
-
-tf.random.set_seed(42)
-best_model.fit(X_train_scaled, y_train, epochs = epochs)
+best_model = make_model_rscv(units = units, activation = activation, dropout_rate = dropout_rate, C = C, optimizer = optimizer)
+best_model.fit(X_train_scaled, y_train, epochs = epochs, batch_size = batch_size)
 ```
 
 보통 Randomized Search CV로 어느 정도 하이퍼 파라미터의 범위를 잡고, Grid Search CV로 세부적으로 튜닝하는 방법을 사용한다.
