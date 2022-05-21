@@ -146,7 +146,7 @@ Randomized Search CV는 주어진 조합 내에서 랜덤으로 조합을 찾아
 1) 모델 만들기(기본값 정의)
 
 ```python
-def make_model_rscv(units = 64, batch_size = 64, activation = 'relu', dropout_rate = '0.3', C = 0.01, optimizer = 'adam'):
+def make_model_rscv(units = 64, batch_size = 64, activation = 'relu', dropout_rate = 0.3, C = 0.01, optimizer = 'adam'):
   model = Sequential()
   model.add(Dense(units, activation = activation))
   model.add(Dense(256, activation = 'relu'))
