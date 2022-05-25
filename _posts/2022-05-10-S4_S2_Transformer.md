@@ -3,6 +3,7 @@ layout: single
 title: "Note 424 Transformer"
 toc: true
 toc_sticky: true
+category: Section4
 ---
 
 RNN에서는 단어가 순서대로 들어오기 때문에 시퀸스가 길면 연산 시간이 길어진다는 단점이 있다. 단어를 time-step별로 처리해서 병렬처리를 하지 못하기 때문인데 트랜스포머(Transformer)는
