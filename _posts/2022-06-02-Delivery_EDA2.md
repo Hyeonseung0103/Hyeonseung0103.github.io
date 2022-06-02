@@ -18,7 +18,7 @@ df_all['시간'] = df_all['시간'].apply(lambda x: str('0' + f'{x}') if (x < 10
 df_all['시간'].unique()
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/171610896-a95615b6-e14e-477f-b254-9dc962f6d75a.png){: align-center}
+![image](https://user-images.githubusercontent.com/97672187/171610896-a95615b6-e14e-477f-b254-9dc962f6d75a.png){: .align-center}
 
 <br>
 
@@ -287,7 +287,7 @@ df_s['time2'] = df_s['time2'].str.replace('-','.')
 df_s.head() # 축구 경기가 있는 날과 경기 시간
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/171629034-29e62a74-086b-40cb-aead-abb6d1b7a6c2.png){: align-center}
+![image](https://user-images.githubusercontent.com/97672187/171629034-29e62a74-086b-40cb-aead-abb6d1b7a6c2.png){: .align-center}
 
 <br>
 
