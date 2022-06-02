@@ -67,6 +67,15 @@
                     {% endif %}
                 {% endfor %}
             </ul>
+            
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "Delivery" %}
+                        <li><a href="/categories/delivery" class="">배달데이터를 통한 서울특별시 구별 주문 정도 예측({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
       </li>
   </ul>
 </nav>
