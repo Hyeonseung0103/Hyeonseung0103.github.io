@@ -158,7 +158,9 @@ display(df.tail())
 df.label.value_counts().plot(kind = 'bar')
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/171998157-b2576c81-01c2-4013-8773-858b7f791320.png){: .align-center}
+![image](https://user-images.githubusercontent.com/97672187/171998480-e9965c83-e1d0-449f-8d50-49f575d408ba.png){: .align-center}
+
+![image](https://user-images.githubusercontent.com/97672187/171998487-5d8b5817-979a-48ec-b550-a3b2fc6eeabb.png){: .align-center}
 
 <br>
 
