@@ -75,6 +75,15 @@
                     {% endif %}
                 {% endfor %}
             </ul>
+            
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "Sentiment" %}
+                        <li><a href="/categories/sentiment" class="">피파 온라인 선수 댓글 감성분석 및 선수 추천 시스템({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
 
       </li>
   </ul>
