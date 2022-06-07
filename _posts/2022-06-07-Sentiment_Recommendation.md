@@ -53,9 +53,9 @@ df['score'].describe()
 감정을 나타내는 댓글의 평점은 음수가 되어버린다. 따라서 음수의 평점을 만들지 않으면서 감성점수가 반영된 새로운 평점 점수를 만들기 위해 감성 점수를 0 ~ 1 사이의 수로 scaling하고
 부정, 긍정에 따라 다른 방법을 사용하여 새로운 평점을 계산했다. scaling된 감성 점수를 사용하여 새로운 평점을 구한 방법은 다음과 같다.
 
-$$ new_{negative} = (1 - new\,score) * original\,rating $$
+$$ new_{negative} = (1 - new\;score) * original\;rating $$
 
-$$ new_{positive} = (1 + new\,score) * original\,rating $$
+$$ new_{positive} = (1 + new\;score) * original\;rating $$
 
 위와 같은 식으로 계산함으로써 부정적인 댓글이면 기존의 평점보다 조금 더 낮은 평점으로, 긍정적인 댓글이면 기존의 평점보다 더 높은 평점으로 새로운 평점 변수를 만들었다.
 
@@ -296,9 +296,9 @@ draw_wc(negative_words)
 draw_wc(fw_words)
 ```
 
-![image](https://user-images.githubusercontent.com/97672187/172297973-6186fc6b-bf41-4f5f-9178-e5a663e1e092.png){: .align-center}
-
 ![image](https://user-images.githubusercontent.com/97672187/172297938-cfba15e1-2916-4c30-a9f8-ff64ca7da979.png){: .align-center}
+
+![image](https://user-images.githubusercontent.com/97672187/172297973-6186fc6b-bf41-4f5f-9178-e5a663e1e092.png){: .align-center}
 
 <br>
 
