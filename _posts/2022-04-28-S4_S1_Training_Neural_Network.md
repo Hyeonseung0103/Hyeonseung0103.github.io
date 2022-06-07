@@ -141,7 +141,7 @@ GD와 SGD의 문제를 해결하기 위해서 MBGD를 사용할 수 있다. SGD�
 에포크는 전체 데이터셋을 몇번 반복해서 학습할 지를 결정하는 것이고, Iteration은 순전파-역전파가 1회 즉, 가중치가 한 번 수정되는 단위이다.
 이를 통해 전체 데이터 수는 배치사이즈와 Iteration으로 표현할 수 있다.
 
-$$ Number  of  Data = Batch size * Iteration $$
+$$ Number\;of\;Data = Batch\;size * Iteration $$
 
 ex) 만약 데이터가 1000개이고 batch_size가 10, epochs가 3이면
 
