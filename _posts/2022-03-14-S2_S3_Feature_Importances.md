@@ -72,10 +72,9 @@ eli5.show_weights(
 ```
 
 ### Boosting
-Bagging은 기본 모델인 weak learner들의 결과를 각각 독립적으로 반영해서 타겟을 예측한다. 하지만 Boosting은 bagging과는 달리 각 weak learner들은 이전 weak learner들의 오차를 반영해서 
-이 오차를 줄여나가는 방법으로 모델을 순차적으로 학습하게 된다. 오차를 줄이기 때문에 편향이 줄어든다는 장점이 있지만, 그만큼 분산이 커져서 과적합의 우려가 있다.
+Bagging은 기본 모델인 weak learner들의 결과를 각각 독립적으로 반영해서 타겟을 예측한다. 하지만 Boosting은 bagging과는 달리 각 weak learner들은 이전 weak learner들의 오차를 반영해서 이 오차를 줄여나가는 방법으로 모델을 순차적으로 학습하게 된다. 오차를 줄이기 때문에 편향이 줄어든다는 장점이 있지만, 그만큼 분산이 커져서 과적합의 우려가 있다.
 
-RandomForest의 장점 중 하나는 하이퍼파라미터에 상대적으로 덜 민김한 것인데, 그래디언트 부스팅의 경우 하이퍼파라미터에 민감하지만 잘 셋팅하면 RandomForest보다 더 좋은 성능을 낼 수 있다.
+RandomForest의 장점 중 하나는 하이퍼파라미터에 상대적으로 덜 민감한 것인데, 그래디언트 부스팅의 경우 하이퍼파라미터에 민감하지만 잘 셋팅하면 RandomForest보다 더 좋은 성능을 낼 수 있다.
 
 Bagging vs Boosting: weak learner가 독립적이냐 vs weak learner가 이전 weak learner에 영향을 받냐
 
@@ -95,6 +94,7 @@ AdaBoost는 weak learner가 잘못 예측한 관측치에 더 큰 가중치를 �
 최종 예측은 각 weak learner들의 결과를 가중합으로 결정. weak learner에 가중치가 클수록(아까 샘플링할 때 관측치의 가중치랑 다른 것임.) 더 좋은 성능을 냈다는 뜻이므로 더 큰 voting을 할 수 있음.
 
 - Gradient Boosting
+
 Adaboost와 유사하지만 비용함수를 최소화하면서 모델을 최적화 시킨다. Adaboost는 예측을 잘못한 관측치를 더 많이 샘플링 되게 하여 최적화 시키지만 Gradient Boosting은 샘플링이 많이 되게 하진않고,
 타겟의 예측값이 아니라 잔차를 학습하도록 한다. 가중치를 조정하는게 아니라 잔차가 큰 데이터를 더 학습하도록 하는 것. 
 
