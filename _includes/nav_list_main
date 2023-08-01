@@ -84,7 +84,30 @@
                 {% endfor %}
             </ul>
 
-
+      <span class="nav__sub-title">논문 공부</span>
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "CNN" %}
+                        <li><a href="/categories/lh" class="">AlexNET, VGG, GoogLeNet, ResNet({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "Semantic Segmentation" %}
+                        <li><a href="/categories/delivery" class="">U-Net, DeepLabv3({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "Object Detection" %}
+                        <li><a href="/categories/sentiment" class="">SSD, YOLO, RCNN, Mask R-CNN({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
       </li>
   </ul>
 </nav>
