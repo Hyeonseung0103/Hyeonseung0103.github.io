@@ -59,7 +59,7 @@
                     {% endif %}
                 {% endfor %}
             </ul>
-        <span class="nav__sub-title">공모전</span>
+        <span class="nav__sub-title">공모전 및 프로젝트</span>
             <ul>
                 {% for category in site.categories %}
                     {% if category[0] == "LH" %}
