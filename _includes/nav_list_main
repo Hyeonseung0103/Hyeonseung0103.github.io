@@ -95,7 +95,7 @@
             
             <ul>
                 {% for category in site.categories %}
-                    {% if category[0] == "Semantic Segmentation" %}
+                    {% if category[0] == "Semantic_Segmentation" %}
                         <li><a href="/categories/segmentation" class="">U-Net, DeepLabv3({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
@@ -103,7 +103,7 @@
             
             <ul>
                 {% for category in site.categories %}
-                    {% if category[0] == "Object Detection" %}
+                    {% if category[0] == "Object_Detection" %}
                         <li><a href="/categories/detection" class="">SSD, YOLO, RCNN, Mask R-CNN({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
