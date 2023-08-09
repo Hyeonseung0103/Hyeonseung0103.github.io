@@ -1,5 +1,5 @@
 ---
-title: "AlexNet, VGG,GoogLeNet"
+title: "AlexNet, VGG, GoogLeNet"
 layout: archive
 permalink: categories/cnn
 author_profile: true
