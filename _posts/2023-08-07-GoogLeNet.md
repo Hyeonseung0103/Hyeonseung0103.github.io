@@ -87,7 +87,7 @@ GoogLeNet의 핵심 모듈인 인셉션 구조에서는 어떻게 최적의 loca
 
 <br><br>
 
-- 각 픽셀값에서 평균을 뺀 정규화 외에 별다른 전처리가 수행되지 않은 224x224 크기의 RGB 이미지를 입력으로 받음
+- 각 픽셀값에서 평균을 뺀 정규화 외에 별다른 전처리가 수행되지 않은 224x224 크기의 RGB 이미지를 입력으로 받음(2 픽셀 간격으로 학습을 진행해서 크기를 절반으로 표현. 112 x 112 x 64)
 - #3x3 reduce, #5x5 reduce는 각각 3x3, 5x5 필터 후 사용된 1x1 필터의 채널 수
 - pool proj는 max pooling 뒤 사용된 1x1 필터의 채널 수
 - 인셉션 모듈을 포함한 모든 합성곱층과 reduction, pool projection 층에서 ReLU 사용
@@ -106,7 +106,7 @@ GoogLeNet의 핵심 모듈인 인셉션 구조에서는 어떻게 최적의 loca
 
 <br><br>
 
-그림을 보면 표에는 나타나지 않은 부분이 있는데 해당 부분은 빨간색 박스로 표시되어있는 인셉션 모듈 4(a)와 4(d)이다. GoogLeNet은 네트워크가 깊기때문에 역전파 과정에서 기울기 정보가 앞단까지 제대로 전달되지 않는 기울기 소실 문제가 발생할 수 있다. 따라서, 중간 network인 인셉션 모듈 4(a)와 4(d)에 분류기를 추가하여 기울기 소실 문제를 해결하고, 가중치가 추가적으로 정규화될 것을 기대했다. 해당 분류기에서 발생하는 손실 또한 훈련 손실에 더하여 사용했고(보조 분류기의 성능이 너무 많이 반영되지 않게 0.3의 비율만 적용), Inference 과정에서는 이 분류기를 제거했다.
+그림을 보면 표에는 나타나지 않은 부분이 있는데 해당 부분은 빨간색 박스로 표시되어있는 인셉션 모듈 4(a)와 4(d)이다. GoogLeNet은 네트워크가 깊기때문에 역전파 과정에서 기울기 정보가 앞단까지 제대로 전달되지 않는 기울기 소실 문제가 발생할 수 있다. 따라서, 중간 network인 인셉션 모듈 4(a)와 4(d)에 auxiliary classifier를 추가하여 기울기 소실 문제를 해결하고, 가중치가 추가적으로 정규화될 것을 기대했다. Auxiliary classifier의 입력은 해당 층의 인셉션 모듈의 출력값을 사용했다. Auxiliary classifier에서 발생하는 손실 또한 훈련 손실에 더하여 사용했고(보조 분류기의 성능이 너무 많이 반영되지 않게 0.3의 비율만 적용), Inference 과정에서는 이 분류기를 제거했다.
 
 또한, 최종 Classifier에서는 기존의 완전 결합층 대신 Global Average Pooling을 사용하여 가중치의 갯수를 크게 줄였다. 예를 들어, 이중분류에서 10x10x256의 합성곱 결과를 FC층에 통과시켜 예측을 수행한다고 하면 10x10x256의 입력을 1차원으로 Flatten 시킨 후 이것을 각 클래스에 해당하는 수만큼 다시 변환을 시켜야 하기때문에 총 10x10x256(뉴런 수)x2(클래스 수)의 가중치를 가진다. 
 
@@ -153,6 +153,263 @@ GAP는 가중치의 갯수를 줄이는 것 뿐만 아니라 이미지의 공간
 <br><br>
 
 # 구현
+GoogLeNet을 pytorch로 구현해보자([참고](https://github.com/pytorch/vision/blob/6db1569c89094cf23f3bc41f79275c45e9fcb3f3/torchvision/models/googlenet.py).
+
+```python
+import torch
+import torch.nn as nn
+from torch.jit.annotations import Optional, Tuple
+from torch import Tensor
+```
+
+
+```python
+# 합성곱층
+class BasicConv2d(nn.Module):
+    def __init__(self, in_channels, out_channels, **kwargs):
+        super(BasicConv2d, self).__init__()
+        
+        self.conv = nn.Sequential(
+            nn.Conv2d(in_channels, out_channels, bias = False, **kwargs),
+            nn.BatchNorm2d(out_channels, epos=0.01), # 배치 정규화        
+            nn.ReLU(inplace = True)
+        )
+            
+    def forward(self,x):
+        x = self.conv(x)
+        return x
+```
+
+
+```python
+# 인셉션
+class Inception(nn.Module):
+    def __init__(self, in_channels, ch1x1, ch3x3red, ch3x3, ch5x5red, ch5x5, pool_proj,
+                 conv_block=None):
+        super(Inception, self).__init__()
+        
+        # 따로 전달받은 합성곱층이 없으면 미리 정의해둔 합성곱 class 사용
+        if conv_block is None:
+            conv_block = BasicConv2d
+        
+        # 첫번째 브랜치
+        self.branch1 = conv_block(in_channels, ch1x1, kernel_size = 1) # 1x1 필터 사용
+        
+        # 두번째 브런치
+        self.branch2 = nn.Sequential(
+            conv_block(in_channels, ch3x3red, kernel_size = 1), # 3x3 전 1x1 필터 사용
+            conv_block(ch3x3red, ch3x3, kernel_size = 3, padding = 1) # 3x3 필터 사용, 크기 유지를 위해 padding=1
+        )
+        
+        # 세번째 브런치
+        self.branch3 = nn.Sequential(
+            conv_block(in_channels, ch5x5red, kernel_size = 1), # 5x5전 1x1 필터 사용
+            conv_block(ch5x5red, ch5x5, kernel_size = 5, padding = 2) # 5x5 필터 사용 크기유지용 padding=2
+        )
+        
+        # 네번째 브런치
+        self.branch4 = nn.Sequential(
+            nn.MaxPool2d(kernel_size=3, stride=1, padding = 1, ceil_mode=True), # Max pooling and 크기 유지용 padding = 1
+            conv_block(in_channels, pool_proj, kernel_size = 1) # Max pooling 후 1x1 필터 사용
+        )
+    
+    def forward(self, x):
+        b1 = self.branch1(x)
+        b2 = self.branch2(x)
+        b3 = self.branch3(x)
+        b4 = self.branch4(x)
+        output = [b1, b2, b3, b4]
+        return torch.cat(output, 1) # cat 함수를 통해 인셉션 결과 합치기
+        # ex) a = [[1, 2, 3], [4, 5, 6]], b = [[7,8,9], [10, 11, 12]]
+        # torch.cat([a,b], dim = 0) -> 행으로 합치기 -> [[1,2,3], [4,5,6], [7,8,9], [10,11,12]] 
+        # => (2,3) 에서 (2+2,3) 으로 변환
+        # torch.cat([a,b], dim = 1) -> 열로 합치기 -> [[1,2,3,7,8,9], [4,5,6,10,11,12]]  => (2,3) 에서 (2,3+3) 으로 변환
+
+    
+```
+
+```python
+class InceptionAux(nn.Module):
+    def __init__(self, in_channels, num_classes, conv_block=None):
+        super(InceptionAux, self).__init__()
+        if conv_block is None:
+            conv_block = BasicConv2d
+        
+        self.conv = nn.Sequential(
+            nn.AdaptiveAvgPool2d(output_size=(4,4), stride=3), # (14-5)/3 + 1 = 4. ouput은 4, kernel은 5
+            conv_block(in_channels, 128, kernel_size = 1), # 논문에 근거하여 output은 128 채널로 구성
+            nn.Dropout(0.4)
+        )
+        
+        self.fc = nn.Sequential(
+            nn.Linear(4 * 4 * 128,1024),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.4),
+            nn.Linear(1024, num_classes)
+        )
+    
+    def forward(self, x):
+        x = self.conv(x)
+        x = x.view(x.shape[0], -1) # 1차원형태로 변환. GAP를 썼기 때문에 따로 연산 필요없이 1차원으로 펼치기만 하면됨.
+        x = self.fc(x)
+        return x
+        
+```
+
+```python
+class GoogLeNet(nn.Module):
+    def __init__(self, num_classes = 1000, aux_logits = True, transform_input = False, 
+                 init_weights=None):
+        super(GoogLeNet, self).__init__()
+        
+        if init_weights is None:
+            init_weights = True
+        
+        conv_block = BasicConv2d
+        inception_block = Inception
+        inception_aux_block = InceptionAux
+        
+        self.aux_logits = aux_logits
+        self.transform_input = transform_input
+        
+        # 1층
+        # stride가 2라서 112로 크기가 줄어듬. 합성곱에서 소수는 내림을 사용. 112.5 -> 112, 56.5 -> 56, ....
+        self.conv1 = conv_block(in_channels=3, out_channels=64, kernel_size = 7, stride = 2, padding = 3) # 112 x 112 x 64
+        self.maxpool1 = nn.MaxPool2d(kernel_size=3, stride=2, padding = 1) # 56 x 56 x 64
+        
+        # 2층
+        self.conv2 = conv_block(64, 64, 1, 1) # 56 x 56 x 64
+        
+        # 3층
+        self.conv3 = conv_block(64, 192, 3, padding = 1) # 56 x 56 x 192
+        self.maxpool2 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1) # 28 x 28 x 192
+        
+        # 4,5층
+        self.inception3a = inception_block(in_channels=192, ch1x1=64, ch3x3red=96, ch3x3=128, ch5x5red=16,
+                                           ch5x5=32, pool_proj=32) # 28 x 28 x 256
+        
+        # 6,7층
+        self.inception3b = inception_block(256, 128, 128, 192, 32, 96, 64) # 28 x 28 x 480
+        self.maxpool3 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1) # 14 x 14 x 480
+        
+        # 8,9층
+        self.inception4a = inception_block(480, 192, 96, 208, 16, 48, 64) # 14 x 14 x 512
+        
+        # 10,11층
+        self.inception4b = inception_block(512, 160, 112, 224, 24, 64, 64) # 14 x 14 x 512
+        
+        # 12,13층
+        self.inception4c = inception_block(512, 128, 128, 256, 24, 64, 64) # 14 x 14 x 512
+        
+        # 14,15층
+        self.inception4d = inception_block(512, 112, 144, 288, 32, 64, 64) # 14 x 14 x 528
+        
+        # 16,17층
+        self.inception4e = inception_block(256, 160, 320, 32, 128, 128) # 14 x 14 x 832
+        self.maxpool4 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1) # 7 x 7 x 832
+        
+        # 18,19층
+        self.inception5a = inception_block(832, 256, 160, 320, 32, 128, 128) # 7 x 7 x 832
+        
+        # 20, 21층
+        self.inception5b = inception_block(832, 384, 192, 384, 48, 128, 128) # 7 x 7 x 1024
+        self.avgpool = nn.AdaptiveAvgPool2d(output_size=(1,1)), # 1 x 1 x 1024
+
+        # 22층
+        self.fc = nn.Sequential(
+            nn.Dropout(0.4),
+            nn.Linear(1024, num_classes) # 1 x 1 x 1000
+            
+        )
+        
+        if aux_logits: # 학습할 때만 auxiliary classifier 사용
+            self.aux1 = inception_aux_block(512, num_classes) # 인셉션 모듈의 출력을 입력으로 사용
+            self.aux2 = inception_aux_block(528, num_classes) # 인셉션 모듈의 출력을 입력으로 사용
+        else: # 검증에서는 사용하지 않음
+            self.aux1 = None
+            self.aux2 = None
+        
+        if init_weights:
+            self._initialize_weights()
+
+    # 가중치 초기화
+    # 무조건 He 초기화 방법이 best는 아님. 다른 초기화 방법 사용 가능. 
+    # Ex) scipy truncnorm(-2, 2, scale = 0.01) -> 최소 -2, 최대 2, 표준편차 0.01 크기의 정규 분포 등등
+    def _initialize_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d): # 합성곱층의 네트워크면
+                # relu를 사용했기 때문에 He 초기화
+                # fan_out: 정규 분포의 분산을 결정할 때 출력 채널 수를 기준으로 분산 조절. fan_in은 입력 채널.
+                # 가중치 초기화 잘 이루어져야 학습이 안정적으로 이루어질 수 있다.
+                nn.init.kaiming_normal_(m.weight, mode = 'fan_out', nonlinearity='relu')
+                if m.bias is not None: # 편향이 존재하면
+                    nn.init.constant_(m.bias, 0) # 0으로 초기화
+            elif isinstance(m, nn.BatchNorm2d): # 배치 정규화는
+                nn.init.constant_(m.weight, 1) # 가중치는 1로
+                nn.init.constant_(m.bias, 0)# 편향은 0으로
+            elif isinstance(m, nn.Linear): # FC층에서는
+                nn.init.normal_(m.weight, 0, 0.01) # 가중치를 평균 0, 분산이 0.01인 정규분포로
+                nn.init.constant_(m.bias, 0)# 편향은 0으로 초기화
+    
+    
+    # input 이미지 변환
+    # 모든 채널을 동시에 처리하지 않고 각 채널별로 정규화 수행후 원래 크기로 합침.
+    def _transform_input(self, x):
+        if self.transform_input: # 이미지 변환에 True를 하면
+            x_ch0 = torch.unsqueeze(x[:, 0], 1) * (0.229 / 0.5) + (0.485 - 0.5) / 0.5 # RGB 중 Red 이미지 정규화
+            x_ch1 = torch.unsqueeze(x[:, 1], 1) * (0.224 / 0.5) + (0.456 - 0.5) / 0.5 # RGB 중 Green 이미지 정규화
+            x_ch2 = torch.unsqueeze(x[:, 2], 1) * (0.225 / 0.5) + (0.406 - 0.5) / 0.5 # RGB 중 Blue 이미지 정규화
+            x = torch.cat((x_ch0, x_ch1, x_ch2), 1) # 정규화 한 이미지를 다시 원래 이미지 크기로 합침.
+        return x
+    
+    def forward(self, x):
+        if self.transform_input:
+            x = self._transform_input(x)
+        x = self.conv1(x)
+        x = self.maxpool1(x)
+        
+        x = self.conv2(x)
+        
+        x = self.conv3(x)
+        x = self.maxpool2(x)
+        
+        x = self.inception3a(x)
+        x = self.inception3b(x)
+        x = self.maxpool3(x)
+        
+        x = self.inception4a(x)
+        aux1 = torch.jit.annotate(Optional[Tensor], None) # aux1이 텐서라고 컴파일러에 명시. 초기값을 None으로 지정. 더 효율적으로 컴파일 하기 위함
+                                                          # 코드적으로 영향을 주진 않음
+        if self.aux_logits and self.training: # 학습 중이라면 
+            aux1 = self.aux1(x) # auxiliary classifier 추가
+        
+        
+        x = self.inception4b(x)
+        x = self.inception4c(x)
+        
+        x = self.inception4d
+        aux2 = torch.jit.annotate(Optional[Tensor], None)                                           
+        if self.aux_logits and self.training: # 학습 중이라면 
+            aux2 = self.aux2(x) # auxiliary classifier 추가
+            
+        x = self.inception4e(x)
+        x = self.maxpool4(x)
+        
+        x = self.inception5a(x)
+        x = self.inception5b(x)
+        
+        x = self.avgpool(x)
+        x = x.view(x.shape[0], -1)
+        
+        x = self.fc(x)
+        
+        if self.aux_logits and self.training: # 학습이면 
+            return x, aux1, aux2 # aux 정보도 같이 리턴
+        
+        else:
+            return x
+```
+
 
 # 이미지 출처
 - [Dense and Sparse Network](https://www.baeldung.com/cs/neural-networks-dense-sparse)
