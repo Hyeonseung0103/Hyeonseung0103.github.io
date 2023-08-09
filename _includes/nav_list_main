@@ -88,7 +88,7 @@
             <ul>
                 {% for category in site.categories %}
                     {% if category[0] == "CNN" %}
-                        <li><a href="/categories/cnn" class="">AlexNET, VGG, GoogLeNet, ResNet({{category[1].size}})</a></li>
+                        <li><a href="/categories/cnn" class="">AlexNet, VGG, GoogLeNet, ResNet({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
