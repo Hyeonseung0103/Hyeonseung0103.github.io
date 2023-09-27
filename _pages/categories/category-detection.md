@@ -1,5 +1,5 @@
 ---
-title: "Object Detection"
+title: "Detection"
 layout: archive
 permalink: categories/detection
 author_profile: true
