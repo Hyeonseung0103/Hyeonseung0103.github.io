@@ -88,23 +88,23 @@
             <ul>
                 {% for category in site.categories %}
                     {% if category[0] == "CNN" %}
-                        <li><a href="/categories/cnn" class="">AlexNet, VGG, GoogLeNet, ResNet({{category[1].size}})</a></li>
+                        <li><a href="/categories/cnn" class="">CNN Basic({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
             
             <ul>
                 {% for category in site.categories %}
-                    {% if category[0] == "Semantic_Segmentation" %}
-                        <li><a href="/categories/segmentation" class="">U-Net, DeepLabv3({{category[1].size}})</a></li>
+                    {% if category[0] == "Segmentation" %}
+                        <li><a href="/categories/segmentation" class="">Segmentation({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
             
             <ul>
                 {% for category in site.categories %}
-                    {% if category[0] == "Object_Detection" %}
-                        <li><a href="/categories/detection" class="">SSD, YOLO, RCNN, Mask R-CNN({{category[1].size}})</a></li>
+                    {% if category[0] == "Detection" %}
+                        <li><a href="/categories/detection" class="">Detection({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
