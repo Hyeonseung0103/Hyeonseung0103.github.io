@@ -1,5 +1,5 @@
 ---
-title: "Semantic Segmentation"
+title: "Segmentation"
 layout: archive
 permalink: categories/segmentation
 author_profile: true
