@@ -1,5 +1,5 @@
 ---
-title: "AlexNet, VGG, GoogLeNet, ResNet"
+title: "CNN Basic"
 layout: archive
 permalink: categories/cnn
 author_profile: true
