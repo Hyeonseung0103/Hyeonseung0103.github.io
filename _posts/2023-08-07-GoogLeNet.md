@@ -26,8 +26,8 @@ category: CNN
 ## Motivation and High Level Considerations
 DNN에서는 네트워크를 깊고 넓게 만들고 많은 양의 훈련 데이터를 사용한다면 성능이 좋을 것이다. 하지만, 좋은 데이터셋을 구축하기위해 발생하는 시간과 비용이 크고, 네트워크의 깊이와 넓이에 따라 많은 학습 시간이 소요된다.
 
-이러한 문제를 해결하기위해 fully connected(dense) 된 convolution 계층을 sparsely connected로 변환하는 방법을 사용할 수 있다. 이 방법은 "잘 맞는 뉴런은 서로 연결 되어있다." 라는 Hebbian 원칙에 따라 
-입력과 출력의 상관관계가 큰 뉴런을 통계적으로 분석(데이터셋의 확률 분포)하여 활성화한다. 모든 뉴런들이 서로 계산되는 것이 아니라 서로 잘 맞는 뉴런만을 활성화시켜 계산하는 방법이기때문에 연산량의 측면에서 훨씬 효율적이다.
+이러한 문제를 해결하기위해 fully connected(dense) 된 convolution 계층을 sparsely connected로 변환하는 방법을 사용할 수 있다. 이 방법은 "잘 맞는 뉴런은 서로 연결 되어있다." 라는 Hebbian 원칙에 따라 입력과 출력의 상관관계가 큰 뉴런을 통계적으로 분석(데이터셋의 확률 분포)하여 활성화한다. 모든 뉴런들이 서로 계산되는 것이 아니라 서로 잘 맞는 뉴런만을 활성화시켜 계산하는 방법이기때문에 연산량의 측면에서 훨씬 효율적이다.
+
 아래 이미지는 dense와 sparse한 네트워크의 예시이다.
 
 <br><br>
@@ -42,20 +42,19 @@ DNN에서는 네트워크를 깊고 넓게 만들고 많은 양의 훈련 데이
 
 그렇지만, AlexNet에서 병렬 GPU로 Full connection layer에 대한 학습이 가능하다는 것을 발견했고 많은 필터와 큰 배치 사이즈를 사용했을 때 더 좋은 성능을 낸다는 트렌드가 존재했다. 또한, 매층마다 다른 크기의 sparse network를 처리할 때 요구되는 리소스가 컸기때문에 오히려 dens한 network를 사용하는 것이 더 효율적이라는 의견이 많았다. 
 
-따라서, 본 논문에서는 sparse와 dense network의 장점을 모두 사용하기 위해 sparse metrix를 클러스터링 하여 여러 개의 dense metrix로 만드는 방법을 활용했다. 여러 논문에 근거하여 network에 sparsity를 적용하면서도 
-연산은 dense metrics를 활용하는 방법이다.  **Abstract**에 소개된 Inception 아키텍처가 이 방법을 실험하기 위해 구현되었고 learning rate와 hyper parameters를 좀 더 조정했을 때 localization과 
-object detection 부분에서 좋은 성능을 냈다.
+따라서, 본 논문에서는 sparse와 dense network의 장점을 모두 사용하기 위해 sparse matrix를 클러스터링 하여 여러 개의 dense matrix로 만드는 방법을 활용했다. 쉽게 말하면, sparse matrix를 묶어서 dense matrix형식처럼 만드는 것이고, 이는 여러 논문에 근거하여 network에 구조에는 sparsity를 적용하면서도 연산은 density를 활용하는 방법이다.  **Abstract**에 소개된 Inception 아키텍처가 이 방법을 실험하기 위해 구현되었고 learning rate와 hyper parameters를 좀 더 조정했을 때 localization과 object detection 부분에서 좋은 성능을 냈다.
 
 <br><br>
 
 ## 모델 구조
 ### 1. Architecture
-GoogLeNet의 핵심 모듈인 인셉션 구조에서는 어떻게 최적의 local sparse structure를 찾고 이를 dense components에 가깝게 만들것이냐가 중요하다. 쉽게 말하자면, sparse matrix를 클러스터링 해서 dense matrix에 가까운
-형태로 만드는 것이다. 이때 클러스터링 된 유닛은 다음 layer의 관련 유닛과 연결되어 활성화되는데 입력 이미지와 가까운 lower layer에서는 이미지의 낮은 수준의 특성을 학습하며 관련된 유닛이 특정 지역에만 집중되는 현상이 발생할 수 있다. 예를 들어, 얼굴을 인식하는 경우 눈, 코, 입과 같은 특징들이 연관되어 특정 지역에만 클러스터가 집중되는 것이다.
+GoogLeNet의 핵심 모듈인 인셉션 구조에서는 어떻게 최적의 local sparse structure를 찾고 이를 dense components에 가깝게 만들것이냐가 중요하다. 이때 클러스터링 된 유닛은 다음 layer의 관련 유닛과 연결되어 활성화되는데 입력 이미지와 가까운 lower layer에서는 이미지의 낮은 수준의 특성을 학습하며 관련된 유닛이 특정 지역에만 집중되는 현상이 발생할 수 있다. 예를 들어, 얼굴을 인식하는 경우 눈, 코, 입과 같은 특징들이 연관되어 특정 지역에만 클러스터가 집중되는 것이다.
 
-본 논문에서는 이를 방지하기 위해 1x1 필터를 사용했는데 1x1 필터는 각 픽셀에 대해 선형 조합을 수행하여 관련 유닛들이 비슷한 지역에만 집중되는 것을 해소하고, 넓은 영역에서 특징을 인식하도록 한다. 또한, 이미지의 정보를 더 많이 반영하기 위해서는 넓은 크기의 필터도 필요하기 때문에 3x3, 5x5 필터 또한 함께 사용했다.
+본 논문에서는 이를 방지하기 위해 1x1 필터를 사용했는데 1x1 필터는 각 픽셀에 대해 선형 조합을 수행하여 관련 유닛들이 비슷한 지역에만 집중되는 것을 해소한다. 또한, 이미지의 정보를 더 많이 반영하기 위해서는 넓은 크기의 필터도 필요하기 때문에 3x3, 5x5 필터도 함께 사용했다.
 
-하지만, 인셉션 모듈의 깊이가 깊어질수록 유닛이 특정 공간에만 몰려있는 공간 집중도가 해소됨으로써 5x5 크기의 필터가 더 많이 필요하게 될텐데 5x5 크기의 필터를 여러번 사용한다는 것은 연산량 측면에서 매우 비효율적인 방법이다. 따라서, 아래의 오른쪽 이미지(왼쪽은 처음에 고안된 기존 인셉션 모듈 이미지)처럼 3x3 혹은 5x5 필터 앞에 1x1 필터를 두어 출력값의 크기는 같으면서도 연산량을 크게 줄였다. 
+하지만, 인셉션 모듈의 깊이가 깊어질수록 유닛이 특정 공간에만 몰려있는 공간 집중도가 해소됨으로써 5x5 크기의 필터가 더 많이 필요하게 될텐데 5x5 크기의 필터를 여러번 사용한다는 것은 연산량 측면에서 매우 비효율적인 방법이다. 따라서, 아래의 오른쪽 이미지(왼쪽은 처음에 고안된 기존 인셉션 모듈 이미지)처럼 3x3 혹은 5x5 필터 앞에 1x1 필터를 두어 출력값의 크기는 같으면서도 차원을 줄여 연산량을 크게 줄였다. 
+
+아래 인셉션 모듈의 그림을 참고하면 한 입력에 대해서 하나의 필터로 fully connected 되어 있지 않고 다양한 크기의 필터를 사용한 후 결과를 합치는 구조이기 때문에 구조는 sparse하면서도 결국 연산 자체는 각 필터마다 fully connected되어 dense한 형태를 가진다는 것을 알 수 있다.
 
 <br><br>
 
@@ -75,7 +74,7 @@ GoogLeNet의 핵심 모듈인 인셉션 구조에서는 어떻게 최적의 loca
 
 
 ### 2. GoogLeNet
-아래의 표는 GoogLeNet의 구조와 파라미터 등을 간단하게 표현했다. 
+아래의 표는 GoogLeNet의 구조와 파라미터 등을 간단하게 표현한 것이다.
 
 <br><br>
 
@@ -88,7 +87,7 @@ GoogLeNet의 핵심 모듈인 인셉션 구조에서는 어떻게 최적의 loca
 <br><br>
 
 - 각 픽셀값에서 평균을 뺀 정규화 외에 별다른 전처리가 수행되지 않은 224x224 크기의 RGB 이미지를 입력으로 받음(2 픽셀 간격으로 학습을 진행해서 크기를 절반으로 표현. 112 x 112 x 64)
-- #3x3 reduce, #5x5 reduce는 각각 3x3, 5x5 필터 후 사용된 1x1 필터의 채널 수
+- #3x3 reduce, #5x5 reduce는 각각 3x3, 5x5 필터 전에 사용된 1x1 필터의 채널 수
 - pool proj는 max pooling 뒤 사용된 1x1 필터의 채널 수
 - 인셉션 모듈을 포함한 모든 합성곱층과 reduction, pool projection 층에서 ReLU 사용
 
@@ -146,9 +145,10 @@ GAP는 가중치의 갯수를 줄이는 것 뿐만 아니라 이미지의 공간
 
 # 개인적인 생각
 - GoogLeNet은 정확도 뿐만 아니라 연산량의 관점에서도 기존보다 훨씬 개선된 모델이라는 점에서 의미있는 연구였다. 합성곱층 중간중간에 1x1 필터를 넣어 연산량을 크게 줄임과 동시에 비선형성을 추가했고, AlexNet이나 VGG와는 달리 분류기에서 FC층이 아닌 GAP를 사용하여 연산량을 대폭 줄였다.
-- VGG와 마찬가지로 1x1 필터가 핵심적인 역할로 사용이 되었는데 향후 논문에서는 어떤 방법을 통해 메모리를 효율적으로 사용하면서 성능을 높일 것인지 기대된다.
-- 기울기 소실 문제를 해결하는 방법으로 인셉션 중간에 분류기를 배치해서 손실 정보가 앞단까지 잘 전달되게 한 점이 인상 깊었다. 향후 논문에서는 이러한 문제를 어떻게 해결할지 궁금증이 생겼다.
-- GoogLeNet(22층)은 VGG보다 layer의 수(최대 19층)가 더 깊고 인셉션의 개념이 있어 복잡하다고 느껴지는데 이후 개발된 아키텍처에서는 VGG와 GoogLeNet 중 어떤 방법을 더 많이 사용할 것인지 궁금하다.
+- Sparse와 dense 방법의 이점을 모두 사용한 발상이 인상 깊었다.
+- VGG에서도 언급되었던 1x1 필터가 핵심적인 역할로 사용이 되었는데 향후 논문에서는 어떤 방법을 통해 메모리를 효율적으로 사용하면서 성능을 높일 것인지 기대된다.
+- 기울기 소실 문제를 해결하는 방법으로 인셉션 중간에 분류기를 배치해서 손실 정보가 앞단까지 잘 전달되게 한 점이 인상 깊었다. 향후 논문에서는 이러한 문제를 어떻게 해결할지 궁금증이 생겼다. ResNet에서는 다른 방법을 사용하여 이를 해결했다.
+- GoogLeNet(22층)은 VGG보다 layer의 수(최대 19층)가 더 깊고 인셉션의 개념이 있어 복잡하다고 느껴지는데 이후 개발된 아키텍처에서는 VGG와 GoogLeNet 중 어떤 네트워크를 더 많이 참고해서 사용할 것인지 궁금하다.
 
 <br><br>
 
@@ -236,8 +236,9 @@ class InceptionAux(nn.Module):
             conv_block = BasicConv2d
         
         self.conv = nn.Sequential(
-            nn.AdaptiveAvgPool2d(output_size=(4,4), stride=3), # (14-5)/3 + 1 = 4. ouput은 4, kernel은 5
-            conv_block(in_channels, 128, kernel_size = 1), # 논문에 근거하여 output은 128 채널로 구성
+            nn.AdaptiveAvgPool2d(output_size=(4,4)),
+            conv_block(in_channels, 128, kernel_size = 1), # 논문에 근거하여 output은 128 채널로 구성.
+            # A 1×1 convolution with 128 filters for dimension reduction and rectified linear activation.
             nn.Dropout(0.4)
         )
         
@@ -254,6 +255,7 @@ class InceptionAux(nn.Module):
         x = self.fc(x)
         return x
         
+    
 ```
 
 ```python
@@ -305,7 +307,7 @@ class GoogLeNet(nn.Module):
         self.inception4d = inception_block(512, 112, 144, 288, 32, 64, 64) # 14 x 14 x 528
         
         # 16,17층
-        self.inception4e = inception_block(256, 160, 320, 32, 128, 128) # 14 x 14 x 832
+        self.inception4e = inception_block(528, 256, 160, 320, 32, 128, 128) # 14 x 14 x 832
         self.maxpool4 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1) # 7 x 7 x 832
         
         # 18,19층
@@ -399,7 +401,7 @@ class GoogLeNet(nn.Module):
         x = self.inception5b(x)
         
         x = self.avgpool(x)
-        x = x.view(x.shape[0], -1)
+        x = x.view(x.shape[0], -1) # 1 [1024, 1, 1] 텐서를 [1024, 1] 텐서로 변환. 차원이 좀 다름.
         
         x = self.fc(x)
         
