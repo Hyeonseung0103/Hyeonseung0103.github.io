@@ -258,14 +258,235 @@ DeepLabv3+를 pytorch로 구현해보자.
 ```python
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 ```
 
 ```python
+def conv3x3(in_channels, out_channels, stride = 1, dilation = 1):
+    return nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=stride, padding = dilation, dilation=dilation, bias = False)
 
+def conv1x1(in_channels, out_channels, stride = 1):
+    return nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias = False)
 ```
 
 ```python
+class Bottleneck(nn.Module):
+    expansion = 4
+    
+    def __init__(self, in_channels, out_channels, stride = 1, dilation = 1, downsample = None):
+        super(Bottleneck, self).__init__()
 
+        self.conv1 = conv1x1(in_channels, out_channels)
+        self.bn1 = nn.BatchNorm2d(out_channels)
+        self.conv2 = conv3x3(out_channels, out_channels, stride, dilation)
+        self.bn2 = nn.BatchNorm2d(out_channels)
+        self.conv3 = conv1x1(out_channels, out_channels * self.expansion)
+        self.bn3 = nn.BatchNorm2d(out_channels * self.expansion)
+        self.relu = nn.ReLU(inplace = True)
+        self.downsample = downsample
+        self.stride = stride
+    
+    def forward(self, x):
+        identity = x
+
+        # 1x1 필터
+        out = self.conv1(x)
+        out = self.bn1(out)
+        out = self.relu(out)
+
+        # 3x3 필터
+        out = self.conv2(out)
+        out = self.bn2(out)
+        out = self.relu(out)
+
+        # 1x1 필터
+        out = self.conv3(out)
+        out = self.bn3(out)
+
+        if self.downsample is not None:
+            identity = self.downsample(x)
+        
+        out += identity
+        out = self.relu(out)
+
+        return out
+```
+
+```python
+class ResNet(nn.Module):
+    def __init__(self, block, layers_num):
+        super(ResNet, self).__init__()
+        
+        multi_grid = [1,2,4]
+        '''
+        이 multi_grid 비율에 맞게 rate이 곱해져서 atrous convolution
+        이전 버전인 deeplabv3 논문에 근거. For example, when output stride = 16 and Multi Grid = (1, 2, 4), 
+        the three convolutions will have rates = 2 · (1, 2, 4) = (2, 4, 8) in the block4, respectively.
+        '''
+        
+        self.in_channels = 64
+        
+        self.conv1 = nn.Conv2d(3, self.in_channels, kernel_size=7, stride=2, padding=3)
+        self.bn1 = nn.BatchNorm2d(self.in_channels)
+        self.relu = nn.ReLU(inplace=True)
+        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding = 1)
+        
+        self.layer1 = self._make_layer(block, 64, layers_num[0])
+        self.layer2 = self._make_layer(block, 128, layers_num[1], stride = 2)
+        self.layer3 = self._make_layer(block, 256, layers_num[2], stride = 2)
+        self.layer4 = self._make_atrous_layer(block, 512, stride = 1, dilation = 2, multi_grid = multi_grid)
+        # output stride = 16이면 최종 출력값이 14라서 downsampling이 되면 안 됨. 오히려, atrous convolution으로 receptive field를 넓혔음.
+
+        # Deeplab에서는 residual block 까지만 사용.
+        # self.avgpool = nn.AdaptiveAvgPool2d((1,1))
+        # self.fc = nn.Linear(512 * block.expansion, num_classes)
+
+        # 가중치 초기화
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, mode = 'fan_out', nonlinearity='relu')
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
+
+    
+    def _make_layer(self, block, out_channels, blocks_num, stride = 1):
+        downsample = None
+
+        if stride != 1 or self.in_channels != out_channels * block.expansion:
+            downsample = nn.Sequential(
+                conv1x1(self.in_channels, out_channels * block.expansion, stride),
+                nn.BatchNorm2d(out_channels * block.expansion)
+            )
+        
+        layers = []
+        
+        # conv2,3,4x에서는 dilation이 항상 1이니까 굳이 block을 만들때 rate을 지정해줄 필요 없음.
+        layers.append(block(self.in_channels, out_channels, stride, downsample))  
+        self.in_channels = out_channels * block.expansion 
+        for _ in range(1, blocks_num):
+            layers.append(block(self.in_channels, out_channels))
+        return nn.Sequential(*layers)
+    
+    def _make_atrous_layer(self, block, out_channels, stride = 1, dilation = 1, multi_grid = [1, 2, 4]):
+        # resnet 가장 마지막 층에 사용하는 atrous_convolution에서는 output stride를 유지하기위해 downsampling이 일어나지않음.
+        layers = []
+        layers.append(block(self.in_channels, out_channels, stride, dilation = multi_grid[0] * dilation)) 
+        # 첫번째 residual block에 dilation 2 적용.
+
+        self.in_channels = out_channels * block.expansion
+        for i in range(1, len(multi_grid)):
+            layers.append(block(self.in_channels, out_channels, dilation = multi_grid[i] * dilation))
+
+        return nn.Sequential(*layers)
+        
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
+
+        x = self.layer1(x)
+        low_level_features = x
+
+        x = self.layer2(x)
+        x = self.layer3(x)
+        x = self.layer4(x)
+        
+        # x = self.avgpool(x)
+        # x = torch.flatten(x, 1)
+        # x = self.fc(x)
+
+        return x, low_level_features
+
+    def _init_weight(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                torch.nn.init.kaiming_normal_(m.weight)
+            elif isinstance(m, nn.BatchNorm2d):
+                m.weight.data.fill_(1)
+                m.bias.data.zero_()
+```
+
+```python
+class ASPP(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size, padding = 1, dilation = 1):
+        super(ASPP, self).__init__()
+        self.aspp = nn.Sequential(
+            nn.Conv2d(in_channels, out_channels, kernel_size=kernel_size, stride = 1, 
+                      padding=padding, dilation = dilation, bias = False),
+            nn.BatchNorm2d(out_channels),
+            nn.ReLU()
+        )
+
+    
+    def forward(self, x):
+        x = self.aspp(x)
+    
+    def _init_weight(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                torch.nn.init.kaiming_normal_(m.weight)
+            elif isinstance(m, nn.BatchNorm2d):
+                m.weight.data.fill_(1)
+                m.bias.data.zero_()
+```
+
+```python
+# output stride가 16일 때
+# rates = 1, 6, 12, 18
+class DeepLabv3Plus(nn.Module):
+    def __init__(self, num_classes):
+        super(DeepLabv3Plus, self).__init__()
+        self.resnet = ResNet(Bottleneck, [3, 4, 23, 3])
+
+        
+        # deeplabv3 논문. atrous convolution -> "all with 256 filters and batch normalization"
+        self.aspp1 = ASPP(2048, 256, kernel_size=1, padding=0, dilation = 1)
+        self.aspp2 = ASPP(2048, 256, kernel_size=3, padding=6, dilation = 6)
+        self.aspp3 = ASPP(2048, 256, kernel_size=3, padding=12, dilation = 12)
+        self.aspp4 = ASPP(2048, 256, kernel_size=3, padding=18, dilation = 18)
+        self.avgpool = nn.AdaptiveAvgPool2d((1,1))
+        self.pool_conv = conv1x1(2048, 256) # 풀링 후 풀링 채널도 256으로 통일
+        self.encoder_conv1x1 = conv1x1(256 * 5, 256)
+
+        self.decoder_conv1x1 = conv1x1(256, 48)
+        self.decoder_conv3x3_a = conv3x3(256 + 48, 256)
+        self.decoder_conv3x3_b = conv3x3(256, 256)
+        self.last_conv = conv1x1(256, num_classes)
+    
+    def forward(self, input):
+        # 인코더
+        x, low_level_features = self.resnet(input)
+        x1 = self.aspp1(x)
+        x2 = self.aspp2(x)
+        x3 = self.aspp3(x)
+        x4 = self.aspp4(x)
+        x5 = self.avgpool(x)
+        x5 = self.pool_conv(x5)
+        x5 = F.upsample(x5, size = x4.size()[2:], mode='bilinear') # pooling으로 1,1로 줄어들었으니까 다시 다른 피처맵과 같은 크기로
+        
+        x = torch.cat([x1,x2,x3,x4,x5], 1)
+        x = self.encoder_conv1x1(x)
+        x = F.upsample(x, size = (input.size()[:-2] // 4, input.size()[:-1] // 4), mode = 'bilinear')
+        # decoder와 합치기위해 low_level_feature와 같은 크기로 low level feature는 ResNet에서 input보다 4배 작은 크기로 넘어옴
+
+        # 디코더
+        xd = self.decoder_conv1x1(low_level_features)
+        xd = torch.cat([x, xd], 1) 
+        xd = self.decoder_conv3x3_a(xd)
+        xd = self.decoder_conv3x3_b(xd)
+        xd = self.last_conv(xd)
+        output = F.upsample(xd, size = input.size()[2:], mode = 'bilinear')
+        return output
+
+    def _init_weight(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                torch.nn.init.kaiming_normal_(m.weight)
+            elif isinstance(m, nn.BatchNorm2d):
+                m.weight.data.fill_(1)
+                m.bias.data.zero_()
 ```
 
 # 이미지 출처
