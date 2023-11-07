@@ -71,10 +71,7 @@ accident_gid.head(3)
 ![image](https://user-images.githubusercontent.com/97672187/161382072-f32d10bc-0dce-49f3-b3a4-9099934902b0.png){: .align-center}
 
 
-<br>
-
-
-</br>
+<br><br>
 
 
 ```python
@@ -135,11 +132,6 @@ final_signal_walk.head()
 ![image](https://user-images.githubusercontent.com/97672187/161382422-432190c4-9719-430f-b29d-69c86ef0e20a.png){: .align-center}
 
 <br>
-
-
-</br>
-
-
 
 신호등이 없어서 NA로 표시된 격자는 신호등 수를 0으로 대체.
 
@@ -365,11 +357,7 @@ accident_count_filter_1.head(3)
 ![image](https://user-images.githubusercontent.com/97672187/161383272-d5b91cd3-a487-4035-8e14-047f55c0630c.png){: .align-center}
 
 
-<br>
-
-
-</br>
-
+<br><br>
 
 ### 10. 교통혼잡시간 데이터의 geometry에 따라 그에 일치하는 gid(격자) Labeling 및 병합
 위에서 다뤘던 교통 혼잡빈도강도 데이터와 똑같은 방식으로 교통 혼잡시간강도 데이터를 처리했다. 
