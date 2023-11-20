@@ -1,5 +1,5 @@
 ---
-title: "CNN Basic"
+title: "Classification"
 layout: archive
 permalink: categories/cnn
 author_profile: true
