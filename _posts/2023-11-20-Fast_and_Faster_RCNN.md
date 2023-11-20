@@ -58,8 +58,11 @@ loss가 1보다 작으면 loss를 더 작게해서 큰 loss에 더 집중할 수
 Fast R-CNN의 학습 과정을 정리하면 다음과 같다.
 
 1) 원본 이미지를 CNN에 통과시켜 feature extraction을 수행
+   
 2) selective search를 통해 나온 2000개의 region proposals을 원본 이미지의 피처맵과 맵핑
+
 3) 맵핑된 다양한 크기의 region proposals 피처맵에 7x7 RoI pooling 적용
+
 4) RoI pooling을 통해 나온 ouput으로 detection 수행(multi task loss)
 
 
@@ -113,7 +116,9 @@ bbox를 GT에 가깝게 조금씩 조정하는 것이 더 효율적인 방법이
 
 Faster R-CNN의 학습 과정을 정리하면 다음과 같다.
 1) 원본 이미지를 CNN을 통과시켜 특징 추출
+
 2) 각각의 피처맵에 대해 픽셀당 여러 스케일을 가진 anchor box를 그리고 각각의 boxes를 RoI pooling으로 고정된 크기의 벡터로 변환
+
 3) Anchor boxes에 대해 object 존재여부와 ground truth와의 일치여부를 계산하고, 일치한다면 anchor box, predicted box, ground truth box를 통해 box regression 수행
 
 <br> 
