@@ -389,7 +389,18 @@ plt.imshow(i)
 
 <br>
 
-위의 그림을 통해, Faster RCNN model은 일반 RCNN 모델([RCNN 포스팅 참고](https://hyeonseung0103.github.io/detection/RCNN/))보다 localization을 잘 수행하고 분류 성능도 나쁘지않다는 것을 알 수 있다. Epochs를 15 정도만 했는데도 mAP50이 약 0.63이었고, 테스트 목적이 아니라 실제로 성능을 높이기위해 에포크 수를 늘린다면 더 좋은 성능을 기록할 것이다. Faster RCNN은 anchor box를 기반으로 하나의 네트워크에서 region proposals, classification, box regression을 수행할 수 있기때문에 RCNN보다 훨씬 빠르면서 구현이 쉬운 모델이라는 것을 느꼈다.
+```python
+# 데이터 정의
+test_dataset = SoccerDataset(TEST_DATA_PATH, TEST_LAB_PATH, get_transforms(train=False))
+
+test_data_loader = torch.utils.data.DataLoader(test_dataset, batch_size=4, shuffle=False,
+                                                collate_fn = utils.collate_fn)
+evaluate(model, test_data_loader, device=device)
+```
+
+위의 이미지를 통해, Faster RCNN model은 일반 RCNN 모델([RCNN 포스팅 참고](https://hyeonseung0103.github.io/detection/RCNN/))보다 localization을 잘 수행하고 분류 성능도 나쁘지않다는 것을 알 수 있다. Epochs를 15 정도만 했는데도 test set의 mAP50이 약 0.65였고, map@0.5:0.95는 0.407이었다. 테스트 목적이 아니라 실제로 성능을 높이기위해 에포크 수를 늘린다면 더 좋은 성능을 기록할 것이다. 
+
+RCNN은 selective search와 detection이 다른 네트워크에서 이루어지기때문에 한 에포크당 약 20분의 시간이 걸렸는데 Faster RCNN은은 3분 30초 정도로 RCNN보다 5배이상 빨랐다. 이를 통해 Faster RCNN은 anchor box를 기반으로 하나의 네트워크에서 region proposals, classification, box regression을 수행할 수 있기때문에 RCNN보다 훨씬 빠르면서 구현이 쉬운 모델이라는 것을 몸소 느낄 수 있었다.
 
 # Reference
 - [SPPNet](https://arxiv.org/pdf/1406.4729v4.pdf)
