@@ -128,7 +128,7 @@ Faster R-CNN의 학습 과정을 정리하면 다음과 같다.
 
 Faster R-CNN은 selective search 보다 anchor boxes를 활용한 RPN을 사용했을 때 성능이 크게 향상됐고, Fast R-CNN보다 개선된 모델임을 알 수 있다.
 
-# 실습
+# 구현
 Pytorch로 Faster R-CNN model을 사용해보자. 데이터는 Roboflow에서 제공하는 [soccer dataset](https://universe.roboflow.com/yinguo/soccer-data)을 사용했다. Class는 공을 소유한 사람과 소유하지 않은 사람으로 구분된다.
 
 ```python
