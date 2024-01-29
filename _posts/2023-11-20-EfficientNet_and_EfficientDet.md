@@ -91,7 +91,7 @@ softmax, unbounded fusion을 사용해봤지만 Fast normalized fusion을 사용
 <br>
 
 ## Compound Scaling
-EfficientDet은 Backbone, Neck, Head에 모두 compound scaling을 적용했는데 backbone은 EfficientNet scaling을 그대로 적용했고, Bi-FPn network에는 $D_{bifpn} = 3 + \sigma$로
+EfficientDet은 Backbone, Neck, Head에 모두 compound scaling을 적용했는데 backbone은 EfficientNet scaling을 그대로 적용했고, Bi-FPN network에는 $D_{bifpn} = 3 + \sigma$로
 기본 반복 block을 3개로 적용하여 scaling했다.
 
 Width(채널 수)는 $W_{bifpn} = 64 * (1.35 \sigma)$, Prediction network의 depth는 $D_{box} = D_{class} = 3 + [\sigma / 3]$, 이미지 resolution은 $R_{input} = 512 + \sigma * 128$
