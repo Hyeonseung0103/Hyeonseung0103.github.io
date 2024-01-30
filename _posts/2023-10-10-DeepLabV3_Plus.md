@@ -29,7 +29,9 @@ Receptive field를 구하는 공식은 다음과 같다.
 
 <br> 
 
-$$ReceptiveField = ((Filter Size - 1) * Dilated Rate) + 1 + (Filter Size  - 1) * (Stride - 1) + 2 * Padding$$
+$$ReceptiveField = ((Filter Size - 1) * Dilated Rate) + 1 + $$
+
+$$　　　　　　　　　　　　(Filter Size  - 1) * (Stride - 1) + 2 * Padding$$
 
 <br> 
 추가적으로, receptive field는 layer가 깊어질수록 커진다. Receptive field란, 필터의 한 노드가 입력으로부터 수용할 수 있는 영역의 크기라고 했는데 아래 그림과 같이 층이 깊어질수록 한 노드가 갖는 수용영역의 크기는 넓어질 것이다. layer2 필터의 한 노드는 3x3의 receptive field를 가지고, layer3 필터의 한 노드는 layer 2의 3x3 -> 결국 layer 1의 5x5 모든 영역을 receptive field로 가지는 것이 된다. 층이 깊어질수록 receptive field가 커지고 이로 인해 저수준의 특징에서 점점 고수준의 특징을 학습할 수 있게된다.
@@ -47,7 +49,7 @@ $$ReceptiveField = ((Filter Size - 1) * Dilated Rate) + 1 + (Filter Size  - 1) *
 
 <div align="center">
   <p>
-  <img width="400" alt="image" src="https://github.com/Hyeonseung0103/Hyeonseung0103.github.io/assets/97672187/57d8afaa-2932-4f92-99a4-f80f01334fb3">
+  <img width="600" alt="image" src="https://github.com/Hyeonseung0103/Hyeonseung0103.github.io/assets/97672187/57d8afaa-2932-4f92-99a4-f80f01334fb3">
   </p>
 </div>
 
@@ -59,7 +61,7 @@ Classification task에서는 한 이미지 내에서 object가 존재하는지�
 
 
 # Abstract
-Spatial pyramid pooling module이나 encode-decoder 구조가 semantic segmentation 분야에서 잘 사용되고 있다. Spatial pyramid pooling 구조는 필터의 크기를 크게해서 넓은 영역의 context information을 encoding할 수 있고, encode-decoder 구조는 network의 공간정보를 점진적으로 복구해서 object 간의 경계를 더 선명하게 포착할 수 있게 한다. 본 논문에서는 이 두가지 방법을 모두 활용한 DeepLabv3+ 모델에 대해 설명한다. 추가적으로 Xception 모델과 ASPP(Atrous Spatial Pyyramid Pooling), decoder modules을 적용하여 더 빠르고 강한 encoder-decoder network를 구축했다. PASCAL VOC 2012와 Cityscapes 데이터셋에서 어떠한 post-processing 없이도 각각 89%, 82.1%의 정확도를 기록했다.
+Spatial pyramid pooling module이나 encode-decoder 구조가 semantic segmentation 분야에서 잘 사용되고 있다. Spatial pyramid pooling 구조는 필터의 크기를 크게해서 넓은 영역의 context information을 encoding할 수 있고, encode-decoder 구조는 network의 공간정보를 점진적으로 복구해서 object 간의 경계를 더 선명하게 포착할 수 있게 한다. 본 논문에서는 이 두가지 방법을 모두 활용한 DeepLabv3+ 모델에 대해 설명한다. 추가적으로 Xception 모델과 ASPP(Atrous Spatial Pyramid Pooling), decoder modules을 적용하여 더 빠르고 강한 encoder-decoder network를 구축했다. PASCAL VOC 2012와 Cityscapes 데이터셋에서 어떠한 post-processing 없이도 각각 89%, 82.1%의 정확도를 기록했다.
 <br><br>
 
 # Details
@@ -69,7 +71,7 @@ Spatial pyramid pooling module이나 encode-decoder 구조가 semantic segmentat
 - PSPNet이 다양한 grid scale을 사용하여 pooling 연산을 수행할 때, 본 연구의 이전 버전의 모델인 Deeplabv3에서는 다양한 크기의 context information을 캡처하기 위해 여러 rates을 가진 atrous convolution을 병렬로 적용한 ASPP 기법을 사용했다.
 - layer의 마지막 피처 맵에 많은 semantic information이 잘 인코딩되더라도 pooling과 stride를 통해 객체 간의 경계와 관련된 세부 정보가 누락될 수 있다. 이러한 문제는 Atrous convolution을 적용하여 더 세밀하게 피처맵을 추출함으로써 완화시킬 수 있다.
 - 하지만, 한정적인 메모리를 고려할 때 입력 이미지보다 8배, 4배 더 작은 피처맵을 추출하기에는 어려움이 있다. 더 큰 receptive field를 가지기위해(넓은 범위의 공간정보를 활용하기위해) 더 작은 피처맵을 추출한다는 것은 그만큼 더 많은 층을 거쳐야한다는 것이니까 층이 깊어질수록 훨씬 더 많은 연산량을 요구한다.
-- 본 연구에서 사용한 encoder-decoder 모델에 encoder 경로에서는 일반적인 covolution에 비해 receptive field가 커져도 atrous convolution을 통해 피처수가 증가하지 않기 때문에 빠른 연산이 가능하고, decoder 경로에서는 객체간의 경계를 점진적으로 복구시켜 위의 문제를 해결할 수 있다. 쉽게 말해, DeepLabv3와 같이 컴퓨팅 자원에 따라 atrous convolution을 적용시켜 인코더 단계에서 풍부한 semantic segmentation 정보를 저장하고, 디코더 단계에서 해상도를 높이는 기법을 사용한다.
+- 본 연구에서 사용한 encoder-decoder 모델의 encoder 경로에서는 일반적인 covolution에 비해 receptive field가 커져도 atrous convolution을 통해 피처수가 증가하지 않기 때문에 빠른 연산이 가능하고, decoder 경로에서는 객체간의 경계를 점진적으로 복구시켜 위의 문제를 해결할 수 있다. 쉽게 말해, DeepLabv3와 같이 컴퓨팅 자원에 따라 atrous convolution을 적용시켜 인코더 단계에서 풍부한 semantic segmentation 정보를 저장하고, 디코더 단계에서 해상도를 높이는 기법을 사용한다.
 - 연산 속도와 정확도를 개선시킨 Xception model을 추가로 개발했고, ASPP와 encoder-decoder 구조를 사용하여 좋은 성능을 기록했다.
 
 
@@ -85,12 +87,18 @@ Spatial pyramid pooling module이나 encode-decoder 구조가 semantic segmentat
 
 - DeepLabv3+ 모델은 다음과 같은 구조로 예측을 수행한다.
   
-  1) Xception 혹은 ResNet을 backbone으로 사용하여 low level features(ex. ResNet에서 채널이 256인 conv2x 블록)과 GAP와 완전 결합층이 시작되기 이전의 피처(편의상 x)를 가져온다.
+  1) Xception 혹은 ResNet을 backbone으로 사용하여 low level features(ex. ResNet에서 채널이 256인 conv2x 블록)와 GAP와 완전 결합층이 시작되기 이전의 피처(편의상 x)를 가져온다.
+
   2) Encoder 단계에서는 backbone의 x를 사용하는데 x를 가져올 때 encoder의 output stride에 맞춰서 크기가 유지되도록 하고, 논문에 근거해 특정 층(ex. ImageNet dataset이라고 가정하면 Resnet101에서 마지막 블록인conv5x의 ouput이 downsample을 진행하면 7x7이 되니까 downsample을 진행하지 않고, 오히려 atrous convolution을 사용하여 피처맵의 크기는 그대로 유지시키고 receptive field를 키움)에는 atrous convolution이 적용될 수 있다.
+
   3) Backbone에서 출력된 x에 ASPP(1x1, 3x3_rate6, 3x3_rate12, 3x3_rate18, GAP)를 수행하고 gap를 통해 작아진 output은 upsampling을 통해 크기를 다른 피처맵과 같이한 뒤 concatenate를 진행한다.
+
   4) Concatenate 후에는 1x1 합성곱을 통해 채널 수를 줄인 뒤 low_level_feature와 동일한 크기의 피처맵이 되도록 upsampling을 진행한다.
+
   5) Decoder 단계에서는 backbone에서 추출한 low level features에 1x1 합성곱을 적용해 채널은 48로 줄인뒤 이를 encoder의 출력과 다시 concatenate 한다.
+
   6) Encoder와 Decoder의 피처맵이 합쳐졌다면 3x3x256 크기를 가진 필터를 두번 거친 후 class 수만큼의 채널을 가진 1x1 합성곱을 통과한다.
+
   7) 마지막으로, 피처맵의 크기를 원본과 같은 크기로 upsampling하여 에측을 수행한다.
 
 <br>
@@ -123,7 +131,7 @@ Atrous convolution은 피처의 해상도를 컨트롤 하고, multi-scale의 �
 
 여기서 r은 atrous rate으로 input signal에 얼만큼의 stride을 적용할 것인지를 의미하고(일반적인 convolution은 r=1), i는 location, k는 kernel size, w는 필터, x는 input 피처맵, y는 output 피처맵을 나타낸다. 필터의 field-of-view(receptive field)는 rate에 따라 달라진다.
 
-Ex 1) rate = 1일 때, k = 3(sigma의 k는 0부터 2까지) 일 때 x는 x[0 + 1 * 0] x[0 + 1 * 1]  x[0 + 1 * 2]로 증가하기떄문에
+Ex 1) rate = 1일 때, k = 3(sigma의 k는 0부터 2까지) 일 때 x는 x[0 + 1 * 0] x[0 + 1 * 1]  x[0 + 1 * 2]로 증가하기때문에
 
 y[0] = x[0] * w[0] + x[1] * w[1] + x[2] * w[2]
 
@@ -134,6 +142,7 @@ rate 2일때, receptive field가 더 커진 것을 알 수 있다.
 <br>
 
 **Depthwise separable convolution**
+
 Depthwise separable convolution은 입력된 채널과 같은 채널을 갖는 필터로 각각의 필터는 자신이 담당한 입력 채널만을 상대로 연산을 수행하기때문에 필터의 모든 채널들이 입력 채널들에 대해 교차로 연산되는 일반적인 covolution보다 연산량이 훨씬 작다는 장점을 가지고 있다. 
 
 아래 그림은 3x3 depthwise convolution이 각각의 채널마다(separable) 하나의 필터를 배치해 나온 특징들을 결합해 pointwise convolution을 만드는데 depthwise convolution 단계에서 atrous convolution을 적용해 rate = 2로 하는 (c)와 같은 방법론을 사용한다는 예시이다. Pointwise convolution 단계에서는 1x1 convolution을 통해 depthwise convolution의 결과를 선형결합하고 채널수를 줄일 수 있다.
@@ -243,6 +252,8 @@ DeepLabv3+ 모델은 네트워크의 layers를 더 추가한 결과(X-71) val se
 - 컴퓨팅 자원에 따라 atrous convolution을 적용하여 인코더의 특징을 임의의 resolution으로 추출할 수도 있다.
 - Xception 모델과 atrous separable convolution을 사용하여 더 빠르고 좋은 모델을 만들었다.
 - PASCAL VOC 2012와 Cityscapes datasets에서 SOTA를 기록했다.
+
+<br><br>
 
 # 개인적인 생각
 - DeepLabv1 이후 지속적으로 연구하여 architecture에 큰 변화없이 모델을 발전시켜서 SOTA를 기록해나갔다는 점이 인상깊었다.
