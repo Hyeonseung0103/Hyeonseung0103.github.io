@@ -7,7 +7,7 @@ category: Section4
 ---
 
 RNN에서는 단어가 순서대로 들어오기 때문에 시퀸스가 길면 연산 시간이 길어진다는 단점이 있다. 단어를 time-step별로 처리해서 병렬처리를 하지 못하기 때문인데 트랜스포머(Transformer)는
-모든 토큰을 동시에 입력받아 병렬 연산을 함으로써 이 문제를 해결한다. 트랜스포머는 NLP에서 나온 모델이지만, CV(Computer Vision)에서도 잘 사용되기도 하는 Mutlti modal model이다.
+모든 토큰을 동시에 입력받아 병렬 연산을 함으로써 이 문제를 해결한다. 트랜스포머는 NLP에서 나온 모델이지만, CV(Computer Vision)에서도 잘 사용되기도 하는 Multimodal model이다.
 
 ![image](https://user-images.githubusercontent.com/97672187/167523948-5f1751a7-7008-4f2b-808a-94f200cf790c.png){: .align-center}
 
