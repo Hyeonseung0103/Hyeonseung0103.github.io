@@ -44,7 +44,7 @@ Self-Attention의 과정을 위의 그림을 보며 설명해보자.
 
 2) q와 k를 내적해서 특정 위치의 단어가 다른 단어와 얼마나 연관되어 있는지 점수를 계산한다.
 
-위에서는 질문인 q1가 주어졌을 때, 이 q1에 대해서 다른 단어들이 (k1,k2) 얼마나 연관되어 있는지 내적하여 계산한다.
+위에서는 질문인 q1이 주어졌을 때, 이 q1에 대해서 다른 단어들이 (k1,k2) 얼마나 연관되어 있는지 내적하여 계산한다.
 
 3) 계산된 점수를 key벡터의 차원 수에 루트를 씌워서 나눈 뒤 Softmax 함수를 취한다.
 
@@ -71,7 +71,7 @@ Add & Norm이라고 표현된 sub layer에서 출력된 벡터는 Layer Normaliz
 sub-layer를 거친 벡터는 FFNN으로 들어가서 은닉층의 차원을 늘렸다가 다시 원래 차원으로 줄어들게 만들고 이 FFNN은 2층 신경망으로 이루어져있다. 활성화 함수로는 ReLU를 사용하고, 차원을 늘리고
 다시 줄임으로써 학습이 더 잘 되도록 한다. 출력된 벡터는 다시 sub-layer로 들어가서 layer normalization과 skip connection을 수행한다. 
 
-여기까지 input vector -> positioning encoding -> Multi head attention(8개의 Self attention) -> FFNN 순으로 이루어지는 인코더 학습이 대해 알아보았다.
+여기까지 input vector -> positioning encoding -> Multi head attention(8개의 Self attention) -> FFNN 순으로 이루어지는 인코더 학습에 대해 알아보았다.
 
 ### Masked Multi-Head Attention
 인코더도 RNN을 대체하는 Attention이 있듯이, 디코더도 RNN을 대체할 Attention이 필요하다.
