@@ -50,15 +50,6 @@
                     {% endif %}
                 {% endfor %}
             </ul>
-            <ul>
-                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/cpp 주소의 글로 링크 연결-->
-                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
-                {% for category in site.categories %}
-                    {% if category[0] == "Section5" %}
-                        <li><a href="/categories/section5" class="">Section5 이름바꿔({{category[1].size}})</a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
         <span class="nav__sub-title">공모전 및 프로젝트</span>
             <ul>
                 {% for category in site.categories %}
@@ -84,7 +75,7 @@
                 {% endfor %}
             </ul>
 
-      <span class="nav__sub-title">논문 공부</span>
+      <span class="nav__sub-title">Computer Vision</span>
             <ul>
                 {% for category in site.categories %}
                     {% if category[0] == "CNN" %}
@@ -105,6 +96,16 @@
                 {% for category in site.categories %}
                     {% if category[0] == "Detection" %}
                         <li><a href="/categories/detection" class="">Detection({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+      <span class="nav__sub-title">NLP</span>
+            <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/cpp 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
+                {% for category in site.categories %}
+                    {% if category[0] == "Model Interpretability" %}
+                        <li><a href="/categories/model_interpretability" class="">Model Interpretability({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
