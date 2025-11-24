@@ -171,4 +171,4 @@ Transformer와 MLP 학습에는 아래 자료를 참고했다.
 
 - [트랜스포머, ChatGPT가 트랜스포머로 만들어졌죠. - DL5](https://www.youtube.com/watch?v=g38aoGttLhI)
 - [그 이름도 유명한 어텐션, 이 영상만 보면 이해 완료! - DL6](https://www.youtube.com/watch?v=_Z3rXeJahMs)
-- [수많은 정보는 LLM 모델 속 어디에 저장되어있는걸까? | DL 7](https://www.youtube.com/watch?v=zHQLPJ8-9Qc)
+- [수많은 정보는 LLM 모델 속 어디에 저장되어있는걸까? - DL 7](https://www.youtube.com/watch?v=zHQLPJ8-9Qc)
