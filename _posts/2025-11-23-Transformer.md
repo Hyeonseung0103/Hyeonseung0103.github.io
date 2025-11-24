@@ -149,9 +149,26 @@ Dimension: $d_{\text{model}}$
 |:--:|:--:|
 | <img src="https://github.com/user-attachments/assets/cb9a42da-afe5-4d98-b526-a5452af6df17" width="70%"> | <img src="https://github.com/user-attachments/assets/fcac310c-d051-4e7e-91aa-bae81bf329e3" width="70%"> |
 
+# MultiLayer Perceptron
+Attention이 문맥 정보를 계산한다면, MLP는 문맥 정보를 기반으로 중요한 feature를 더 강화한다. MLP는 Attention의 output을 입력으로 받아 linear, R(G)eLU, linear 연산 후 입력을 다시 더해주는(skip connection) 방법을 사용한다.
 
-학습에는 아래 자료를 참고했다.
+예를 들어, Attention의 output에서 마이클 조던이라는 이름에 대한 정보를 담고 있는 임베딩 벡터하나를 MLP에 넣으면 여러 연산을 통해 농구와 관련된 임베딩 벡터가 더 강화되고 이걸 다시 마이클 조던이라는 input과 더해서 마이클 조던이 농구와 관련되었다는 정보를 더 강화하게 된다. 마이클 조던과 농구가 관련 있다는 것은 이미 Attention에서 문맥 정보를 파악하며 이루어졌고, MLP는 이렇게 중요한 정보를 비선형 연산을 통해 더 강화하는 역할을 한다. 이런 과정이 모든 토큰 벡터에 똑같이 적용된다.
 
-- https://www.youtube.com/watch?v=g38aoGttLhI
-- https://www.youtube.com/watch?v=_Z3rXeJahMs
-- https://www.youtube.com/watch?v=zHQLPJ8-9Qc
+<br> 
+<div align="center">
+  <p>
+    <img style="width: 70%;" alt="image" src="https://github.com/user-attachments/assets/66ebf2d2-4c82-46c0-a843-a405189dffdc" />
+  </p>
+</div>
+
+<br>
+
+LLM은 이렇게 text를 입력으로 받아 Attention으로 문맥을 파악하고, MultiLayer Perceptrion에서 중요한 토큰은 더 강화하고, 중요하지 않은 토큰은 약화시키는 과정이 여러번 반복되어 다음 단어를 예측하는 구조로 동작한다.
+
+특히, 요즘에는 MLP의 각 차원이 하나의 의미만 담당하는 것이 아니라(마이클 조던이 마이클 조던의 이름을 넘어 농구, 시카고 불스, 나이키, 23번, 은퇴 등 훨씬 더 많은 정보를 담고 있도록), 여러 의미가 희소하게 겹쳐져 인코딩되는 'Super Position'이라는 개념이 주목을 받아, LLM이 제한된 파라미터로 방대한 지식을 저장할 수 있도록 하고, 이 구조를 해석하려는 interpretability 연구가 활발히 이루어지고 있다.
+
+Transformer와 MLP 학습에는 아래 자료를 참고했다.
+
+- [트랜스포머, ChatGPT가 트랜스포머로 만들어졌죠. - DL5](https://www.youtube.com/watch?v=g38aoGttLhI)
+- [그 이름도 유명한 어텐션, 이 영상만 보면 이해 완료! - DL6](https://www.youtube.com/watch?v=_Z3rXeJahMs)
+- [수많은 정보는 LLM 모델 속 어디에 저장되어있는걸까? | DL 7](https://www.youtube.com/watch?v=zHQLPJ8-9Qc)
